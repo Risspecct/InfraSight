@@ -1,0 +1,13 @@
+{
+  "observations": 274,
+  "serial_min": 1,
+  "serial_max": 274,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "missing_names": 0,
+  "missing_sectors": 0,
+  "invalid_milestones": 0,
+  "source_page_min": 8,
+  "source_page_max": 24,
+  "status": "PASS"
+}
