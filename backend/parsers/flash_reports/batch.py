@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
 
 from .common import (
+    build_qa_summary,
     create_output_directory,
     infer_report_date,
     write_outputs,
@@ -54,6 +56,23 @@ def main() -> None:
             json_path, csv_path = write_outputs(
                 observations,
                 output_directory,
+            )
+
+            qa_summary = build_qa_summary(observations)
+
+            qa_path = output_directory / "qa.json"
+            qa_path.write_text(
+                json.dumps(qa_summary, indent=2),
+                encoding="utf-8",
+            )
+
+            print(
+                f"[{'PASS' if qa_summary['status'] == 'PASS' else 'WARN'}] "
+                f"{pdf_path.name}: "
+                f"{len(observations)} observations | "
+                f"serials {qa_summary['serial_min']}-{qa_summary['serial_max']} | "
+                f"missing {len(qa_summary['missing_serials'])} | "
+                f"duplicates {len(qa_summary['duplicate_serials'])}"
             )
 
             successful.append(
