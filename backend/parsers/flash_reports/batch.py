@@ -4,6 +4,7 @@ from pathlib import Path
 import json
 
 from .common import (
+    build_dataset_qa,
     build_qa_summary,
     create_output_directory,
     infer_report_date,
@@ -32,12 +33,43 @@ def main() -> None:
         print(f"No PDF files found in: {RAW_DIRECTORY}")
         return
 
+    # ---------------------------------------------------------
+    # Determine which reports are new
+    # ---------------------------------------------------------
+
+    files_to_process = []
+    skipped = []
+
+    for pdf_path in pdf_files:
+        output_directory = OUTPUT_DIRECTORY / pdf_path.stem
+        observations_path = output_directory / "observations.json"
+
+        if observations_path.exists():
+            skipped.append(pdf_path)
+        else:
+            files_to_process.append(pdf_path)
+
+    print(f"Reports discovered : {len(pdf_files)}")
+    print(f"Already processed  : {len(skipped)}")
+    print(f"New reports        : {len(files_to_process)}")
+    print()
+
+    if skipped:
+        print("Skipped reports:")
+        for pdf_path in skipped:
+            print(f"  [SKIP] {pdf_path.name}")
+        print()
+
     successful = []
     failed = []
 
     total_observations = 0
 
-    for pdf_path in pdf_files:
+    # ---------------------------------------------------------
+    # Parse only new reports
+    # ---------------------------------------------------------
+
+    for pdf_path in files_to_process:
         try:
             report_date = infer_report_date(pdf_path)
             format_name = detect_format(report_date)
@@ -60,9 +92,18 @@ def main() -> None:
 
             qa_summary = build_qa_summary(observations)
 
+            qa_summary["report"] = pdf_path.name
+            qa_summary["report_date"] = report_date
+            qa_summary["format"] = format_name
+
             qa_path = output_directory / "qa.json"
+
             qa_path.write_text(
-                json.dumps(qa_summary, indent=2),
+                json.dumps(
+                    qa_summary,
+                    indent=2,
+                    ensure_ascii=False,
+                ),
                 encoding="utf-8",
             )
 
@@ -70,9 +111,13 @@ def main() -> None:
                 f"[{'PASS' if qa_summary['status'] == 'PASS' else 'WARN'}] "
                 f"{pdf_path.name}: "
                 f"{len(observations)} observations | "
-                f"serials {qa_summary['serial_min']}-{qa_summary['serial_max']} | "
-                f"missing {len(qa_summary['missing_serials'])} | "
-                f"duplicates {len(qa_summary['duplicate_serials'])}"
+                f"serials "
+                f"{qa_summary['serial_min']}-"
+                f"{qa_summary['serial_max']} | "
+                f"missing "
+                f"{len(qa_summary['missing_serials'])} | "
+                f"duplicates "
+                f"{len(qa_summary['duplicate_serials'])}"
             )
 
             successful.append(
@@ -106,19 +151,92 @@ def main() -> None:
                 f"{exc}"
             )
 
+    # ---------------------------------------------------------
+    # Aggregate QA across ALL processed reports
+    # ---------------------------------------------------------
+
+    qa_summaries = []
+
+    for report_directory in sorted(OUTPUT_DIRECTORY.iterdir()):
+        if not report_directory.is_dir():
+            continue
+
+        qa_path = report_directory / "qa.json"
+
+        if not qa_path.exists():
+            continue
+
+        try:
+            qa_summary = json.loads(
+                qa_path.read_text(
+                    encoding="utf-8",
+                )
+            )
+
+            qa_summaries.append(qa_summary)
+
+        except (json.JSONDecodeError, OSError) as exc:
+            print(
+                f"[WARN] Could not read QA file: "
+                f"{qa_path}: {exc}"
+            )
+
+    dataset_qa = build_dataset_qa(
+        qa_summaries
+    )
+
+    dataset_qa_path = OUTPUT_DIRECTORY / "dataset_qa.json"
+
+    dataset_qa_path.write_text(
+        json.dumps(
+            dataset_qa,
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    # ---------------------------------------------------------
+    # Summary
+    # ---------------------------------------------------------
+
     print()
     print("-" * 60)
     print("SUMMARY")
     print("-" * 60)
 
     print(f"Reports discovered : {len(pdf_files)}")
+    print(f"Already processed  : {len(skipped)}")
+    print(f"New reports        : {len(files_to_process)}")
     print(f"Reports processed  : {len(successful)}")
     print(f"Reports failed     : {len(failed)}")
-    print(f"Total observations : {total_observations}")
+
+    print(
+        f"New observations   : {total_observations}"
+    )
+
+    print(
+        f"Dataset QA status  : {dataset_qa['status']}"
+    )
+
+    print(
+        f"Dataset reports    : "
+        f"{dataset_qa['reports']['total']}"
+    )
+
+    print(
+        f"Dataset observations: "
+        f"{dataset_qa['observations']}"
+    )
+
+    print()
+
+    # ---------------------------------------------------------
+    # Newly processed reports
+    # ---------------------------------------------------------
 
     if successful:
-        print()
-        print("Successful reports:")
+        print("Newly processed reports:")
         print(
             f"{'REPORT':<35} "
             f"{'DATE':<10} "
@@ -135,6 +253,10 @@ def main() -> None:
                 f"{result['observations']:>8}"
             )
 
+    # ---------------------------------------------------------
+    # Failed reports
+    # ---------------------------------------------------------
+
     if failed:
         print()
         print("Failed reports:")
@@ -150,7 +272,12 @@ def main() -> None:
             )
 
     print()
-    print(f"Output directory: {OUTPUT_DIRECTORY}")
+    print(
+        f"Dataset QA: {OUTPUT_DIRECTORY / 'dataset_qa.json'}"
+    )
+    print(
+        f"Output directory: {OUTPUT_DIRECTORY}"
+    )
     print("=" * 60)
 
 
