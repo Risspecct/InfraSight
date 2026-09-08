@@ -30,7 +30,7 @@ def detect_format(report_date: str) -> str:
 
     year = report_date[:4]
 
-    if year in {"2001", "2002", "2003"}:
+    if year in {"2001", "2002"}:
         return "format_2002"
 
     raise ValueError(
