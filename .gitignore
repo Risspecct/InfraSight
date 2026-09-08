@@ -19,4 +19,4 @@ env/
 Thumbs.db
 
 # Raw source PDFs
-data/raw/*.pdf
+backend/data/raw/*.pdf
