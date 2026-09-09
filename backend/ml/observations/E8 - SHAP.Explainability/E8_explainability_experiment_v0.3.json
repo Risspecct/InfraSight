@@ -1,0 +1,121 @@
+{
+  "experiment": "E8 SHAP and explainability",
+  "shap_available": true,
+  "modeling_rule": "Models refit on train+validation only; test used for local-risk examples.",
+  "results": {
+    "cost": {
+      "shap_version": "0.50.0",
+      "n_test": 10585,
+      "sample_for_global_shap": 1500,
+      "top_features": [
+        {
+          "feature": "derived_project_age_months",
+          "mean_abs_shap": 0.26114137779858454,
+          "mean_abs_shap_pct": 16.04272552811102
+        },
+        {
+          "feature": "derived_anticipated_cost_increase_pct",
+          "mean_abs_shap": 0.2016999309825715,
+          "mean_abs_shap_pct": 12.391052919572479
+        },
+        {
+          "feature": "derived_months_to_anticipated_completion",
+          "mean_abs_shap": 0.1919209108362089,
+          "mean_abs_shap_pct": 11.79029735389202
+        },
+        {
+          "feature": "derived_months_to_original_completion",
+          "mean_abs_shap": 0.10132551952892437,
+          "mean_abs_shap_pct": 6.224741220633161
+        },
+        {
+          "feature": "derived_expenditure_to_anticipated_cost_pct",
+          "mean_abs_shap": 0.09757786124673538,
+          "mean_abs_shap_pct": 5.9945109380898804
+        },
+        {
+          "feature": "derived_cost_increase_crore",
+          "mean_abs_shap": 0.08348195295055955,
+          "mean_abs_shap_pct": 5.128555531975003
+        },
+        {
+          "feature": "anticipated_cost_crore",
+          "mean_abs_shap": 0.08323841029475192,
+          "mean_abs_shap_pct": 5.113593950572447
+        },
+        {
+          "feature": "original_cost_crore",
+          "mean_abs_shap": 0.06926874274515417,
+          "mean_abs_shap_pct": 4.255393905422917
+        },
+        {
+          "feature": "derived_observation_number",
+          "mean_abs_shap": 0.06247982892939759,
+          "mean_abs_shap_pct": 3.8383298541480286
+        },
+        {
+          "feature": "derived_expenditure_to_original_cost_pct",
+          "mean_abs_shap": 0.06090375988997215,
+          "mean_abs_shap_pct": 3.7415070402914
+        }
+      ]
+    },
+    "schedule": {
+      "shap_version": "0.50.0",
+      "n_test": 4913,
+      "sample_for_global_shap": 1500,
+      "top_features": [
+        {
+          "feature": "derived_months_to_anticipated_completion",
+          "mean_abs_shap": 0.9069117903709412,
+          "mean_abs_shap_pct": 27.35541343688965
+        },
+        {
+          "feature": "derived_report_year",
+          "mean_abs_shap": 0.6626291871070862,
+          "mean_abs_shap_pct": 19.98705291748047
+        },
+        {
+          "feature": "derived_report_month",
+          "mean_abs_shap": 0.259868323802948,
+          "mean_abs_shap_pct": 7.838474750518799
+        },
+        {
+          "feature": "derived_project_age_months",
+          "mean_abs_shap": 0.2164173424243927,
+          "mean_abs_shap_pct": 6.5278520584106445
+        },
+        {
+          "feature": "derived_expenditure_to_anticipated_cost_pct",
+          "mean_abs_shap": 0.183497816324234,
+          "mean_abs_shap_pct": 5.534891605377197
+        },
+        {
+          "feature": "derived_milestone_progress_pct",
+          "mean_abs_shap": 0.15938284993171692,
+          "mean_abs_shap_pct": 4.8075056076049805
+        },
+        {
+          "feature": "derived_3obs_expenditure_change_mean",
+          "mean_abs_shap": 0.11715289205312729,
+          "mean_abs_shap_pct": 3.53371262550354
+        },
+        {
+          "feature": "derived_3obs_time_overrun_delta_mean",
+          "mean_abs_shap": 0.11389090120792389,
+          "mean_abs_shap_pct": 3.4353206157684326
+        },
+        {
+          "feature": "anticipated_cost_crore",
+          "mean_abs_shap": 0.08710811287164688,
+          "mean_abs_shap_pct": 2.627464532852173
+        },
+        {
+          "feature": "original_cost_crore",
+          "mean_abs_shap": 0.07492067664861679,
+          "mean_abs_shap_pct": 2.2598516941070557
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "objective": "Predict early deterioration in project cost and schedule from longitudinal reports.",
+  "primary_horizon": "Next 3 reporting observations.",
+  "cost_target": "Anticipated cost increases by >=10% within next 3 observations.",
+  "schedule_target": "Time overrun increases by >=3 months within next 3 observations.",
+  "data_split": "Chronological train/validation/test split; temporal test held out during model selection.",
+  "baseline": "Balanced regularized Logistic Regression.",
+  "candidate_models": "XGBoost, LightGBM, CatBoost.",
+  "feature_selection": "Ablation comparison selected state+trajectory for cost and state-only for schedule.",
+  "final_models": "Tuned LightGBM for cost; tuned XGBoost for schedule.",
+  "primary_metric": "PR-AUC because the cost deterioration target is highly imbalanced.",
+  "operational_threshold": "Selected on validation using maximum F1, then locked before test evaluation.",
+  "explainability": "Tree SHAP global and local explanations.",
+  "historical_validation": "Point-in-time backtest: each checkpoint model trains only on observations dated before that checkpoint.",
+  "caveats": [
+    "Source panel is historical and ends around 2013, so results establish proof-of-concept rather than modern deployment performance.",
+    "Cost positives are rare, so cost precision remains challenging.",
+    "High missingness exists in several derived/source fields.",
+    "SHAP identifies model associations, not causal relationships.",
+    "Backtest performance varies across historical checkpoints."
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "experiment": "E9 point-in-time historical backtest",
+  "rule": "At each checkpoint, train only on observations dated before the prediction date and predict the current checkpoint; no future observations are used for training.",
+  "checkpoint_sampling": "Approximately 8 evenly spaced checkpoints across the temporal test period.",
+  "summary": [
+    {
+      "task": "cost",
+      "checkpoints": 11,
+      "mean_pr_auc": 0.21042265308912242,
+      "median_pr_auc": 0.2214297238482343,
+      "mean_roc_auc": 0.8032200361108526,
+      "median_roc_auc": 0.836457699330493,
+      "mean_actual_positive_rate": 0.04291928949868083
+    },
+    {
+      "task": "schedule",
+      "checkpoints": 12,
+      "mean_pr_auc": 0.5329586508736536,
+      "median_pr_auc": 0.5899095286466693,
+      "mean_roc_auc": 0.7964077323972741,
+      "median_roc_auc": 0.8126179009159512,
+      "mean_actual_positive_rate": 0.22116431826748253
+    }
+  ]
+}

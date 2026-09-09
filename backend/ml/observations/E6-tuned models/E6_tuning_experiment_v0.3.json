@@ -1,0 +1,28 @@
+{
+  "cost_lightgbm": {
+    "n_estimators": 202,
+    "learning_rate": 0.01203811991531606,
+    "num_leaves": 20,
+    "max_depth": 9,
+    "min_child_samples": 91,
+    "subsample": 0.7241957851572625,
+    "colsample_bytree": 0.6537426267410927,
+    "reg_alpha": 0.025434609578134867,
+    "reg_lambda": 2.0227969424941414
+  },
+  "cost_validation_pr_auc": 0.07636804386895024,
+  "schedule_xgboost": {
+    "n_estimators": 405,
+    "max_depth": 3,
+    "learning_rate": 0.035771543852377775,
+    "min_child_weight": 8,
+    "subsample": 0.8484549914475998,
+    "colsample_bytree": 0.6980835689482446,
+    "gamma": 2.0039130086475296,
+    "reg_alpha": 1.5090081055316191,
+    "reg_lambda": 10.837692262772633
+  },
+  "schedule_validation_pr_auc": 0.4634425451737201,
+  "selection_metric": "validation PR-AUC",
+  "test_used_only_after_selection": true
+}

@@ -1,0 +1,20 @@
+{
+  "experiment": "E1",
+  "model": "Logistic Regression",
+  "preprocessing": "train-only median imputation + missingness indicators + standardization",
+  "class_weight": "balanced",
+  "threshold": 0.5,
+  "temporal_split": {
+    "cost": {
+      "train_end": "2008-02-01",
+      "validation_end": "2010-06-01"
+    },
+    "schedule": {
+      "train_end": "2006-02-01",
+      "validation_end": "2007-09-01"
+    }
+  },
+  "feature_policy": "numeric V0.3 features; identifiers, target, audit columns excluded",
+  "results_file": "logistic_baseline_results_v0.3.csv",
+  "predictions_file": "logistic_baseline_predictions_v0.3.csv"
+}
