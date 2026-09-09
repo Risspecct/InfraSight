@@ -13,3 +13,4 @@ requests==2.34.2
 urllib3==2.7.0
 pdfplumber
 pytest
+httpx2
