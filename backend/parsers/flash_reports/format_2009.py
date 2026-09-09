@@ -27,13 +27,21 @@ COLUMN_RANGES = {
     "serial": (80, 95),
     "project": (95, 225),
     "approval": (225, 275),
-    "cost": (275, 325),
-    "anticipated_cost": (325, 375),
-    "expenditure": (375, 417),
-    "commissioning": (417, 460),
-    "anticipated_completion": (460, 495),
-    "delay": (495, 535),
-    "milestones": (535, 600),
+
+    # October 2011:
+    # Original Cost / Anticipated Cost / Cumulative Expenditure
+    "cost": (275, 315),
+    "anticipated_cost": (315, 365),
+    "expenditure": (365, 405),
+
+    # Original Commissioning / Anticipated Commissioning
+    "commissioning": (405, 445),
+    "anticipated_completion": (445, 480),
+
+    # Delay w.r.t. Original / Revised
+    "delay": (480, 520),
+
+    "milestones": (520, 600),
 }
 
 
@@ -524,29 +532,31 @@ def parse_milestones(
 
 def parse_delay(
     values: list[str],
-) -> int | None:
-
+) -> tuple[int | None, int | None]:
     for value in values:
-
         value = clean(value)
 
-        # October 2011 contains values such as:
-        # 16(O)
-        # 4
-        # 0
-        #
-        # We only want the numeric delay component.
+        if value in {"", "-"}:
+            continue
 
         match = re.match(
-            r"^(-?\d+)",
+            r"^(-?\d+)\s*\(([^)]+)\)",
             value,
         )
 
-        if match:
-            return int(match.group(1))
+        if not match:
+            continue
 
-    return None
+        months = int(match.group(1))
+        basis = match.group(2).strip().upper()
 
+        if basis.startswith("O"):
+            return months, None
+
+        if basis.startswith("R"):
+            return None, months
+
+    return None, None
 
 # ============================================================
 # Project observation parser
@@ -728,8 +738,8 @@ def parse_project_row(
         "delay",
     )
 
-    additional_delay_months = parse_delay(
-        delay_values
+    time_overrun_original_months, time_overrun_revised_months = (
+        parse_delay(delay_values)
     )
 
     # --------------------------------------------------------
@@ -805,13 +815,15 @@ def parse_project_row(
             anticipated_completion_date
         ),
 
-        "time_overrun_original_months": None,
-
-        "time_overrun_revised_months": None,
-
-        "additional_delay_months": (
-            additional_delay_months
+        "time_overrun_original_months": (
+            time_overrun_original_months
         ),
+        
+        "time_overrun_revised_months": (
+            time_overrun_revised_months
+        ),
+        
+        "additional_delay_months": None,
 
         "milestones_achieved": (
             milestones_achieved
