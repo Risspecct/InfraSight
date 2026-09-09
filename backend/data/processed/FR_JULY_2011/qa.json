@@ -1,0 +1,84 @@
+{
+  "status": "WARN",
+  "observations": 558,
+  "serial_min": 1,
+  "serial_max": 558,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 9,
+    "suspicious_milestone_records": [
+      {
+        "serial_no": 10,
+        "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+        "achieved": 59,
+        "total": 26
+      },
+      {
+        "serial_no": 11,
+        "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+        "achieved": 60,
+        "total": 24
+      },
+      {
+        "serial_no": 16,
+        "project_name": "RAMAGUNDAM OC-II EXTENSION - SCCL,Andhra Pradesh",
+        "achieved": 28,
+        "total": 27
+      },
+      {
+        "serial_no": 27,
+        "project_name": "GEVRA EXPANSION OCP (SECL) (25 MTY) - SECL,Chhatisgarh",
+        "achieved": 3,
+        "total": 2
+      },
+      {
+        "serial_no": 63,
+        "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+        "achieved": 117,
+        "total": 110
+      },
+      {
+        "serial_no": 117,
+        "project_name": "DABHOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+        "achieved": 11,
+        "total": 10
+      },
+      {
+        "serial_no": 122,
+        "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa",
+        "achieved": 107,
+        "total": 100
+      },
+      {
+        "serial_no": 195,
+        "project_name": "KOLDAM HEP (NTPC) - NTPC,Himachal Pr.",
+        "achieved": 19,
+        "total": 9
+      },
+      {
+        "serial_no": 229,
+        "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+        "achieved": 79,
+        "total": 22
+      }
+    ],
+    "checks": {
+      "milestones_valid": false
+    }
+  },
+  "report": "FR_JULY_2011.pdf",
+  "report_date": "2011-07",
+  "format": "format_2009"
+}

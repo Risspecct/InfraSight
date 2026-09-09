@@ -1,0 +1,84 @@
+{
+  "status": "WARN",
+  "observations": 606,
+  "serial_min": 1,
+  "serial_max": 606,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 9,
+    "suspicious_milestone_records": [
+      {
+        "serial_no": 14,
+        "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+        "achieved": 59,
+        "total": 26
+      },
+      {
+        "serial_no": 15,
+        "project_name": "BARSINGSAR MINE 2.10 MTPA LIGNITE (NLC) - NLC,Rajasthan",
+        "achieved": 36,
+        "total": 21
+      },
+      {
+        "serial_no": 17,
+        "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+        "achieved": 41,
+        "total": 24
+      },
+      {
+        "serial_no": 67,
+        "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL - SAIL,Jharkhandd",
+        "achieved": 2,
+        "total": 1
+      },
+      {
+        "serial_no": 68,
+        "project_name": "REBUILIDING OF COKE OVEN BATTERY-10 - SAIL,West Bengal",
+        "achieved": 2,
+        "total": 1
+      },
+      {
+        "serial_no": 87,
+        "project_name": "INST. OF FACILITIES FOR IMPROVEMENT IN DIESEL QUALITY (IOCL) - IOCL,West Bengal",
+        "achieved": 41,
+        "total": 36
+      },
+      {
+        "serial_no": 109,
+        "project_name": "CAPACITY AUGMENTATION OF AGRA& FEROZABAD REGION - GAIL,Uttar Pradesh",
+        "achieved": 9,
+        "total": 7
+      },
+      {
+        "serial_no": 153,
+        "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+        "achieved": 11,
+        "total": 10
+      },
+      {
+        "serial_no": 242,
+        "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+        "achieved": 77,
+        "total": 54
+      }
+    ],
+    "checks": {
+      "milestones_valid": false
+    }
+  },
+  "report": "fr_Aug_2010.pdf",
+  "report_date": "2010-08",
+  "format": "format_2009"
+}

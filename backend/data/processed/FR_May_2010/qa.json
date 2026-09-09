@@ -1,0 +1,78 @@
+{
+  "status": "WARN",
+  "observations": 578,
+  "serial_min": 1,
+  "serial_max": 578,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 8,
+    "suspicious_milestone_records": [
+      {
+        "serial_no": 13,
+        "project_name": "BARSINGSAR MINE 2.10 MTPA LIGNITE (NLC) -",
+        "achieved": 36,
+        "total": 21
+      },
+      {
+        "serial_no": 14,
+        "project_name": "BARSINGSAR TPS (2X125MW) (NLC) -",
+        "achieved": 59,
+        "total": 26
+      },
+      {
+        "serial_no": 16,
+        "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) -",
+        "achieved": 41,
+        "total": 24
+      },
+      {
+        "serial_no": 61,
+        "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL -",
+        "achieved": 2,
+        "total": 1
+      },
+      {
+        "serial_no": 111,
+        "project_name": "CAPACITY AUGMENTATION OF AGRA& FEROZABAD REGION -",
+        "achieved": 8,
+        "total": 5
+      },
+      {
+        "serial_no": 129,
+        "project_name": "BNPL SPURLINE (UTTRANCHAL & PUNJAB) -",
+        "achieved": 6,
+        "total": 5
+      },
+      {
+        "serial_no": 156,
+        "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I -",
+        "achieved": 8,
+        "total": 7
+      },
+      {
+        "serial_no": 232,
+        "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) -",
+        "achieved": 63,
+        "total": 36
+      }
+    ],
+    "checks": {
+      "milestones_valid": false
+    }
+  },
+  "report": "FR_May_2010.pdf",
+  "report_date": "2010-05",
+  "format": "format_2009"
+}

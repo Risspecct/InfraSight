@@ -1,11 +1,11 @@
 {
   "status": "WARN",
   "reports": {
-    "total": 106,
-    "passed": 99,
-    "warnings": 7
+    "total": 137,
+    "passed": 110,
+    "warnings": 27
   },
-  "observations": 40603,
+  "observations": 57120,
   "structural": {
     "missing_serials": 0,
     "duplicate_serials": 0
@@ -17,7 +17,7 @@
     "missing_source_pages": 0
   },
   "validity": {
-    "invalid_milestones": 10
+    "invalid_milestones": 154
   },
   "report_qa": [
     {
@@ -134,6 +134,149 @@
       }
     },
     {
+      "status": "WARN",
+      "observations": 578,
+      "serial_min": 1,
+      "serial_max": 578,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 1,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 15,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) -",
+            "achieved": 32,
+            "total": 26
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "fr_Apr_2010.pdf",
+      "report_date": "2010-04",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 560,
+      "serial_min": 1,
+      "serial_max": 560,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 8,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 11,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 12,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 60,
+            "total": 24
+          },
+          {
+            "serial_no": 17,
+            "project_name": "RAMAGUNDAM OC-II EXTENSION - SCCL,Andhra Pradesh",
+            "achieved": 28,
+            "total": 27
+          },
+          {
+            "serial_no": 27,
+            "project_name": "GEVRA EXPANSION OCP (SECL) (25 MTY) - SECL,Chhatisgarh",
+            "achieved": 3,
+            "total": 2
+          },
+          {
+            "serial_no": 62,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 117,
+            "total": 110
+          },
+          {
+            "serial_no": 120,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 126,
+            "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa",
+            "achieved": 107,
+            "total": 103
+          },
+          {
+            "serial_no": 233,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 78,
+            "total": 21
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_APR_2011.pdf",
+      "report_date": "2011-04",
+      "format": "format_2009"
+    },
+    {
+      "status": "PASS",
+      "observations": 571,
+      "serial_min": 1,
+      "serial_max": 571,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_APR_2012.pdf",
+      "report_date": "2012-04",
+      "format": "format_2009"
+    },
+    {
       "status": "PASS",
       "observations": 191,
       "serial_min": 1,
@@ -241,6 +384,204 @@
       "format": "format_2002"
     },
     {
+      "status": "WARN",
+      "observations": 606,
+      "serial_min": 1,
+      "serial_max": 606,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 9,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 14,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 15,
+            "project_name": "BARSINGSAR MINE 2.10 MTPA LIGNITE (NLC) - NLC,Rajasthan",
+            "achieved": 36,
+            "total": 21
+          },
+          {
+            "serial_no": 17,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 41,
+            "total": 24
+          },
+          {
+            "serial_no": 67,
+            "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL - SAIL,Jharkhandd",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 68,
+            "project_name": "REBUILIDING OF COKE OVEN BATTERY-10 - SAIL,West Bengal",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 87,
+            "project_name": "INST. OF FACILITIES FOR IMPROVEMENT IN DIESEL QUALITY (IOCL) - IOCL,West Bengal",
+            "achieved": 41,
+            "total": 36
+          },
+          {
+            "serial_no": 109,
+            "project_name": "CAPACITY AUGMENTATION OF AGRA& FEROZABAD REGION - GAIL,Uttar Pradesh",
+            "achieved": 9,
+            "total": 7
+          },
+          {
+            "serial_no": 153,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 242,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 77,
+            "total": 54
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "fr_Aug_2010.pdf",
+      "report_date": "2010-08",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 553,
+      "serial_min": 1,
+      "serial_max": 553,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 8,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 10,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 16,
+            "project_name": "RAMAGUNDAM OC-II EXTENSION - SCCL,Andhra Pradesh",
+            "achieved": 28,
+            "total": 27
+          },
+          {
+            "serial_no": 18,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 60,
+            "total": 24
+          },
+          {
+            "serial_no": 62,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 117,
+            "total": 110
+          },
+          {
+            "serial_no": 114,
+            "project_name": "DABHOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 130,
+            "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa",
+            "achieved": 107,
+            "total": 100
+          },
+          {
+            "serial_no": 196,
+            "project_name": "KOLDAM HEP (NTPC) - NTPC,Himachal Pr.",
+            "achieved": 19,
+            "total": 9
+          },
+          {
+            "serial_no": 227,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 79,
+            "total": 22
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_AUG_2011.pdf",
+      "report_date": "2011-08",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 33,
+      "serial_min": 1,
+      "serial_max": 33,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 1,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 7,
+            "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa Total",
+            "achieved": 167,
+            "total": 100
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_AUGUST_2012.pdf",
+      "report_date": "2012-08",
+      "format": "format_2009"
+    },
+    {
       "status": "PASS",
       "observations": 191,
       "serial_min": 1,
@@ -332,6 +673,113 @@
       },
       "report": "FR_DEC_2009.pdf",
       "report_date": "2009-12",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 567,
+      "serial_min": 1,
+      "serial_max": 567,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 8,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 13,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 16,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 41,
+            "total": 24
+          },
+          {
+            "serial_no": 64,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 116,
+            "total": 110
+          },
+          {
+            "serial_no": 82,
+            "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL - SAIL,Jharkhandd",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 87,
+            "project_name": "RESIDUE UPGRADATION AND MS/HSD QUALITY IMPROVEMENT - IOCL,Gujarat",
+            "achieved": 57,
+            "total": 42
+          },
+          {
+            "serial_no": 120,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 191,
+            "project_name": "KOTESHWAR HEP(THDC) - THDCL,Uttaranchal",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 217,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 77,
+            "total": 22
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_Dec_2010.pdf",
+      "report_date": "2010-12",
+      "format": "format_2009"
+    },
+    {
+      "status": "PASS",
+      "observations": 561,
+      "serial_min": 1,
+      "serial_max": 561,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_DEC_2011.pdf",
+      "report_date": "2011-12",
       "format": "format_2009"
     },
     {
@@ -429,6 +877,113 @@
       "format": "format_2009"
     },
     {
+      "status": "WARN",
+      "observations": 565,
+      "serial_min": 1,
+      "serial_max": 565,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 8,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 11,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 13,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 41,
+            "total": 24
+          },
+          {
+            "serial_no": 62,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 117,
+            "total": 110
+          },
+          {
+            "serial_no": 82,
+            "project_name": "RESIDUE UPGRADATION AND MS/HSD QUALITY IMPROVEMENT - IOCL,Gujarat",
+            "achieved": 96,
+            "total": 42
+          },
+          {
+            "serial_no": 114,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 131,
+            "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa",
+            "achieved": 107,
+            "total": 103
+          },
+          {
+            "serial_no": 182,
+            "project_name": "KOTESHWAR HEP(THDC) - THDCL,Uttaranchal",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 226,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 78,
+            "total": 22
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_FEB_2011.pdf",
+      "report_date": "2011-02",
+      "format": "format_2009"
+    },
+    {
+      "status": "PASS",
+      "observations": 566,
+      "serial_min": 1,
+      "serial_max": 566,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_FEB_2012.pdf",
+      "report_date": "2012-02",
+      "format": "format_2009"
+    },
+    {
       "status": "PASS",
       "observations": 191,
       "serial_min": 1,
@@ -507,6 +1062,149 @@
       },
       "report": "FR_JAN_2010.pdf",
       "report_date": "2010-01",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 563,
+      "serial_min": 1,
+      "serial_max": 563,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 8,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 12,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 15,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 41,
+            "total": 24
+          },
+          {
+            "serial_no": 63,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 117,
+            "total": 110
+          },
+          {
+            "serial_no": 84,
+            "project_name": "RESIDUE UPGRADATION AND MS/HSD QUALITY IMPROVEMENT - IOCL,Gujarat",
+            "achieved": 57,
+            "total": 42
+          },
+          {
+            "serial_no": 114,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 130,
+            "project_name": "PARADIP REFINERY PROJECT - IOCL,",
+            "achieved": 107,
+            "total": 103
+          },
+          {
+            "serial_no": 182,
+            "project_name": "KOTESHWAR HEP(THDC) - THDCL,Uttaranchal",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 223,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 77,
+            "total": 22
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_JAN_2011.pdf",
+      "report_date": "2011-01",
+      "format": "format_2009"
+    },
+    {
+      "status": "PASS",
+      "observations": 555,
+      "serial_min": 1,
+      "serial_max": 555,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_JAN_2012.pdf",
+      "report_date": "2012-01",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 28,
+      "serial_min": 1,
+      "serial_max": 28,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 1,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 4,
+            "project_name": "EURO-IV DHDT - CPCL,Tamil Nadu Total",
+            "achieved": 118,
+            "total": 116
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_JAn_2013_new.pdf",
+      "report_date": "2013-01",
       "format": "format_2009"
     },
     {
@@ -591,6 +1289,203 @@
       "format": "format_2002"
     },
     {
+      "status": "WARN",
+      "observations": 597,
+      "serial_min": 1,
+      "serial_max": 597,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 9,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 14,
+            "project_name": "BARSINGSAR MINE 2.10 MTPA LIGNITE (NLC) - NLC,Rajasthan",
+            "achieved": 36,
+            "total": 21
+          },
+          {
+            "serial_no": 15,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 17,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 41,
+            "total": 24
+          },
+          {
+            "serial_no": 61,
+            "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL - SAIL,Jharkhandd",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 62,
+            "project_name": "REBUILIDING OF COKE OVEN BATTERY-10 - SAIL,West Bengal",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 82,
+            "project_name": "INST. OF FACILITIES FOR IMPROVEMENT IN DIESEL QUALITY (IOCL) - IOCL,West Bengal",
+            "achieved": 41,
+            "total": 36
+          },
+          {
+            "serial_no": 104,
+            "project_name": "CAPACITY AUGMENTATION OF AGRA& FEROZABAD REGION - GAIL,Uttar Pradesh",
+            "achieved": 9,
+            "total": 7
+          },
+          {
+            "serial_no": 148,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 234,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 77,
+            "total": 54
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_JULY_2010.pdf",
+      "report_date": "2010-07",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 558,
+      "serial_min": 1,
+      "serial_max": 558,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 9,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 10,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 11,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 60,
+            "total": 24
+          },
+          {
+            "serial_no": 16,
+            "project_name": "RAMAGUNDAM OC-II EXTENSION - SCCL,Andhra Pradesh",
+            "achieved": 28,
+            "total": 27
+          },
+          {
+            "serial_no": 27,
+            "project_name": "GEVRA EXPANSION OCP (SECL) (25 MTY) - SECL,Chhatisgarh",
+            "achieved": 3,
+            "total": 2
+          },
+          {
+            "serial_no": 63,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 117,
+            "total": 110
+          },
+          {
+            "serial_no": 117,
+            "project_name": "DABHOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 122,
+            "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa",
+            "achieved": 107,
+            "total": 100
+          },
+          {
+            "serial_no": 195,
+            "project_name": "KOLDAM HEP (NTPC) - NTPC,Himachal Pr.",
+            "achieved": 19,
+            "total": 9
+          },
+          {
+            "serial_no": 229,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 79,
+            "total": 22
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_JULY_2011.pdf",
+      "report_date": "2011-07",
+      "format": "format_2009"
+    },
+    {
+      "status": "PASS",
+      "observations": 558,
+      "serial_min": 1,
+      "serial_max": 558,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_JULY_2012.pdf",
+      "report_date": "2012-07",
+      "format": "format_2009"
+    },
+    {
       "status": "PASS",
       "observations": 188,
       "serial_min": 1,
@@ -670,6 +1565,197 @@
       "report": "FR_JUNE_2009.pdf",
       "report_date": "2009-06",
       "format": "format_2002"
+    },
+    {
+      "status": "WARN",
+      "observations": 594,
+      "serial_min": 1,
+      "serial_max": 594,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 8,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 13,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) -",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 15,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) -",
+            "achieved": 41,
+            "total": 24
+          },
+          {
+            "serial_no": 51,
+            "project_name": "BARSINGSAR MINE 2.10 MTPA LIGNITE (NLC) - Total",
+            "achieved": 36,
+            "total": 21
+          },
+          {
+            "serial_no": 65,
+            "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL -",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 108,
+            "project_name": "CAPACITY AUGMENTATION OF AGRA& FEROZABAD REGION -",
+            "achieved": 8,
+            "total": 5
+          },
+          {
+            "serial_no": 129,
+            "project_name": "BNPL SPURLINE (UTTRANCHAL & PUNJAB) -",
+            "achieved": 6,
+            "total": 5
+          },
+          {
+            "serial_no": 154,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I -",
+            "achieved": 8,
+            "total": 7
+          },
+          {
+            "serial_no": 229,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) -",
+            "achieved": 63,
+            "total": 36
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_june_2010.pdf",
+      "report_date": "2010-06",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 563,
+      "serial_min": 1,
+      "serial_max": 563,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 9,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 10,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 11,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 60,
+            "total": 24
+          },
+          {
+            "serial_no": 16,
+            "project_name": "RAMAGUNDAM OC-II EXTENSION - SCCL,Andhra Pradesh",
+            "achieved": 28,
+            "total": 27
+          },
+          {
+            "serial_no": 26,
+            "project_name": "GEVRA EXPANSION OCP (SECL) (25 MTY) - SECL,Chhatisgarh",
+            "achieved": 3,
+            "total": 2
+          },
+          {
+            "serial_no": 61,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 117,
+            "total": 110
+          },
+          {
+            "serial_no": 120,
+            "project_name": "DABHOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 125,
+            "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa",
+            "achieved": 107,
+            "total": 103
+          },
+          {
+            "serial_no": 197,
+            "project_name": "KOLDAM HEP (NTPC) - NTPC,Himachal Pr.",
+            "achieved": 19,
+            "total": 9
+          },
+          {
+            "serial_no": 230,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 79,
+            "total": 22
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_JUNE_2011.pdf",
+      "report_date": "2011-06",
+      "format": "format_2009"
+    },
+    {
+      "status": "PASS",
+      "observations": 555,
+      "serial_min": 1,
+      "serial_max": 555,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_JUNE_2012.pdf",
+      "report_date": "2012-06",
+      "format": "format_2009"
     },
     {
       "status": "PASS",
@@ -796,6 +1882,113 @@
       "format": "format_2009"
     },
     {
+      "status": "WARN",
+      "observations": 562,
+      "serial_min": 1,
+      "serial_max": 562,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 8,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 12,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 13,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 59,
+            "total": 24
+          },
+          {
+            "serial_no": 30,
+            "project_name": "GEVRA EXPANSION OCP (SECL) (25 MTY) - SECL,Chhatisgarh",
+            "achieved": 3,
+            "total": 2
+          },
+          {
+            "serial_no": 63,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 117,
+            "total": 110
+          },
+          {
+            "serial_no": 111,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 129,
+            "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa",
+            "achieved": 107,
+            "total": 103
+          },
+          {
+            "serial_no": 186,
+            "project_name": "KOTESHWAR HEP(THDC) - THDCL,Uttaranchal",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 233,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 78,
+            "total": 21
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_MARCH_2011.pdf",
+      "report_date": "2011-03",
+      "format": "format_2009"
+    },
+    {
+      "status": "PASS",
+      "observations": 554,
+      "serial_min": 1,
+      "serial_max": 554,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_MARCH_2012.pdf",
+      "report_date": "2012-03",
+      "format": "format_2009"
+    },
+    {
       "status": "PASS",
       "observations": 189,
       "serial_min": 1,
@@ -875,6 +2068,197 @@
       "report": "FR_MAY_2007.pdf",
       "report_date": "2007-05",
       "format": "format_2002"
+    },
+    {
+      "status": "WARN",
+      "observations": 578,
+      "serial_min": 1,
+      "serial_max": 578,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 8,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 13,
+            "project_name": "BARSINGSAR MINE 2.10 MTPA LIGNITE (NLC) -",
+            "achieved": 36,
+            "total": 21
+          },
+          {
+            "serial_no": 14,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) -",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 16,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) -",
+            "achieved": 41,
+            "total": 24
+          },
+          {
+            "serial_no": 61,
+            "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL -",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 111,
+            "project_name": "CAPACITY AUGMENTATION OF AGRA& FEROZABAD REGION -",
+            "achieved": 8,
+            "total": 5
+          },
+          {
+            "serial_no": 129,
+            "project_name": "BNPL SPURLINE (UTTRANCHAL & PUNJAB) -",
+            "achieved": 6,
+            "total": 5
+          },
+          {
+            "serial_no": 156,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I -",
+            "achieved": 8,
+            "total": 7
+          },
+          {
+            "serial_no": 232,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) -",
+            "achieved": 63,
+            "total": 36
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_May_2010.pdf",
+      "report_date": "2010-05",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 567,
+      "serial_min": 1,
+      "serial_max": 567,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 9,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 10,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 11,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 60,
+            "total": 24
+          },
+          {
+            "serial_no": 16,
+            "project_name": "RAMAGUNDAM OC-II EXTENSION - SCCL,Andhra Pradesh",
+            "achieved": 28,
+            "total": 27
+          },
+          {
+            "serial_no": 26,
+            "project_name": "GEVRA EXPANSION OCP (SECL) (25 MTY) - SECL,Chhatisgarh",
+            "achieved": 3,
+            "total": 2
+          },
+          {
+            "serial_no": 61,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 117,
+            "total": 110
+          },
+          {
+            "serial_no": 121,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 126,
+            "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa",
+            "achieved": 107,
+            "total": 103
+          },
+          {
+            "serial_no": 201,
+            "project_name": "KOLDAM HEP (NTPC) - NTPC,Himachal Pr.",
+            "achieved": 19,
+            "total": 9
+          },
+          {
+            "serial_no": 234,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 78,
+            "total": 22
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_MAY_2011.pdf",
+      "report_date": "2011-05",
+      "format": "format_2009"
+    },
+    {
+      "status": "PASS",
+      "observations": 564,
+      "serial_min": 1,
+      "serial_max": 564,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_MAY_2012.pdf",
+      "report_date": "2012-05",
+      "format": "format_2009"
     },
     {
       "status": "PASS",
@@ -968,6 +2352,142 @@
       },
       "report": "FR_NOV_2009.pdf",
       "report_date": "2009-11",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 572,
+      "serial_min": 1,
+      "serial_max": 572,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 8,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 13,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 16,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 41,
+            "total": 24
+          },
+          {
+            "serial_no": 63,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 116,
+            "total": 110
+          },
+          {
+            "serial_no": 81,
+            "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL - SAIL,Jharkhandd",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 90,
+            "project_name": "RESIDUE UPGRADATION AND MS/HSD QUALITY IMPROVEMENT - IOCL,Gujarat",
+            "achieved": 57,
+            "total": 42
+          },
+          {
+            "serial_no": 125,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 193,
+            "project_name": "KOTESHWAR HEP(THDC) - THDCL,Uttaranchal",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 221,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 77,
+            "total": 22
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_NOV_2010.pdf",
+      "report_date": "2010-11",
+      "format": "format_2009"
+    },
+    {
+      "status": "PASS",
+      "observations": 582,
+      "serial_min": 1,
+      "serial_max": 582,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_NOV_2011.pdf",
+      "report_date": "2011-11",
+      "format": "format_2009"
+    },
+    {
+      "status": "PASS",
+      "observations": 566,
+      "serial_min": 1,
+      "serial_max": 566,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_NOV_2012.pdf",
+      "report_date": "2012-11",
       "format": "format_2009"
     },
     {
@@ -1088,6 +2608,119 @@
       "format": "format_2009"
     },
     {
+      "status": "WARN",
+      "observations": 559,
+      "serial_min": 1,
+      "serial_max": 559,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 9,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 14,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 17,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 41,
+            "total": 24
+          },
+          {
+            "serial_no": 64,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 116,
+            "total": 110
+          },
+          {
+            "serial_no": 65,
+            "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL - SAIL,Jharkhandd",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 82,
+            "project_name": "INST. OF FACILITIES FOR IMPROVEMENT IN DIESEL QUALITY (IOCL) - IOCL,West Bengal",
+            "achieved": 41,
+            "total": 36
+          },
+          {
+            "serial_no": 128,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 198,
+            "project_name": "KOTESHWAR HEP(THDC) - THDCL,Uttaranchal",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 225,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 77,
+            "total": 22
+          },
+          {
+            "serial_no": 238,
+            "project_name": "SEWA- II H.E.P (NHPC) - NHPC,J & K",
+            "achieved": 8,
+            "total": 3
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_OCT_2010.pdf",
+      "report_date": "2010-10",
+      "format": "format_2009"
+    },
+    {
+      "status": "PASS",
+      "observations": 563,
+      "serial_min": 1,
+      "serial_max": 563,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_OCTOBER_2012.pdf",
+      "report_date": "2012-10",
+      "format": "format_2009"
+    },
+    {
       "status": "PASS",
       "observations": 189,
       "serial_min": 1,
@@ -1173,6 +2806,156 @@
       },
       "report": "FR_SEP_2009.pdf",
       "report_date": "2009-09",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 566,
+      "serial_min": 1,
+      "serial_max": 566,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 8,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 10,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 16,
+            "project_name": "RAMAGUNDAM OC-II EXTENSION - SCCL,Andhra Pradesh",
+            "achieved": 28,
+            "total": 27
+          },
+          {
+            "serial_no": 18,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 60,
+            "total": 24
+          },
+          {
+            "serial_no": 64,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 117,
+            "total": 110
+          },
+          {
+            "serial_no": 115,
+            "project_name": "DABHOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 134,
+            "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa",
+            "achieved": 107,
+            "total": 100
+          },
+          {
+            "serial_no": 198,
+            "project_name": "KOLDAM HEP (NTPC) - NTPC,Himachal Pr.",
+            "achieved": 19,
+            "total": 9
+          },
+          {
+            "serial_no": 228,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 79,
+            "total": 22
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_SEP_2011.pdf",
+      "report_date": "2011-09",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 553,
+      "serial_min": 1,
+      "serial_max": 553,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 7,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 14,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+            "achieved": 59,
+            "total": 26
+          },
+          {
+            "serial_no": 17,
+            "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+            "achieved": 41,
+            "total": 24
+          },
+          {
+            "serial_no": 64,
+            "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+            "achieved": 116,
+            "total": 110
+          },
+          {
+            "serial_no": 65,
+            "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL - SAIL,Jharkhandd",
+            "achieved": 2,
+            "total": 1
+          },
+          {
+            "serial_no": 81,
+            "project_name": "INST. OF FACILITIES FOR IMPROVEMENT IN DIESEL QUALITY (IOCL) - IOCL,West Bengal",
+            "achieved": 41,
+            "total": 36
+          },
+          {
+            "serial_no": 127,
+            "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+            "achieved": 11,
+            "total": 10
+          },
+          {
+            "serial_no": 222,
+            "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+            "achieved": 77,
+            "total": 49
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "fr_sept_2010.pdf",
+      "report_date": "2010-09",
       "format": "format_2009"
     },
     {

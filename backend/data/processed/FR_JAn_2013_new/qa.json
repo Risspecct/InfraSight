@@ -1,0 +1,36 @@
+{
+  "status": "WARN",
+  "observations": 28,
+  "serial_min": 1,
+  "serial_max": 28,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 1,
+    "suspicious_milestone_records": [
+      {
+        "serial_no": 4,
+        "project_name": "EURO-IV DHDT - CPCL,Tamil Nadu Total",
+        "achieved": 118,
+        "total": 116
+      }
+    ],
+    "checks": {
+      "milestones_valid": false
+    }
+  },
+  "report": "FR_JAn_2013_new.pdf",
+  "report_date": "2013-01",
+  "format": "format_2009"
+}

@@ -1,0 +1,78 @@
+{
+  "status": "WARN",
+  "observations": 572,
+  "serial_min": 1,
+  "serial_max": 572,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 8,
+    "suspicious_milestone_records": [
+      {
+        "serial_no": 13,
+        "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+        "achieved": 59,
+        "total": 26
+      },
+      {
+        "serial_no": 16,
+        "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+        "achieved": 41,
+        "total": 24
+      },
+      {
+        "serial_no": 63,
+        "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+        "achieved": 116,
+        "total": 110
+      },
+      {
+        "serial_no": 81,
+        "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL - SAIL,Jharkhandd",
+        "achieved": 2,
+        "total": 1
+      },
+      {
+        "serial_no": 90,
+        "project_name": "RESIDUE UPGRADATION AND MS/HSD QUALITY IMPROVEMENT - IOCL,Gujarat",
+        "achieved": 57,
+        "total": 42
+      },
+      {
+        "serial_no": 125,
+        "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+        "achieved": 11,
+        "total": 10
+      },
+      {
+        "serial_no": 193,
+        "project_name": "KOTESHWAR HEP(THDC) - THDCL,Uttaranchal",
+        "achieved": 2,
+        "total": 1
+      },
+      {
+        "serial_no": 221,
+        "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+        "achieved": 77,
+        "total": 22
+      }
+    ],
+    "checks": {
+      "milestones_valid": false
+    }
+  },
+  "report": "FR_NOV_2010.pdf",
+  "report_date": "2010-11",
+  "format": "format_2009"
+}

@@ -1,0 +1,78 @@
+{
+  "status": "WARN",
+  "observations": 565,
+  "serial_min": 1,
+  "serial_max": 565,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 8,
+    "suspicious_milestone_records": [
+      {
+        "serial_no": 11,
+        "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+        "achieved": 59,
+        "total": 26
+      },
+      {
+        "serial_no": 13,
+        "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+        "achieved": 41,
+        "total": 24
+      },
+      {
+        "serial_no": 62,
+        "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+        "achieved": 117,
+        "total": 110
+      },
+      {
+        "serial_no": 82,
+        "project_name": "RESIDUE UPGRADATION AND MS/HSD QUALITY IMPROVEMENT - IOCL,Gujarat",
+        "achieved": 96,
+        "total": 42
+      },
+      {
+        "serial_no": 114,
+        "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+        "achieved": 11,
+        "total": 10
+      },
+      {
+        "serial_no": 131,
+        "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa",
+        "achieved": 107,
+        "total": 103
+      },
+      {
+        "serial_no": 182,
+        "project_name": "KOTESHWAR HEP(THDC) - THDCL,Uttaranchal",
+        "achieved": 2,
+        "total": 1
+      },
+      {
+        "serial_no": 226,
+        "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+        "achieved": 78,
+        "total": 22
+      }
+    ],
+    "checks": {
+      "milestones_valid": false
+    }
+  },
+  "report": "FR_FEB_2011.pdf",
+  "report_date": "2011-02",
+  "format": "format_2009"
+}

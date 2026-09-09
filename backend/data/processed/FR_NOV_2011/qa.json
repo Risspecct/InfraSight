@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "observations": 582,
+  "serial_min": 1,
+  "serial_max": 582,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 0,
+    "suspicious_milestone_records": [],
+    "checks": {
+      "milestones_valid": true
+    }
+  },
+  "report": "FR_NOV_2011.pdf",
+  "report_date": "2011-11",
+  "format": "format_2009"
+}

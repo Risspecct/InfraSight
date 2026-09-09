@@ -1,0 +1,84 @@
+{
+  "status": "WARN",
+  "observations": 559,
+  "serial_min": 1,
+  "serial_max": 559,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 9,
+    "suspicious_milestone_records": [
+      {
+        "serial_no": 14,
+        "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+        "achieved": 59,
+        "total": 26
+      },
+      {
+        "serial_no": 17,
+        "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+        "achieved": 41,
+        "total": 24
+      },
+      {
+        "serial_no": 64,
+        "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+        "achieved": 116,
+        "total": 110
+      },
+      {
+        "serial_no": 65,
+        "project_name": "REBUILDING OF BLAST FURNANCE NO.2(BOKARO STEEL PL - SAIL,Jharkhandd",
+        "achieved": 2,
+        "total": 1
+      },
+      {
+        "serial_no": 82,
+        "project_name": "INST. OF FACILITIES FOR IMPROVEMENT IN DIESEL QUALITY (IOCL) - IOCL,West Bengal",
+        "achieved": 41,
+        "total": 36
+      },
+      {
+        "serial_no": 128,
+        "project_name": "DHABOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+        "achieved": 11,
+        "total": 10
+      },
+      {
+        "serial_no": 198,
+        "project_name": "KOTESHWAR HEP(THDC) - THDCL,Uttaranchal",
+        "achieved": 2,
+        "total": 1
+      },
+      {
+        "serial_no": 225,
+        "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+        "achieved": 77,
+        "total": 22
+      },
+      {
+        "serial_no": 238,
+        "project_name": "SEWA- II H.E.P (NHPC) - NHPC,J & K",
+        "achieved": 8,
+        "total": 3
+      }
+    ],
+    "checks": {
+      "milestones_valid": false
+    }
+  },
+  "report": "FR_OCT_2010.pdf",
+  "report_date": "2010-10",
+  "format": "format_2009"
+}

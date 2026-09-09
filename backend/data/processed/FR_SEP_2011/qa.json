@@ -1,0 +1,78 @@
+{
+  "status": "WARN",
+  "observations": 566,
+  "serial_min": 1,
+  "serial_max": 566,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 8,
+    "suspicious_milestone_records": [
+      {
+        "serial_no": 10,
+        "project_name": "BARSINGSAR TPS (2X125MW) (NLC) - NLC,Rajasthan",
+        "achieved": 59,
+        "total": 26
+      },
+      {
+        "serial_no": 16,
+        "project_name": "RAMAGUNDAM OC-II EXTENSION - SCCL,Andhra Pradesh",
+        "achieved": 28,
+        "total": 27
+      },
+      {
+        "serial_no": 18,
+        "project_name": "TPS-II EXPANSION (1470MW TO 1970MW) (NLC) - NLC,Tamil Nadu",
+        "achieved": 60,
+        "total": 24
+      },
+      {
+        "serial_no": 64,
+        "project_name": "SECOND PHASE EXPANSION OF CAPTIVE ALUMINIUM,SMELTER AND POWE - NALCO,Orissa Total",
+        "achieved": 117,
+        "total": 110
+      },
+      {
+        "serial_no": 115,
+        "project_name": "DABHOL-BANGALORE PIPELINE PROJECT PHASE-I - GAIL,Multi State",
+        "achieved": 11,
+        "total": 10
+      },
+      {
+        "serial_no": 134,
+        "project_name": "PARADIP REFINERY PROJECT - IOCL,Orissa",
+        "achieved": 107,
+        "total": 100
+      },
+      {
+        "serial_no": 198,
+        "project_name": "KOLDAM HEP (NTPC) - NTPC,Himachal Pr.",
+        "achieved": 19,
+        "total": 9
+      },
+      {
+        "serial_no": 228,
+        "project_name": "KAMENG HYDROELECTRIC PROJECT (NEEPCO) - NEEPCO,Arunachal Pr.",
+        "achieved": 79,
+        "total": 22
+      }
+    ],
+    "checks": {
+      "milestones_valid": false
+    }
+  },
+  "report": "FR_SEP_2011.pdf",
+  "report_date": "2011-09",
+  "format": "format_2009"
+}
