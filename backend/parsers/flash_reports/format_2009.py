@@ -15,6 +15,11 @@ SERIAL_RE = re.compile(r"^\d{1,3}$")
 MILESTONE_RE = re.compile(r"^\d+\s*/\s*\d+$")
 PROJECT_CODE_RE = re.compile(r"\[([A-Za-z0-9]+)\]")
 
+SERIAL_X_MIN = 80
+SERIAL_X_MAX = 115
+
+APPROVAL_X_MIN = 235
+APPROVAL_X_MAX = 290
 
 SECTORS = {
     "ATOMIC ENERGY",
@@ -319,76 +324,81 @@ def get_column_values(
     ]
 
 
-def build_project_rows(
-    words: list[dict[str, Any]],
-    current_sector: str | None = None,
-) -> tuple[list[dict[str, Any]], str | None]:
-    """
-    Convert physical PDF rows into logical project rows.
-
-    Sector headings are processed as state changes.
-    Project rows may span multiple physical lines.
-    Subtotal/Total rows are ignored.
-    """
-
+def build_project_rows(words, current_sector=None):
     physical_rows = group_words_into_rows(words)
 
-    logical_rows: list[dict[str, Any]] = []
-    current_project: list[dict[str, Any]] = []
+    logical_rows = []
+    current_project = []
+    table_complete = False
 
     for physical_row in physical_rows:
 
-        # ---------------------------------------------------------
-        # 1. Sector heading
-        # ---------------------------------------------------------
+        row_text = " ".join(
+            clean(word.get("text", ""))
+            for word in sorted(
+                physical_row,
+                key=lambda x: float(x["x0"])
+            )
+        )
+
+        normalized = re.sub(
+            r"\s+",
+            " ",
+            row_text.upper()
+        ).strip()
+
+        # The primary detailed table ends here.
+        if normalized.startswith("GRAND TOTAL"):
+            if current_project:
+                logical_rows.append({
+                    "words": current_project,
+                    "serial": _extract_serial(current_project),
+                    "sector": current_sector,
+                })
+                current_project = []
+
+            table_complete = True
+            break
+
         sector_heading = detect_sector_heading(physical_row)
 
         if sector_heading:
             if current_project:
-                logical_rows.append(
-                    {
-                        "words": current_project,
-                        "serial": _extract_serial(current_project),
-                        "sector": current_sector,
-                    }
-                )
+                logical_rows.append({
+                    "words": current_project,
+                    "serial": _extract_serial(current_project),
+                    "sector": current_sector,
+                })
                 current_project = []
 
             current_sector = sector_heading
             continue
 
-        # ---------------------------------------------------------
-        # 2. Detect beginning of a project row
-        # ---------------------------------------------------------
         serial_words = [
             word
             for word in physical_row
-            if (
-                COLUMN_RANGES["serial"][0]
-                <= float(word["x0"])
-                < COLUMN_RANGES["serial"][1]
-                and float(word["top"]) >= 165
-                and SERIAL_RE.fullmatch(
-                    clean(word.get("text", ""))
-                )
+            if SERIAL_X_MIN <= float(word["x0"]) <= SERIAL_X_MAX
+            and float(word["top"]) >= 165
+            and SERIAL_RE.fullmatch(
+                clean(word.get("text", ""))
             )
         ]
 
         if serial_words:
-
             approval_words = [
                 word
                 for word in physical_row
-                if (
-                    COLUMN_RANGES["approval"][0]
-                    <= float(word["x0"])
-                    < COLUMN_RANGES["approval"][1]
-                )
+                if APPROVAL_X_MIN
+                <= float(word["x0"])
+                <= APPROVAL_X_MAX
             ]
 
             approval_text = " ".join(
                 clean(word.get("text", ""))
-                for word in approval_words
+                for word in sorted(
+                    approval_words,
+                    key=lambda x: float(x["x0"])
+                )
             )
 
             has_approval_date = any(
@@ -396,46 +406,35 @@ def build_project_rows(
                 for token in approval_text.split()
             )
 
-            # Header row such as "1 2 3 4..." is not a project.
             if not has_approval_date:
                 continue
 
-            # Finish previous project.
             if current_project:
-                logical_rows.append(
-                    {
-                        "words": current_project,
-                        "serial": _extract_serial(current_project),
-                        "sector": current_sector,
-                    }
-                )
+                logical_rows.append({
+                    "words": current_project,
+                    "serial": _extract_serial(current_project),
+                    "sector": current_sector,
+                })
 
             current_project = list(physical_row)
 
-        # ---------------------------------------------------------
-        # 3. Continuation line
-        # ---------------------------------------------------------
         elif current_project:
             current_project.extend(physical_row)
 
-    # Finish final project on page.
     if current_project:
-        logical_rows.append(
-            {
-                "words": current_project,
-                "serial": _extract_serial(current_project),
-                "sector": current_sector,
-            }
-        )
+        logical_rows.append({
+            "words": current_project,
+            "serial": _extract_serial(current_project),
+            "sector": current_sector,
+        })
 
-    # Remove invalid logical rows.
     logical_rows = [
         row
         for row in logical_rows
         if row["serial"] is not None
     ]
 
-    return logical_rows, current_sector
+    return logical_rows, current_sector, table_complete
 
 
 def _extract_serial(
@@ -677,7 +676,7 @@ def parse_report(
             if not is_table_header(words):
                 continue
 
-            rows, current_sector = build_project_rows(
+            rows, current_sector, table_complete = build_project_rows(
                 words,
                 current_sector,
             )
@@ -700,6 +699,8 @@ def parse_report(
                 observation["source"]["page"] = page_number
 
                 observations.append(observation)
+            if table_complete:
+                break
 
     return observations
 

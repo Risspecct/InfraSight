@@ -31,19 +31,16 @@ def _normalize_pdf_text(text: str) -> str:
     """
     Normalize PDF-extracted text for structural format detection.
 
-    PDF extraction can split words such as:
-        ANTICI-
-        PATED
-
-    into separate lines. Remove those artificial line breaks first,
-    then normalize remaining whitespace.
+    Handles words split across PDF line breaks, such as:
+        Antici-
+        pated
     """
     text = text.upper()
 
     # Join words broken by PDF line wrapping.
     text = re.sub(r"-\s*\n\s*", "", text)
 
-    # Normalize all remaining whitespace.
+    # Normalize remaining whitespace.
     text = re.sub(r"\s+", " ", text)
 
     return text.strip()
@@ -51,60 +48,48 @@ def _normalize_pdf_text(text: str) -> str:
 
 def detect_format(pdf_path: Path, report_date: str) -> str:
     """
-    Detect the parser family required for a Flash Report.
+    Detect the structural parser family used by a Flash Report.
 
-    Detection is based on the structure of the report rather than
-    exact text, because PDF extraction can introduce line breaks,
-    hyphenation, and spacing differences.
+    Parser selection is based on document structure rather than
+    publication year because multiple formats may exist within
+    the same year.
     """
-    year = report_date[:4]
 
-    if year not in {
-        "2001",
-        "2002",
-        "2003",
-        "2004",
-        "2005",
-        "2006",
-        "2007",
-        "2008",
-        "2009",
-        "2010",
-    }:
-        raise ValueError(
-            f"No known parser format for report date: {report_date}"
-        )
+    with pdfplumber.open(pdf_path) as pdf:
+        for page in pdf.pages:
+            raw_text = page.extract_text() or ""
 
-    if year in ["2009", "2010"]:
-        with pdfplumber.open(pdf_path) as pdf:
-            for page in pdf.pages:
-                raw_text = page.extract_text() or ""
-                text = _normalize_pdf_text(raw_text)
+            if not raw_text:
+                continue
 
-                has_project_column = (
-                    "S.NO" in text
-                    and "PROJECT" in text
-                )
+            text = _normalize_pdf_text(raw_text)
 
-                has_cost_columns = (
-                    "COST" in text
-                    and "CUMM." in text
-                )
+            # ---------------------------------------------------------
+            # Older / 2002-style structure
+            # ---------------------------------------------------------
+            if (
+                "SL. NO" in text
+                and "NAME OF THE PROJECT" in text
+                and "DATE OF APPROVAL" in text
+                and "COST OVERRUN" in text
+                and "CUMULATIVE EXPENDITURE" in text
+                and "MILESTONES" in text
+            ):
+                return "format_2002"
 
-                has_delay_column = (
-                    "DELAY" in text
-                    and "MILESTONES" in text
-                )
+            # ---------------------------------------------------------
+            # 2009-style structure
+            # ---------------------------------------------------------
+            if (
+                "S.NO" in text
+                and "PROJECT" in text
+                and "COST" in text
+                and "CUMM." in text
+                and "DELAY" in text
+                and "MILESTONES" in text
+            ):
+                return "format_2009"
 
-                if (
-                    has_project_column
-                    and has_cost_columns
-                    and has_delay_column
-                ):
-                    return "format_2009"
-
-        raise ValueError(
-            f"No known parser format for report structure: {pdf_path.name}"
-        )
-
-    return "format_2002"
+    raise ValueError(
+        f"No known parser format for report structure: {pdf_path.name}"
+    )
