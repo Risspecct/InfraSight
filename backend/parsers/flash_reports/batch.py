@@ -72,7 +72,7 @@ def main() -> None:
     for pdf_path in files_to_process:
         try:
             report_date = infer_report_date(pdf_path)
-            format_name = format_name = detect_format(pdf_path, report_date,)
+            format_name = detect_format(pdf_path, report_date)
             parser = get_parser(format_name)
 
             observations = parser.parse(

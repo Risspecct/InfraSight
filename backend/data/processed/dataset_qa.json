@@ -1,11 +1,11 @@
 {
-  "status": "PASS",
+  "status": "WARN",
   "reports": {
-    "total": 98,
-    "passed": 98,
-    "warnings": 0
+    "total": 106,
+    "passed": 99,
+    "warnings": 7
   },
-  "observations": 35814,
+  "observations": 40603,
   "structural": {
     "missing_serials": 0,
     "duplicate_serials": 0
@@ -17,7 +17,7 @@
     "missing_source_pages": 0
   },
   "validity": {
-    "invalid_milestones": 0
+    "invalid_milestones": 10
   },
   "report_qa": [
     {
@@ -293,6 +293,48 @@
       }
     },
     {
+      "status": "WARN",
+      "observations": 597,
+      "serial_min": 1,
+      "serial_max": 597,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 2,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 15,
+            "project_name": "EXPANSION OF MINE-II (10.5 MTPA TO 15.0 MTPA) (NLC) -",
+            "achieved": 29,
+            "total": 23
+          },
+          {
+            "serial_no": 23,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) -",
+            "achieved": 32,
+            "total": 26
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_DEC_2009.pdf",
+      "report_date": "2009-12",
+      "format": "format_2009"
+    },
+    {
       "status": "PASS",
       "observations": 186,
       "serial_min": 1,
@@ -345,6 +387,48 @@
       }
     },
     {
+      "status": "WARN",
+      "observations": 618,
+      "serial_min": 1,
+      "serial_max": 618,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 2,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 24,
+            "project_name": "EXPANSION OF MINE-II (10.5 MTPA TO 15.0 MTPA) (NLC) -",
+            "achieved": 29,
+            "total": 23
+          },
+          {
+            "serial_no": 30,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) -",
+            "achieved": 32,
+            "total": 26
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_FEB_2010.pdf",
+      "report_date": "2010-02",
+      "format": "format_2009"
+    },
+    {
       "status": "PASS",
       "observations": 191,
       "serial_min": 1,
@@ -395,6 +479,35 @@
           "milestones_valid": true
         }
       }
+    },
+    {
+      "status": "PASS",
+      "observations": 620,
+      "serial_min": 1,
+      "serial_max": 620,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_JAN_2010.pdf",
+      "report_date": "2010-01",
+      "format": "format_2009"
     },
     {
       "status": "PASS",
@@ -611,6 +724,78 @@
       }
     },
     {
+      "status": "WARN",
+      "observations": 552,
+      "serial_min": 1,
+      "serial_max": 552,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 1,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 12,
+            "project_name": "EXPANSION OF MINE-II (10.5 MTPA TO 15.0 MTPA) (NLC) -",
+            "achieved": 25,
+            "total": 23
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_MAR_2009.pdf",
+      "report_date": "2009-03",
+      "format": "format_2009"
+    },
+    {
+      "status": "WARN",
+      "observations": 631,
+      "serial_min": 1,
+      "serial_max": 631,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 1,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 28,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) -",
+            "achieved": 32,
+            "total": 26
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_MARCH_2010.pdf",
+      "report_date": "2010-03",
+      "format": "format_2009"
+    },
+    {
       "status": "PASS",
       "observations": 189,
       "serial_min": 1,
@@ -744,6 +929,48 @@
       }
     },
     {
+      "status": "WARN",
+      "observations": 589,
+      "serial_min": 1,
+      "serial_max": 589,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 2,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 16,
+            "project_name": "EXPANSION OF MINE-II (10.5 MTPA TO 15.0 MTPA) (NLC) -",
+            "achieved": 27,
+            "total": 23
+          },
+          {
+            "serial_no": 17,
+            "project_name": "BARSINGSAR TPS (2X125MW) (NLC) -",
+            "achieved": 27,
+            "total": 26
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_NOV_2009.pdf",
+      "report_date": "2009-11",
+      "format": "format_2009"
+    },
+    {
       "status": "PASS",
       "observations": 187,
       "serial_min": 1,
@@ -825,6 +1052,42 @@
       "format": "format_2002"
     },
     {
+      "status": "WARN",
+      "observations": 591,
+      "serial_min": 1,
+      "serial_max": 591,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 1,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 16,
+            "project_name": "EXPANSION OF MINE-II (10.5 MTPA TO 15.0 MTPA) (NLC) -",
+            "achieved": 25,
+            "total": 23
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_OCT_2009.pdf",
+      "report_date": "2009-10",
+      "format": "format_2009"
+    },
+    {
       "status": "PASS",
       "observations": 189,
       "serial_min": 1,
@@ -875,6 +1138,42 @@
           "milestones_valid": true
         }
       }
+    },
+    {
+      "status": "WARN",
+      "observations": 591,
+      "serial_min": 1,
+      "serial_max": 591,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 1,
+        "suspicious_milestone_records": [
+          {
+            "serial_no": 16,
+            "project_name": "EXPANSION OF MINE-II (10.5 MTPA TO 15.0 MTPA) (NLC) -",
+            "achieved": 25,
+            "total": 23
+          }
+        ],
+        "checks": {
+          "milestones_valid": false
+        }
+      },
+      "report": "FR_SEP_2009.pdf",
+      "report_date": "2009-09",
+      "format": "format_2009"
     },
     {
       "status": "PASS",

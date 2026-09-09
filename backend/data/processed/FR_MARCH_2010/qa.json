@@ -1,0 +1,36 @@
+{
+  "status": "WARN",
+  "observations": 631,
+  "serial_min": 1,
+  "serial_max": 631,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 1,
+    "suspicious_milestone_records": [
+      {
+        "serial_no": 28,
+        "project_name": "BARSINGSAR TPS (2X125MW) (NLC) -",
+        "achieved": 32,
+        "total": 26
+      }
+    ],
+    "checks": {
+      "milestones_valid": false
+    }
+  },
+  "report": "FR_MARCH_2010.pdf",
+  "report_date": "2010-03",
+  "format": "format_2009"
+}
