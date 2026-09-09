@@ -1,11 +1,11 @@
 {
   "status": "PASS",
   "reports": {
-    "total": 48,
-    "passed": 48,
+    "total": 98,
+    "passed": 98,
     "warnings": 0
   },
-  "observations": 12309,
+  "observations": 35814,
   "structural": {
     "missing_serials": 0,
     "duplicate_serials": 0
@@ -20,6 +20,93 @@
     "invalid_milestones": 0
   },
   "report_qa": [
+    {
+      "status": "PASS",
+      "observations": 583,
+      "serial_min": 1,
+      "serial_max": 583,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FLR_APR_2009.pdf",
+      "report_date": "2009-04",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 553,
+      "serial_min": 1,
+      "serial_max": 553,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FLR_FEB_2009.pdf",
+      "report_date": "2009-02",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 591,
+      "serial_min": 1,
+      "serial_max": 591,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FLR_MAY_2009.pdf",
+      "report_date": "2009-05",
+      "format": "format_2002"
+    },
     {
       "status": "PASS",
       "observations": 182,
@@ -123,6 +210,35 @@
           "milestones_valid": true
         }
       }
+    },
+    {
+      "status": "PASS",
+      "observations": 598,
+      "serial_min": 1,
+      "serial_max": 598,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_AUG_2009.pdf",
+      "report_date": "2009-08",
+      "format": "format_2002"
     },
     {
       "status": "PASS",
@@ -334,6 +450,35 @@
     },
     {
       "status": "PASS",
+      "observations": 602,
+      "serial_min": 1,
+      "serial_max": 602,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_JULY_2009.pdf",
+      "report_date": "2009-07",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
       "observations": 188,
       "serial_min": 1,
       "serial_max": 188,
@@ -383,6 +528,35 @@
           "milestones_valid": true
         }
       }
+    },
+    {
+      "status": "PASS",
+      "observations": 591,
+      "serial_min": 1,
+      "serial_max": 591,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_JUNE_2009.pdf",
+      "report_date": "2009-06",
+      "format": "format_2002"
     },
     {
       "status": "PASS",
@@ -490,9 +664,9 @@
     },
     {
       "status": "PASS",
-      "observations": 187,
+      "observations": 497,
       "serial_min": 1,
-      "serial_max": 187,
+      "serial_max": 497,
       "missing_serials": [],
       "duplicate_serials": [],
       "structural_checks": {
@@ -512,33 +686,10 @@
         "checks": {
           "milestones_valid": true
         }
-      }
-    },
-    {
-      "status": "PASS",
-      "observations": 272,
-      "serial_min": 1,
-      "serial_max": 272,
-      "missing_serials": [],
-      "duplicate_serials": [],
-      "structural_checks": {
-        "has_observations": true,
-        "serial_continuity": true,
-        "duplicate_serials": true
       },
-      "completeness": {
-        "missing_project_names": 0,
-        "missing_sectors": 0,
-        "missing_report_dates": 0,
-        "missing_source_pages": 0
-      },
-      "validity": {
-        "invalid_milestones": 0,
-        "suspicious_milestone_records": [],
-        "checks": {
-          "milestones_valid": true
-        }
-      }
+      "report": "FR_MAY_2007.pdf",
+      "report_date": "2007-05",
+      "format": "format_2002"
     },
     {
       "status": "PASS",
@@ -591,6 +742,87 @@
           "milestones_valid": true
         }
       }
+    },
+    {
+      "status": "PASS",
+      "observations": 187,
+      "serial_min": 1,
+      "serial_max": 187,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      }
+    },
+    {
+      "status": "PASS",
+      "observations": 272,
+      "serial_min": 1,
+      "serial_max": 272,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      }
+    },
+    {
+      "status": "PASS",
+      "observations": 514,
+      "serial_min": 1,
+      "serial_max": 514,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "FR_OCT_2007.pdf",
+      "report_date": "2007-10",
+      "format": "format_2002"
     },
     {
       "status": "PASS",
@@ -675,6 +907,35 @@
     },
     {
       "status": "PASS",
+      "observations": 396,
+      "serial_min": 1,
+      "serial_max": 396,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_apr_2006.pdf",
+      "report_date": "2006-04",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
       "observations": 253,
       "serial_min": 1,
       "serial_max": 253,
@@ -698,6 +959,64 @@
           "milestones_valid": true
         }
       }
+    },
+    {
+      "status": "PASS",
+      "observations": 503,
+      "serial_min": 1,
+      "serial_max": 503,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_april_2007.pdf",
+      "report_date": "2007-04",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 519,
+      "serial_min": 1,
+      "serial_max": 519,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_april_2008.pdf",
+      "report_date": "2008-04",
+      "format": "format_2002"
     },
     {
       "status": "PASS",
@@ -752,6 +1071,122 @@
       },
       "report": "MonthlyFR_aug_2004.pdf",
       "report_date": "2004-08",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 341,
+      "serial_min": 1,
+      "serial_max": 341,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_aug_2005.pdf",
+      "report_date": "2005-08",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 471,
+      "serial_min": 1,
+      "serial_max": 471,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_aug_2006.pdf",
+      "report_date": "2006-08",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 495,
+      "serial_min": 1,
+      "serial_max": 495,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_aug_2007.pdf",
+      "report_date": "2007-08",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 528,
+      "serial_min": 1,
+      "serial_max": 528,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_aug_2008.pdf",
+      "report_date": "2008-08",
       "format": "format_2002"
     },
     {
@@ -811,6 +1246,122 @@
     },
     {
       "status": "PASS",
+      "observations": 389,
+      "serial_min": 1,
+      "serial_max": 389,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_dec_2005.pdf",
+      "report_date": "2005-12",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 483,
+      "serial_min": 1,
+      "serial_max": 483,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_dec_2006.pdf",
+      "report_date": "2006-12",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 513,
+      "serial_min": 1,
+      "serial_max": 513,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_dec_2007.pdf",
+      "report_date": "2007-12",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 535,
+      "serial_min": 1,
+      "serial_max": 535,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_dec_2008.pdf",
+      "report_date": "2008-12",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
       "observations": 282,
       "serial_min": 1,
       "serial_max": 282,
@@ -862,6 +1413,93 @@
       },
       "report": "MonthlyFR_feb_2005.pdf",
       "report_date": "2005-02",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 389,
+      "serial_min": 1,
+      "serial_max": 389,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_feb_2006.pdf",
+      "report_date": "2006-02",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 488,
+      "serial_min": 1,
+      "serial_max": 488,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_feb_2007.pdf",
+      "report_date": "2007-02",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 515,
+      "serial_min": 1,
+      "serial_max": 515,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_feb_2008.pdf",
+      "report_date": "2008-02",
       "format": "format_2002"
     },
     {
@@ -921,6 +1559,93 @@
     },
     {
       "status": "PASS",
+      "observations": 383,
+      "serial_min": 1,
+      "serial_max": 383,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_jan_2006.pdf",
+      "report_date": "2006-01",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 480,
+      "serial_min": 1,
+      "serial_max": 480,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_jan_2007.pdf",
+      "report_date": "2007-01",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 513,
+      "serial_min": 1,
+      "serial_max": 513,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_jan_2008.pdf",
+      "report_date": "2008-01",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
       "observations": 271,
       "serial_min": 1,
       "serial_max": 271,
@@ -972,6 +1697,122 @@
       },
       "report": "MonthlyFR_july_2004.pdf",
       "report_date": "2004-07",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 346,
+      "serial_min": 1,
+      "serial_max": 346,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_july_2005.pdf",
+      "report_date": "2005-07",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 464,
+      "serial_min": 1,
+      "serial_max": 464,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_july_2006.pdf",
+      "report_date": "2006-07",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 496,
+      "serial_min": 1,
+      "serial_max": 496,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_july_2007.pdf",
+      "report_date": "2007-07",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 524,
+      "serial_min": 1,
+      "serial_max": 524,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_july_2008.pdf",
+      "report_date": "2008-07",
       "format": "format_2002"
     },
     {
@@ -1031,6 +1872,122 @@
     },
     {
       "status": "PASS",
+      "observations": 313,
+      "serial_min": 1,
+      "serial_max": 313,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_june_2005.pdf",
+      "report_date": "2005-06",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 451,
+      "serial_min": 1,
+      "serial_max": 451,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_june_2006.pdf",
+      "report_date": "2006-06",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 492,
+      "serial_min": 1,
+      "serial_max": 492,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_june_2007.pdf",
+      "report_date": "2007-06",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 524,
+      "serial_min": 1,
+      "serial_max": 524,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_june_2008.pdf",
+      "report_date": "2008-06",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
       "observations": 285,
       "serial_min": 1,
       "serial_max": 285,
@@ -1082,6 +2039,93 @@
       },
       "report": "MonthlyFR_mar_2005.pdf",
       "report_date": "2005-03",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 396,
+      "serial_min": 1,
+      "serial_max": 396,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_mar_2006.pdf",
+      "report_date": "2006-03",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 490,
+      "serial_min": 1,
+      "serial_max": 490,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_mar_2007.pdf",
+      "report_date": "2007-03",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 515,
+      "serial_min": 1,
+      "serial_max": 515,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_mar_2008.pdf",
+      "report_date": "2008-03",
       "format": "format_2002"
     },
     {
@@ -1141,6 +2185,93 @@
     },
     {
       "status": "PASS",
+      "observations": 312,
+      "serial_min": 1,
+      "serial_max": 312,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_may_2005.pdf",
+      "report_date": "2005-05",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 426,
+      "serial_min": 1,
+      "serial_max": 426,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_may_2006.pdf",
+      "report_date": "2006-05",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 512,
+      "serial_min": 1,
+      "serial_max": 512,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_may_2008.pdf",
+      "report_date": "2008-05",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
       "observations": 270,
       "serial_min": 1,
       "serial_max": 270,
@@ -1192,6 +2323,122 @@
       },
       "report": "MonthlyFR_nov_2004.pdf",
       "report_date": "2004-11",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 392,
+      "serial_min": 1,
+      "serial_max": 392,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_nov_2005.pdf",
+      "report_date": "2005-11",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 480,
+      "serial_min": 1,
+      "serial_max": 480,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_nov_2006.pdf",
+      "report_date": "2006-11",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 519,
+      "serial_min": 1,
+      "serial_max": 519,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_nov_2007.pdf",
+      "report_date": "2007-11",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 531,
+      "serial_min": 1,
+      "serial_max": 531,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_nov_2008.pdf",
+      "report_date": "2008-11",
       "format": "format_2002"
     },
     {
@@ -1251,6 +2498,93 @@
     },
     {
       "status": "PASS",
+      "observations": 356,
+      "serial_min": 1,
+      "serial_max": 356,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_oct_2005.pdf",
+      "report_date": "2005-10",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 475,
+      "serial_min": 1,
+      "serial_max": 475,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_oct_2006.pdf",
+      "report_date": "2006-10",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 529,
+      "serial_min": 1,
+      "serial_max": 529,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_oct_2008.pdf",
+      "report_date": "2008-10",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
       "observations": 277,
       "serial_min": 1,
       "serial_max": 277,
@@ -1302,6 +2636,122 @@
       },
       "report": "MonthlyFR_sep_2004.pdf",
       "report_date": "2004-09",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 349,
+      "serial_min": 1,
+      "serial_max": 349,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_sep_2005.pdf",
+      "report_date": "2005-09",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 475,
+      "serial_min": 1,
+      "serial_max": 475,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_sep_2006.pdf",
+      "report_date": "2006-09",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 147,
+      "serial_min": 1,
+      "serial_max": 147,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_sep_2007.pdf",
+      "report_date": "2007-09",
+      "format": "format_2002"
+    },
+    {
+      "status": "PASS",
+      "observations": 521,
+      "serial_min": 1,
+      "serial_max": 521,
+      "missing_serials": [],
+      "duplicate_serials": [],
+      "structural_checks": {
+        "has_observations": true,
+        "serial_continuity": true,
+        "duplicate_serials": true
+      },
+      "completeness": {
+        "missing_project_names": 0,
+        "missing_sectors": 0,
+        "missing_report_dates": 0,
+        "missing_source_pages": 0
+      },
+      "validity": {
+        "invalid_milestones": 0,
+        "suspicious_milestone_records": [],
+        "checks": {
+          "milestones_valid": true
+        }
+      },
+      "report": "MonthlyFR_sep_2008.pdf",
+      "report_date": "2008-09",
       "format": "format_2002"
     }
   ]

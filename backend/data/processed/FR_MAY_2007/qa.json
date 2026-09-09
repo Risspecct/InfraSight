@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "observations": 497,
+  "serial_min": 1,
+  "serial_max": 497,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 0,
+    "suspicious_milestone_records": [],
+    "checks": {
+      "milestones_valid": true
+    }
+  },
+  "report": "FR_MAY_2007.pdf",
+  "report_date": "2007-05",
+  "format": "format_2002"
+}

@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "observations": 396,
+  "serial_min": 1,
+  "serial_max": 396,
+  "missing_serials": [],
+  "duplicate_serials": [],
+  "structural_checks": {
+    "has_observations": true,
+    "serial_continuity": true,
+    "duplicate_serials": true
+  },
+  "completeness": {
+    "missing_project_names": 0,
+    "missing_sectors": 0,
+    "missing_report_dates": 0,
+    "missing_source_pages": 0
+  },
+  "validity": {
+    "invalid_milestones": 0,
+    "suspicious_milestone_records": [],
+    "checks": {
+      "milestones_valid": true
+    }
+  },
+  "report": "MonthlyFR_apr_2006.pdf",
+  "report_date": "2006-04",
+  "format": "format_2002"
+}
