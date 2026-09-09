@@ -9,17 +9,33 @@ import pdfplumber
 from .base import FlashReportParser
 
 
+# ============================================================
+# Constants
+# ============================================================
+
 DATE_RE = re.compile(r"^(\d{1,2})/(\d{4})$")
 NUMBER_RE = re.compile(r"^-?\d+(?:,\d{3})*(?:\.\d+)?$")
 SERIAL_RE = re.compile(r"^\d{1,3}$")
 MILESTONE_RE = re.compile(r"^\d+\s*/\s*\d+$")
 PROJECT_CODE_RE = re.compile(r"\[([A-Za-z0-9]+)\]")
 
-SERIAL_X_MIN = 80
-SERIAL_X_MAX = 115
+# October 2011 coordinate layout.
+#
+# These are deliberately based on the actual October 2011 PDF
+# rather than the older March 2009 coordinates.
+COLUMN_RANGES = {
+    "serial": (80, 95),
+    "project": (95, 225),
+    "approval": (225, 275),
+    "cost": (275, 325),
+    "anticipated_cost": (325, 375),
+    "expenditure": (375, 417),
+    "commissioning": (417, 460),
+    "anticipated_completion": (460, 495),
+    "delay": (495, 535),
+    "milestones": (535, 600),
+}
 
-APPROVAL_X_MIN = 235
-APPROVAL_X_MAX = 290
 
 SECTORS = {
     "ATOMIC ENERGY",
@@ -39,237 +55,81 @@ SECTORS = {
 }
 
 
-COLUMN_RANGES = {
-    "serial": (90, 112),
-    "project": (112, 240),
-    "approval": (238, 285),
-    "cost": (285, 335),
-    "anticipated_cost": (335, 375),
-    "expenditure": (375, 417),
-    "commissioning": (417, 460),
-    "anticipated_completion": (460, 495),
-    "delay": (495, 535),
-    "milestones": (535, 595),
-}
+# ============================================================
+# Basic helpers
+# ============================================================
 
-
-def clean(value: Any) -> str:
-    if value is None:
-        return ""
-
-    return re.sub(
-        r"\s+",
-        " ",
-        str(value).replace("\n", " "),
-    ).strip()
+def clean(value: str) -> str:
+    value = value.replace("\n", " ")
+    value = re.sub(r"\s+", " ", value)
+    return value.strip()
 
 
 def parse_number(value: str) -> float | None:
     value = clean(value)
 
-    if value in {"", "-", "–", "—"}:
+    if not value:
         return None
-
-    value = value.replace(",", "")
 
     if not NUMBER_RE.fullmatch(value):
         return None
 
-    return float(value)
-
-
-def parse_date(value: str) -> str | None:
-    value = clean(value)
-
-    if value in {"", "-", "–", "—"}:
+    try:
+        return float(value.replace(",", ""))
+    except ValueError:
         return None
+
+
+def parse_date_token(value: str) -> str | None:
+    value = clean(value)
 
     match = DATE_RE.fullmatch(value)
 
     if not match:
         return None
 
-    month = int(match.group(1))
-    year = int(match.group(2))
+    month, year = match.groups()
 
-    if not 1 <= month <= 12:
+    month_int = int(month)
+
+    if not 1 <= month_int <= 12:
         return None
 
-    return f"{year:04d}-{month:02d}"
+    return f"{year}-{month_int:02d}"
 
 
-def first_non_dash(values: list[str]) -> list[str]:
-    return [
-        value
-        for value in values
-        if value not in {"", "-", "–", "—"}
-    ]
+def extract_project_code(project_name: str) -> str | None:
+    match = PROJECT_CODE_RE.search(project_name)
 
-
-def parse_original_revised_dates(
-    values: list[str],
-) -> tuple[str | None, str | None]:
-    dates = [
-        value
-        for value in values
-        if DATE_RE.fullmatch(value)
-    ]
-
-    original = (
-        parse_date(dates[0])
-        if dates
-        else None
-    )
-
-    revised = (
-        parse_date(dates[1])
-        if len(dates) > 1
-        else None
-    )
-
-    return original, revised
-
-
-def parse_original_revised_numbers(
-    values: list[str],
-) -> tuple[float | None, float | None]:
-    numbers = [
-        parse_number(value)
-        for value in values
-        if parse_number(value) is not None
-    ]
-
-    original = numbers[0] if numbers else None
-    revised = numbers[1] if len(numbers) > 1 else None
-
-    return original, revised
-
-
-def parse_milestones(
-    values: list[str],
-) -> tuple[int | None, int | None]:
-    for value in values:
-        match = MILESTONE_RE.fullmatch(value)
-
-        if not match:
-            continue
-
-        achieved, total = value.split("/")
-
-        return int(achieved), int(total)
-
-    return None, None
-
-
-def extract_project_code(
-    project_name: str,
-) -> str | None:
-    matches = PROJECT_CODE_RE.findall(project_name)
-
-    if not matches:
+    if not match:
         return None
 
-    return matches[-1]
+    return match.group(1)
 
 
-def extract_agency(
-    project_name: str,
-) -> str | None:
-    """
-    March 2009 project names frequently contain agency
-    abbreviations in parentheses.
-
-    We extract the final parenthesized token when present,
-    but do not guess from arbitrary text.
-    """
-
-    matches = re.findall(
-        r"\(([^()]+)\)",
+def normalize_project_name(project_name: str) -> str:
+    project_name = re.sub(
+        r"\s*\[[A-Za-z0-9]+\]\s*",
+        " ",
         project_name,
     )
 
-    if not matches:
-        return None
-
-    candidate = clean(matches[-1])
-
-    if not candidate:
-        return None
-
-    return candidate
-
-
-def detect_sector_heading(row: list[dict[str, Any]]) -> str | None:
-    """
-    Detect a standalone sector heading from one physical PDF row.
-
-    Sector headings appear as their own physical rows, e.g.
-    "Atomic Energy", "Civil Aviation", "Coal", etc.
-    """
-    row_text = " ".join(
-        clean(word.get("text", ""))
-        for word in sorted(row, key=lambda x: float(x["x0"]))
-    )
-
-    normalized = re.sub(r"\s+", " ", row_text.upper()).strip()
-
-    if normalized in SECTORS:
-        return normalized
-
-    return None
-
-
-def detect_sector_total(
-    project_name: str,
-) -> str | None:
-    """
-    Detect a sector subtotal marker embedded at the end
-    of a project row.
-
-    Example:
-        "... - Total Mines" -> "MINES"
-    """
-
-    normalized = re.sub(
+    project_name = re.sub(
         r"\s+",
         " ",
-        project_name.upper(),
-    ).strip()
-
-    for sector in SECTORS:
-        marker = f"TOTAL {sector}"
-
-        if marker in normalized:
-            return sector
-
-    return None
-
-
-def is_table_header(
-    words: list[dict[str, Any]],
-) -> bool:
-    text = " ".join(
-        clean(word.get("text", ""))
-        for word in words
-    ).upper()
-
-    return (
-        "S.NO" in text
-        and "PROJECT" in text
-        and "APPROVAL" in text
-        and "MILESTONES" in text
+        project_name,
     )
 
+    return project_name.strip()
+
+
+# ============================================================
+# PDF row helpers
+# ============================================================
 
 def group_words_into_rows(
     words: list[dict[str, Any]],
 ) -> list[list[dict[str, Any]]]:
-    """
-    Group PDF words by their vertical position.
-
-    Words whose top coordinates are within a small tolerance
-    belong to the same physical text line.
-    """
 
     sorted_words = sorted(
         words,
@@ -302,12 +162,13 @@ def get_column_values(
     words: list[dict[str, Any]],
     column: str,
 ) -> list[str]:
-    low, high = COLUMN_RANGES[column]
+
+    x_min, x_max = COLUMN_RANGES[column]
 
     selected = [
         word
         for word in words
-        if low <= float(word["x0"]) < high
+        if x_min <= float(word["x0"]) < x_max
     ]
 
     selected.sort(
@@ -324,80 +185,216 @@ def get_column_values(
     ]
 
 
-def build_project_rows(words, current_sector=None):
-    physical_rows = group_words_into_rows(words)
+# ============================================================
+# Header / sector detection
+# ============================================================
 
-    logical_rows = []
-    current_project = []
-    table_complete = False
+def is_table_header(
+    words: list[dict[str, Any]],
+) -> bool:
 
-    for physical_row in physical_rows:
+    text = " ".join(
+        clean(word.get("text", ""))
+        for word in words
+    ).upper()
 
-        row_text = " ".join(
-            clean(word.get("text", ""))
-            for word in sorted(
-                physical_row,
-                key=lambda x: float(x["x0"])
+    return (
+        "S.NO" in text
+        and "PROJECT" in text
+        and "APPROVAL" in text
+        and "MILESTONES" in text
+    )
+
+
+def detect_sector_heading(
+    row: list[dict[str, Any]],
+) -> str | None:
+
+    row_text = " ".join(
+        clean(word.get("text", ""))
+        for word in sorted(
+            row,
+            key=lambda x: float(x["x0"]),
+        )
+    )
+
+    normalized = re.sub(
+        r"\s+",
+        " ",
+        row_text.upper(),
+    ).strip()
+
+    if normalized in SECTORS:
+        return normalized
+
+    return None
+
+
+def is_grand_total(
+    row: list[dict[str, Any]],
+) -> bool:
+
+    row_text = " ".join(
+        clean(word.get("text", ""))
+        for word in sorted(
+            row,
+            key=lambda x: float(x["x0"]),
+        )
+    )
+
+    normalized = re.sub(
+        r"\s+",
+        " ",
+        row_text.upper(),
+    ).strip()
+
+    return normalized.startswith("GRAND TOTAL")
+
+
+# ============================================================
+# Serial detection
+# ============================================================
+
+def extract_serial_from_row(
+    row: list[dict[str, Any]],
+) -> int | None:
+
+    candidates = []
+
+    for word in row:
+        value = clean(word.get("text", ""))
+
+        if not SERIAL_RE.fullmatch(value):
+            continue
+
+        serial = int(value)
+
+        if not 1 <= serial <= 999:
+            continue
+
+        x0 = float(word["x0"])
+
+        # Serial numbers in the October 2011 table appear
+        # around x=82–90. Keep this deliberately narrow
+        # so numeric values elsewhere in the row cannot
+        # become false serial numbers.
+        if not 80 <= x0 <= 100:
+            continue
+
+        candidates.append(
+            (
+                float(word["top"]),
+                x0,
+                serial,
             )
         )
 
-        normalized = re.sub(
-            r"\s+",
-            " ",
-            row_text.upper()
-        ).strip()
+    if not candidates:
+        return None
 
-        # The primary detailed table ends here.
-        if normalized.startswith("GRAND TOTAL"):
-            if current_project:
-                logical_rows.append({
-                    "words": current_project,
-                    "serial": _extract_serial(current_project),
-                    "sector": current_sector,
-                })
-                current_project = []
+    candidates.sort()
+
+    return candidates[0][2]
+
+# ============================================================
+# Logical project row construction
+# ============================================================
+def build_project_rows(
+    words: list[dict[str, Any]],
+    current_sector: str | None = None,
+) -> tuple[
+    list[dict[str, Any]],
+    str | None,
+    bool,
+]:
+
+    physical_rows = group_words_into_rows(words)
+
+    logical_rows: list[dict[str, Any]] = []
+
+    current_project: list[dict[str, Any]] = []
+    current_project_start: list[dict[str, Any]] | None = None
+
+    table_complete = False
+
+    def flush_current_project():
+        nonlocal current_project
+        nonlocal current_project_start
+
+        if not current_project:
+            return
+
+        serial = None
+
+        if current_project_start is not None:
+            serial = extract_serial_from_row(
+                current_project_start
+            )
+
+        logical_rows.append(
+            {
+                "words": current_project,
+                "serial": serial,
+                "sector": current_sector,
+            }
+        )
+
+        current_project = []
+        current_project_start = None
+
+    for physical_row in physical_rows:
+
+        # ----------------------------------------------------
+        # Explicit end of primary table
+        # ----------------------------------------------------
+
+        if is_grand_total(physical_row):
+
+            flush_current_project()
 
             table_complete = True
             break
 
-        sector_heading = detect_sector_heading(physical_row)
+        # ----------------------------------------------------
+        # Sector heading
+        # ----------------------------------------------------
+
+        sector_heading = detect_sector_heading(
+            physical_row
+        )
 
         if sector_heading:
-            if current_project:
-                logical_rows.append({
-                    "words": current_project,
-                    "serial": _extract_serial(current_project),
-                    "sector": current_sector,
-                })
-                current_project = []
+
+            flush_current_project()
 
             current_sector = sector_heading
             continue
 
-        serial_words = [
-            word
-            for word in physical_row
-            if SERIAL_X_MIN <= float(word["x0"]) <= SERIAL_X_MAX
-            and float(word["top"]) >= 165
-            and SERIAL_RE.fullmatch(
-                clean(word.get("text", ""))
-            )
-        ]
+        # ----------------------------------------------------
+        # Detect project-start row
+        # ----------------------------------------------------
 
-        if serial_words:
+        serial = extract_serial_from_row(
+            physical_row
+        )
+
+        if serial is not None:
+
             approval_words = [
                 word
                 for word in physical_row
-                if APPROVAL_X_MIN
-                <= float(word["x0"])
-                <= APPROVAL_X_MAX
+                if (
+                    COLUMN_RANGES["approval"][0]
+                    <= float(word["x0"])
+                    < COLUMN_RANGES["approval"][1]
+                )
             ]
 
             approval_text = " ".join(
                 clean(word.get("text", ""))
                 for word in sorted(
                     approval_words,
-                    key=lambda x: float(x["x0"])
+                    key=lambda x: float(x["x0"]),
                 )
             )
 
@@ -406,27 +403,40 @@ def build_project_rows(words, current_sector=None):
                 for token in approval_text.split()
             )
 
-            if not has_approval_date:
+            if has_approval_date:
+
+                # New project starts here.
+                flush_current_project()
+
+                current_project = list(
+                    physical_row
+                )
+
+                current_project_start = list(
+                    physical_row
+                )
+
                 continue
 
-            if current_project:
-                logical_rows.append({
-                    "words": current_project,
-                    "serial": _extract_serial(current_project),
-                    "sector": current_sector,
-                })
+        # ----------------------------------------------------
+        # Continuation line
+        # ----------------------------------------------------
 
-            current_project = list(physical_row)
+        if current_project:
 
-        elif current_project:
-            current_project.extend(physical_row)
+            current_project.extend(
+                physical_row
+            )
 
-    if current_project:
-        logical_rows.append({
-            "words": current_project,
-            "serial": _extract_serial(current_project),
-            "sector": current_sector,
-        })
+    # --------------------------------------------------------
+    # Flush final project
+    # --------------------------------------------------------
+
+    flush_current_project()
+
+    # --------------------------------------------------------
+    # Keep only rows with valid serials
+    # --------------------------------------------------------
 
     logical_rows = [
         row
@@ -434,31 +444,113 @@ def build_project_rows(words, current_sector=None):
         if row["serial"] is not None
     ]
 
-    return logical_rows, current_sector, table_complete
+    return (
+        logical_rows,
+        current_sector,
+        table_complete,
+    )
 
+# ============================================================
+# Field parsers
+# ============================================================
 
-def _extract_serial(
-    words: list[dict[str, Any]],
-) -> int | None:
-    candidates = [
-        clean(word.get("text", ""))
-        for word in words
-        if (
-            COLUMN_RANGES["serial"][0]
-            <= float(word["x0"])
-            < COLUMN_RANGES["serial"][1]
-        )
+def parse_original_revised_dates(
+    values: list[str],
+) -> tuple[str | None, str | None]:
+
+    dates = [
+        parse_date_token(value)
+        for value in values
     ]
 
-    for candidate in candidates:
-        if SERIAL_RE.fullmatch(candidate):
-            serial = int(candidate)
+    dates = [
+        value
+        for value in dates
+        if value is not None
+    ]
 
-            if 1 <= serial <= 999:
-                return serial
+    if not dates:
+        return None, None
+
+    original = dates[0]
+
+    revised = dates[1] if len(dates) >= 2 else None
+
+    return original, revised
+
+
+def parse_original_revised_cost(
+    values: list[str],
+) -> tuple[float | None, float | None]:
+
+    numbers = [
+        parse_number(value)
+        for value in values
+    ]
+
+    numbers = [
+        value
+        for value in numbers
+        if value is not None
+    ]
+
+    if not numbers:
+        return None, None
+
+    original = numbers[0]
+
+    revised = numbers[1] if len(numbers) >= 2 else None
+
+    return original, revised
+
+
+def parse_milestones(
+    values: list[str],
+) -> tuple[int | None, int | None]:
+
+    for value in values:
+
+        value = clean(value)
+
+        if not MILESTONE_RE.fullmatch(value):
+            continue
+
+        achieved, total = value.split("/")
+
+        return int(achieved), int(total)
+
+    return None, None
+
+
+def parse_delay(
+    values: list[str],
+) -> int | None:
+
+    for value in values:
+
+        value = clean(value)
+
+        # October 2011 contains values such as:
+        # 16(O)
+        # 4
+        # 0
+        #
+        # We only want the numeric delay component.
+
+        match = re.match(
+            r"^(-?\d+)",
+            value,
+        )
+
+        if match:
+            return int(match.group(1))
 
     return None
 
+
+# ============================================================
+# Project observation parser
+# ============================================================
 
 def parse_project_row(
     words: list[dict[str, Any]],
@@ -467,13 +559,22 @@ def parse_project_row(
     page_number: int,
     sector: str | None,
 ) -> dict[str, Any] | None:
+
     serial_no = int(serial_no)
+
+    # --------------------------------------------------------
+    # Project name
+    # --------------------------------------------------------
+
     project_values = get_column_values(
         words,
         "project",
     )
 
-    project_name = " ".join(project_values)
+    project_name = " ".join(
+        project_values
+    )
+
     project_name = re.sub(
         r"\s+",
         " ",
@@ -487,181 +588,277 @@ def parse_project_row(
         project_name
     )
 
-    # Remove the source code from the canonical name.
-    project_name = re.sub(
-        r"\s*\[[A-Za-z0-9]+\]\s*",
-        " ",
-        project_name,
+    project_name = normalize_project_name(
+        project_name
     )
 
-    project_name = re.sub(
-        r"\s+",
-        " ",
-        project_name,
-    ).strip()
+    # --------------------------------------------------------
+    # Approval
+    # --------------------------------------------------------
 
     approval_values = get_column_values(
         words,
         "approval",
     )
 
+    approval_dates = [
+        parse_date_token(value)
+        for value in approval_values
+    ]
+
+    approval_dates = [
+        value
+        for value in approval_dates
+        if value is not None
+    ]
+
+    approval_date = (
+        approval_dates[0]
+        if approval_dates
+        else None
+    )
+
+    approval_date_revised = (
+        approval_dates[1]
+        if len(approval_dates) >= 2
+        else None
+    )
+
+    # --------------------------------------------------------
+    # Cost
+    # --------------------------------------------------------
+
     cost_values = get_column_values(
         words,
         "cost",
     )
 
-    anticipated_cost_values = get_column_values(
-        words,
-        "anticipated_cost",
+    original_cost, revised_cost = (
+        parse_original_revised_cost(
+            cost_values
+        )
     )
 
-    expenditure_values = get_column_values(
-        words,
-        "expenditure",
-    )
+    # --------------------------------------------------------
+    # Anticipated cost
+    # --------------------------------------------------------
 
-    commissioning_values = get_column_values(
-        words,
-        "commissioning",
-    )
-
-    anticipated_completion_values = get_column_values(
-        words,
-        "anticipated_completion",
-    )
-
-    delay_values = get_column_values(
-        words,
-        "delay",
-    )
-
-    milestone_values = get_column_values(
-        words,
-        "milestones",
-    )
-
-    (
-        approval_date,
-        approval_date_revised,
-    ) = parse_original_revised_dates(
-        approval_values
-    )
-
-    (
-        original_cost,
-        revised_cost,
-    ) = parse_original_revised_numbers(
-        cost_values
+    anticipated_cost_values = (
+        get_column_values(
+            words,
+            "anticipated_cost",
+        )
     )
 
     anticipated_cost = None
 
     for value in anticipated_cost_values:
+
         parsed = parse_number(value)
 
         if parsed is not None:
             anticipated_cost = parsed
             break
 
+    # --------------------------------------------------------
+    # Cumulative expenditure
+    # --------------------------------------------------------
+
+    expenditure_values = (
+        get_column_values(
+            words,
+            "expenditure",
+        )
+    )
+
     cumulative_expenditure = None
 
     for value in expenditure_values:
+
         parsed = parse_number(value)
 
         if parsed is not None:
             cumulative_expenditure = parsed
             break
 
-    (
-        original_completion_date,
-        revised_completion_date,
-    ) = parse_original_revised_dates(
-        commissioning_values
+    # --------------------------------------------------------
+    # Commissioning dates
+    # --------------------------------------------------------
+
+    commissioning_values = (
+        get_column_values(
+            words,
+            "commissioning",
+        )
+    )
+
+    original_completion_date, revised_completion_date = (
+        parse_original_revised_dates(
+            commissioning_values
+        )
+    )
+
+    # --------------------------------------------------------
+    # Anticipated completion
+    # --------------------------------------------------------
+
+    anticipated_completion_values = (
+        get_column_values(
+            words,
+            "anticipated_completion",
+        )
     )
 
     anticipated_completion_date = None
 
     for value in anticipated_completion_values:
-        if DATE_RE.fullmatch(value):
-            anticipated_completion_date = parse_date(
-                value
-            )
-            break
 
-    additional_delay_months = None
-
-    for value in delay_values:
-        parsed = parse_number(value)
+        parsed = parse_date_token(value)
 
         if parsed is not None:
-            additional_delay_months = parsed
+            anticipated_completion_date = parsed
             break
 
-    (
-        milestones_achieved,
-        milestones_total,
-    ) = parse_milestones(
-        milestone_values
+    # --------------------------------------------------------
+    # Delay
+    # --------------------------------------------------------
+
+    delay_values = get_column_values(
+        words,
+        "delay",
     )
 
-    return {
+    additional_delay_months = parse_delay(
+        delay_values
+    )
+
+    # --------------------------------------------------------
+    # Milestones
+    # --------------------------------------------------------
+
+    milestone_values = get_column_values(
+        words,
+        "milestones",
+    )
+
+    milestones_achieved, milestones_total = (
+        parse_milestones(
+            milestone_values
+        )
+    )
+
+    # --------------------------------------------------------
+    # Observation
+    # --------------------------------------------------------
+
+    observation = {
         "observation_id": (
-            f"FR_"
-            f"{report_date.replace('-', '')}"
+            f"FR_{report_date.replace('-', '')}"
             f"_{serial_no:03d}"
         ),
+
         "project_id": None,
+
         "project_code": project_code,
+
         "serial_no": serial_no,
+
         "project_name": project_name,
-        "agency": extract_agency(project_name),
+
+        "agency": None,
+
         "state": None,
+
         "sector": sector,
+
         "report_date": report_date,
+
         "approval_date": approval_date,
-        "approval_date_revised": approval_date_revised,
+
+        "approval_date_revised": (
+            approval_date_revised
+        ),
+
         "original_cost_crore": original_cost,
+
         "revised_cost_crore": revised_cost,
+
         "anticipated_cost_crore": anticipated_cost,
+
         "cost_overrun_original_crore": None,
+
         "cost_overrun_revised_crore": None,
-        "cumulative_expenditure_crore": cumulative_expenditure,
-        "original_completion_date": original_completion_date,
-        "revised_completion_date": revised_completion_date,
+
+        "cumulative_expenditure_crore": (
+            cumulative_expenditure
+        ),
+
+        "original_completion_date": (
+            original_completion_date
+        ),
+
+        "revised_completion_date": (
+            revised_completion_date
+        ),
+
         "anticipated_completion_date": (
             anticipated_completion_date
         ),
+
         "time_overrun_original_months": None,
+
         "time_overrun_revised_months": None,
-        "additional_delay_months": additional_delay_months,
-        "milestones_achieved": milestones_achieved,
-        "milestones_total": milestones_total,
+
+        "additional_delay_months": (
+            additional_delay_months
+        ),
+
+        "milestones_achieved": (
+            milestones_achieved
+        ),
+
+        "milestones_total": (
+            milestones_total
+        ),
+
         "physical_progress_pct": None,
+
         "delay_reason": None,
+
         "status": None,
+
         "source": {
             "report": None,
-            "table": (
-                "Sector-Wise "
-                "analysis of projects"
-            ),
+            "table": "Sector Wise Details",
             "page": page_number,
             "serial_no": serial_no,
         },
     }
 
+    return observation
+
+
+# ============================================================
+# Main report parser
+# ============================================================
 
 def parse_report(
     pdf_path: Path,
     report_date: str,
 ) -> list[dict[str, Any]]:
+
     observations: list[dict[str, Any]] = []
 
     current_sector: str | None = None
 
+    in_primary_table = False
+
     with pdfplumber.open(pdf_path) as pdf:
 
-        for page_number, page in enumerate(pdf.pages, start=1):
+        for page_number, page in enumerate(
+            pdf.pages,
+            start=1,
+        ):
 
             words = page.extract_words(
                 x_tolerance=2,
@@ -673,16 +870,50 @@ def parse_report(
             if not words:
                 continue
 
-            if not is_table_header(words):
-                continue
+            # ------------------------------------------------
+            # Build page-level text
+            # ------------------------------------------------
 
-            rows, current_sector, table_complete = build_project_rows(
-                words,
-                current_sector,
+            page_text = " ".join(
+                clean(word.get("text", ""))
+                for word in words
+            )
+
+            normalized_page_text = re.sub(
+                r"\s+",
+                " ",
+                page_text.upper(),
+            ).strip()
+
+            # ------------------------------------------------
+            # Find primary detailed table
+            # ------------------------------------------------
+
+            if not in_primary_table:
+
+                if "SECTOR WISE DETAILS" not in (
+                    normalized_page_text
+                ):
+                    continue
+
+                in_primary_table = True
+
+            # ------------------------------------------------
+            # Parse current primary-table page
+            # ------------------------------------------------
+
+            rows, current_sector, table_complete = (
+                build_project_rows(
+                    words,
+                    current_sector,
+                )
             )
 
             for row in rows:
-                serial_no = int(row["serial"])
+
+                serial_no = int(
+                    row["serial"]
+                )
 
                 observation = parse_project_row(
                     row["words"],
@@ -695,88 +926,34 @@ def parse_report(
                 if observation is None:
                     continue
 
-                observation["source"]["report"] = pdf_path.name
-                observation["source"]["page"] = page_number
+                observation["source"]["report"] = (
+                    pdf_path.name
+                )
 
-                observations.append(observation)
+                observation["source"]["page"] = (
+                    page_number
+                )
+
+                observations.append(
+                    observation
+                )
+
+            # ------------------------------------------------
+            # Explicit end of primary table
+            # ------------------------------------------------
+
             if table_complete:
                 break
 
     return observations
 
 
-def validate(
-    observations: list[dict[str, Any]],
-) -> None:
-
-    errors: list[str] = []
-
-    if not observations:
-        errors.append(
-            "No project observations found"
-        )
-
-    serials = [
-        observation["serial_no"]
-        for observation in observations
-    ]
-
-    duplicates = sorted(
-        {
-            serial
-            for serial in serials
-            if serials.count(serial) > 1
-        }
-    )
-
-    if duplicates:
-        errors.append(
-            f"Duplicate serial numbers found: "
-            f"{duplicates}"
-        )
-
-    if observations:
-        minimum = min(serials)
-        maximum = max(serials)
-
-        missing = sorted(
-            set(range(minimum, maximum + 1))
-            - set(serials)
-        )
-
-        if missing:
-            errors.append(
-                f"Missing serial numbers: {missing}"
-            )
-
-    for observation in observations:
-        if not observation["project_name"]:
-            errors.append(
-                f"{observation['observation_id']}: "
-                "empty project name"
-            )
-
-        achieved = observation[
-            "milestones_achieved"
-        ]
-
-        total = observation[
-            "milestones_total"
-        ]
-
-        if achieved > total:
-            print(
-                f"WARNING: {observation['observation_id']}: "
-                f"milestones achieved ({achieved}) > total ({total})"
-            )
-
-    if errors:
-        raise ValueError(
-            "\n".join(errors)
-        )
-
+# ============================================================
+# Parser class
+# ============================================================
 
 class Format2009Parser(FlashReportParser):
+
     name = "format_2009"
 
     def parse(
@@ -784,6 +961,8 @@ class Format2009Parser(FlashReportParser):
         pdf_path: Path,
         report_date: str,
     ) -> list[dict[str, Any]]:
-        observations = parse_report(pdf_path, report_date)
-        validate(observations)
-        return observations
+
+        return parse_report(
+            pdf_path,
+            report_date,
+        )
