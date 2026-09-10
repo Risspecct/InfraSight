@@ -107,3 +107,24 @@ class ExplanationResponse(BaseModel):
     observation_id: str
     cost_drivers: list[ExplanationDriver]
     schedule_drivers: list[ExplanationDriver]
+
+
+class BacktestPrediction(BaseModel):
+    cost_probability: float
+    schedule_probability: float
+
+
+class BacktestActual(BaseModel):
+    cost_deterioration: bool | None
+    schedule_deterioration: bool | None
+
+
+class BacktestResponse(BaseModel):
+    project_id: str
+    observation_id: str
+    prediction_date: str
+    horizon_observations: int
+    horizon_complete: bool
+    predicted: BacktestPrediction
+    actual: BacktestActual
+    future_observation_ids: list[str]

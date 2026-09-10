@@ -10,6 +10,7 @@ from app.decision.engine import evaluate_decision
 from app.decision.schemas import DecisionInput
 from app.services.inference import predict_project
 from app.services.explanation import explain_project
+from app.services.backtest import backtest_project
 
 from app.schemas.projects import (
     ObservationListResponse,
@@ -19,14 +20,7 @@ from app.schemas.projects import (
     ProjectListResponse,
     ProjectSummary,
     ExplanationResponse,
-)
-
-from app.schemas.projects import (
-    ObservationListResponse,
-    ObservationResponse,
-    ProjectDetail,
-    ProjectListResponse,
-    ProjectSummary,
+    BacktestResponse,
 )
 
 router = APIRouter(
@@ -292,3 +286,33 @@ def get_project_explanation(
         observation_id,
         top_k,
     )
+
+
+@router.get(
+    "/{project_id}/backtest",
+    response_model=BacktestResponse,
+)
+def get_project_backtest(
+    project_id: str,
+    observation_id: str,
+    db: Session = Depends(get_db),
+):
+    project = db.get(Project, project_id)
+
+    if project is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Project not found",
+        )
+
+    try:
+        return backtest_project(
+            db,
+            project_id,
+            observation_id,
+        )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=404,
+            detail=str(exc),
+        )
