@@ -9,6 +9,7 @@ from db.models import Project, ProjectObservation
 from app.decision.engine import evaluate_decision
 from app.decision.schemas import DecisionInput
 from app.services.inference import predict_project
+from app.services.explanation import explain_project
 
 from app.schemas.projects import (
     ObservationListResponse,
@@ -17,6 +18,7 @@ from app.schemas.projects import (
     ProjectDetail,
     ProjectListResponse,
     ProjectSummary,
+    ExplanationResponse,
 )
 
 from app.schemas.projects import (
@@ -250,4 +252,43 @@ def predict_project_risk(
         risk_level=decision.risk_level,
         priority_score=decision.priority_score,
         early_warning=decision.early_warning,
+    )
+
+
+@router.get(
+    "/projects/{project_id}/explanation",
+    response_model=ExplanationResponse,
+)
+def get_project_explanation(
+    project_id: str,
+    observation_id: str,
+    top_k: int = 5,
+    db: Session = Depends(get_db),
+):
+    observation = (
+        db.query(ProjectObservation)
+        .filter(
+            ProjectObservation.project_id == project_id,
+            ProjectObservation.observation_id == observation_id,
+        )
+        .first()
+    )
+
+    if observation is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Observation not found",
+        )
+
+    if top_k < 1 or top_k > 10:
+        raise HTTPException(
+            status_code=400,
+            detail="top_k must be between 1 and 10",
+        )
+
+    return explain_project(
+        db,
+        project_id,
+        observation_id,
+        top_k,
     )

@@ -92,3 +92,18 @@ class PredictionResponse(BaseModel):
     risk_level: str
     priority_score: float
     early_warning: bool
+
+
+class ExplanationDriver(BaseModel):
+    feature: str
+    label: str
+    value: float | None
+    shap_value: float
+    direction: str
+
+
+class ExplanationResponse(BaseModel):
+    project_id: str
+    observation_id: str
+    cost_drivers: list[ExplanationDriver]
+    schedule_drivers: list[ExplanationDriver]
