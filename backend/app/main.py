@@ -6,6 +6,7 @@ from app.routes.decision import router as decision_router
 from app.routes.projects import router as projects_router
 from app.routes.risk import router as risk_router
 from app.routes.trajectory import router as trajectory_router
+from app.routes.intelligence import router as intelligence_router
 
 
 app = FastAPI(
@@ -30,6 +31,11 @@ app.include_router(
 
 app.include_router(
     trajectory_router,
+    prefix="/api",
+)
+
+app.include_router(
+    intelligence_router,
     prefix="/api",
 )
 
