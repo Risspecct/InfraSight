@@ -4,9 +4,11 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
 from db.database import SessionLocal
-from db.models import Project
+from db.models import Project, ProjectObservation
 
 from app.schemas.projects import (
+    ObservationListResponse,
+    ObservationResponse,
     ProjectDetail,
     ProjectListResponse,
     ProjectSummary,
@@ -95,4 +97,84 @@ def get_project(
         last_report_date=project.last_report_date,
         observation_count=project.observation_count,
         identity_confidence=project.identity_confidence,
+    )
+
+@router.get(
+    "/{project_id}/observations",
+    response_model=ObservationListResponse,
+)
+def get_project_observations(
+    project_id: str,
+    page: int = Query(1, ge=1),
+    page_size: int = Query(20, ge=1, le=100),
+    db: Session = Depends(get_db),
+):
+    project_exists = db.get(Project, project_id)
+
+    if project_exists is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Project not found",
+        )
+
+    total = db.scalar(
+        select(func.count())
+        .select_from(ProjectObservation)
+        .where(ProjectObservation.project_id == project_id)
+    )
+
+    total_pages = (total + page_size - 1) // page_size
+
+    observations = db.scalars(
+        select(ProjectObservation)
+        .where(ProjectObservation.project_id == project_id)
+        .order_by(ProjectObservation.report_date)
+        .offset((page - 1) * page_size)
+        .limit(page_size)
+    ).all()
+
+    items = [
+        ObservationResponse(
+            observation_id=o.observation_id,
+            project_id=o.project_id,
+            project_code=o.project_code,
+            serial_no=o.serial_no,
+            project_name=o.project_name,
+            agency=o.agency,
+            state=o.state,
+            sector=o.sector,
+            report_date=o.report_date,
+            approval_date=o.approval_date,
+            approval_date_revised=o.approval_date_revised,
+            original_cost_crore=o.original_cost_crore,
+            revised_cost_crore=o.revised_cost_crore,
+            anticipated_cost_crore=o.anticipated_cost_crore,
+            cost_overrun_original_crore=o.cost_overrun_original_crore,
+            cost_overrun_revised_crore=o.cost_overrun_revised_crore,
+            cumulative_expenditure_crore=o.cumulative_expenditure_crore,
+            original_completion_date=o.original_completion_date,
+            revised_completion_date=o.revised_completion_date,
+            anticipated_completion_date=o.anticipated_completion_date,
+            time_overrun_original_months=o.time_overrun_original_months,
+            time_overrun_revised_months=o.time_overrun_revised_months,
+            additional_delay_months=o.additional_delay_months,
+            milestones_achieved=o.milestones_achieved,
+            milestones_total=o.milestones_total,
+            physical_progress_pct=o.physical_progress_pct,
+            delay_reason=o.delay_reason,
+            status=o.status,
+            source_report=o.source_report,
+            source_table=o.source_table,
+            source_page=o.source_page,
+            source_serial_no=o.source_serial_no,
+        )
+        for o in observations
+    ]
+
+    return ObservationListResponse(
+        items=items,
+        page=page,
+        page_size=page_size,
+        total=total,
+        total_pages=total_pages,
     )
