@@ -29,11 +29,12 @@ def get_db():
 
 
 @router.post(
-    "/projects/{project_id}",
+    "/projects/{project_id}/observations/{observation_id}",
     response_model=IntelligenceResponse,
 )
 def project_intelligence(
     project_id: str,
+    observation_id: str,
     request: IntelligenceRequest,
     db: Session = Depends(get_db),
 ):
@@ -44,7 +45,7 @@ def project_intelligence(
         return service.analyze(
             db=db,
             project_id=project_id,
-            observation_id=request.observation_id,
+            observation_id=observation_id,
             query=request.query,
         )
 

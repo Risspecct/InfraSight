@@ -1,10 +1,10 @@
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, ConfigDict
 
 
 class IntelligenceRequest(BaseModel):
-    observation_id: str | None = None
-    query: str = Field(
-        default="Explain the current project risk and recommend the most important intervention."
+    query: str = (
+        "Explain the current project risk and recommend "
+        "the most important intervention."
     )
 
 
