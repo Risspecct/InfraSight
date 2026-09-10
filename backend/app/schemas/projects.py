@@ -20,3 +20,7 @@ class ProjectListResponse(BaseModel):
     page_size: int
     total: int
     total_pages: int
+
+
+class ProjectDetail(ProjectSummary):
+    pass

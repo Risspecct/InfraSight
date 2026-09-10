@@ -1,12 +1,16 @@
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
 
 from db.database import SessionLocal
 from db.models import Project
 
-from app.schemas.projects import ProjectListResponse, ProjectSummary
-
+from app.schemas.projects import (
+    ProjectDetail,
+    ProjectListResponse,
+    ProjectSummary,
+)
 
 router = APIRouter(
     prefix="/projects",
@@ -64,4 +68,31 @@ def list_projects(
         page_size=page_size,
         total=total,
         total_pages=total_pages,
+    )
+
+
+@router.get("/{project_id}", response_model=ProjectDetail)
+def get_project(
+    project_id: str,
+    db: Session = Depends(get_db),
+):
+    project = db.get(Project, project_id)
+
+    if project is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Project not found",
+        )
+
+    return ProjectDetail(
+        project_id=project.project_id,
+        project_code=project.canonical_project_code,
+        project_name=project.canonical_project_name,
+        agency=project.canonical_agency,
+        state=project.canonical_state,
+        sector=project.canonical_sector,
+        first_report_date=project.first_report_date,
+        last_report_date=project.last_report_date,
+        observation_count=project.observation_count,
+        identity_confidence=project.identity_confidence,
     )
