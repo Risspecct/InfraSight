@@ -188,7 +188,7 @@ def get_project_observations(
 
 
 @router.post(
-    "/projects/{project_id}/predict",
+    "/{project_id}/predict",
     response_model=PredictionResponse,
 )
 def predict_project_endpoint(
@@ -210,7 +210,7 @@ def predict_project_endpoint(
 
 
 @router.get(
-    "/projects/{project_id}/explanation",
+    "/{project_id}/explanation",
     response_model=ExplanationResponse,
 )
 def get_project_explanation(
