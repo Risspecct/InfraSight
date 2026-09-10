@@ -15,6 +15,9 @@ def build_project_evidence(
     if project is None:
         raise ValueError("Project not found")
 
+    # ---------------------------------------------------------
+    # 1. Find the selected observation
+    # ---------------------------------------------------------
     current = db.scalar(
         select(ProjectObservation)
         .where(
@@ -26,14 +29,18 @@ def build_project_evidence(
     if current is None:
         raise ValueError("Observation not found")
 
+    # ---------------------------------------------------------
+    # 2. Retrieve only observations known at that point in time
+    # ---------------------------------------------------------
     observations = db.scalars(
         select(ProjectObservation)
         .where(
-            ProjectObservation.project_id == project_id
+            ProjectObservation.project_id == project_id,
+            ProjectObservation.report_date <= current.report_date,
         )
         .order_by(
-            ProjectObservation.report_date,
-            ProjectObservation.observation_id,
+            ProjectObservation.report_date.asc(),
+            ProjectObservation.observation_id.asc(),
         )
     ).all()
 
@@ -86,6 +93,10 @@ def build_project_evidence(
             }
         )
 
+    # ---------------------------------------------------------
+    # 3. Return only metadata that is valid as of the
+    #    selected observation
+    # ---------------------------------------------------------
     return {
         "project": {
             "project_id": project.project_id,
@@ -94,7 +105,7 @@ def build_project_evidence(
             "state": project.canonical_state,
             "sector": project.canonical_sector,
             "first_report_date": project.first_report_date,
-            "last_report_date": project.last_report_date,
+            "last_report_date": current.report_date,
         },
 
         "current_observation": next(

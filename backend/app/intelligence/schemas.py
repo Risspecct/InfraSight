@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class IntelligenceRequest(BaseModel):
@@ -9,12 +9,16 @@ class IntelligenceRequest(BaseModel):
 
 
 class Intervention(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     action: str
     rationale: str
     priority: str
 
 
 class IntelligenceResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     project_id: str
     observation_id: str
     summary: str
