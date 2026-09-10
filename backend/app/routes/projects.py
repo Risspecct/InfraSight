@@ -6,11 +6,9 @@ from fastapi import HTTPException
 from db.database import SessionLocal
 from db.models import Project, ProjectObservation
 
-from app.decision.engine import evaluate_decision
-from app.decision.schemas import DecisionInput
-from app.services.inference import predict_project
 from app.services.explanation import explain_project
 from app.services.backtest import backtest_project
+from app.services.risk_assessment import assess_project
 
 from app.schemas.projects import (
     ObservationListResponse,
@@ -190,63 +188,25 @@ def get_project_observations(
 
 
 @router.post(
-    "/{project_id}/predict",
+    "/projects/{project_id}/predict",
     response_model=PredictionResponse,
 )
-def predict_project_risk(
+def predict_project_endpoint(
     project_id: str,
     observation_id: str,
     db: Session = Depends(get_db),
 ):
-    observation = db.scalar(
-        select(ProjectObservation)
-        .where(
-            ProjectObservation.project_id == project_id,
-            ProjectObservation.observation_id == observation_id,
+    try:
+        return assess_project(
+            db,
+            project_id,
+            observation_id,
         )
-    )
-
-    if observation is None:
+    except ValueError as exc:
         raise HTTPException(
             status_code=404,
-            detail="Observation not found for project",
+            detail=str(exc),
         )
-
-    inference = predict_project(
-        db,
-        project_id,
-        observation_id,
-    )
-
-    decision = evaluate_decision(
-        DecisionInput(
-            project_id=project_id,
-            prediction_date=observation.report_date,
-            cost_probability=inference[
-                "cost_overrun_probability"
-            ],
-            schedule_probability=inference[
-                "schedule_overrun_probability"
-            ],
-        )
-    )
-
-    return PredictionResponse(
-        project_id=project_id,
-        observation_id=observation_id,
-        prediction_date=observation.report_date,
-        cost_overrun_probability=inference[
-            "cost_overrun_probability"
-        ],
-        schedule_overrun_probability=inference[
-            "schedule_overrun_probability"
-        ],
-        cost_risk=decision.cost_risk,
-        schedule_risk=decision.schedule_risk,
-        risk_level=decision.risk_level,
-        priority_score=decision.priority_score,
-        early_warning=decision.early_warning,
-    )
 
 
 @router.get(

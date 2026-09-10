@@ -8,7 +8,7 @@ client = TestClient(app)
 
 def test_decision_endpoint():
     response = client.post(
-        "/decision/evaluate",
+        "/api/decision/evaluate",
         json={
             "project_id": "TEST-001",
             "prediction_date": "2011-01",

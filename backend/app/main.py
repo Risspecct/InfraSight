@@ -4,22 +4,33 @@ from sqlalchemy import text
 from db.database import engine
 from app.routes.decision import router as decision_router
 from app.routes.projects import router as projects_router
+from app.routes.risk import router as risk_router
+from app.routes.trajectory import router as trajectory_router
 
 
 app = FastAPI(
     title="InfraSight API",
-    version="0.1.0",
+    version="0.5.0",
 )
-
 
 app.include_router(
     decision_router,
-    prefix="/api/v1",
+    prefix="/api",
 )
 
 app.include_router(
     projects_router,
-    prefix="/api/v1",
+    prefix="/api",
+)
+
+app.include_router(
+    risk_router,
+    prefix="/api"
+)
+
+app.include_router(
+    trajectory_router,
+    prefix="/api",
 )
 
 
