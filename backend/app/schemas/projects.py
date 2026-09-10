@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from app.decision.schemas import RiskComponent
 
 
 class ProjectSummary(BaseModel):
@@ -75,3 +76,19 @@ class ObservationListResponse(BaseModel):
     page_size: int
     total: int
     total_pages: int
+
+
+class PredictionResponse(BaseModel):
+    project_id: str
+    observation_id: str
+    prediction_date: str
+
+    cost_overrun_probability: float
+    schedule_overrun_probability: float
+
+    cost_risk: RiskComponent
+    schedule_risk: RiskComponent
+
+    risk_level: str
+    priority_score: float
+    early_warning: bool

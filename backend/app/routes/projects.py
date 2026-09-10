@@ -6,6 +6,19 @@ from fastapi import HTTPException
 from db.database import SessionLocal
 from db.models import Project, ProjectObservation
 
+from app.decision.engine import evaluate_decision
+from app.decision.schemas import DecisionInput
+from app.services.inference import predict_project
+
+from app.schemas.projects import (
+    ObservationListResponse,
+    ObservationResponse,
+    PredictionResponse,
+    ProjectDetail,
+    ProjectListResponse,
+    ProjectSummary,
+)
+
 from app.schemas.projects import (
     ObservationListResponse,
     ObservationResponse,
@@ -177,4 +190,64 @@ def get_project_observations(
         page_size=page_size,
         total=total,
         total_pages=total_pages,
+    )
+
+
+@router.post(
+    "/{project_id}/predict",
+    response_model=PredictionResponse,
+)
+def predict_project_risk(
+    project_id: str,
+    observation_id: str,
+    db: Session = Depends(get_db),
+):
+    observation = db.scalar(
+        select(ProjectObservation)
+        .where(
+            ProjectObservation.project_id == project_id,
+            ProjectObservation.observation_id == observation_id,
+        )
+    )
+
+    if observation is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Observation not found for project",
+        )
+
+    inference = predict_project(
+        db,
+        project_id,
+        observation_id,
+    )
+
+    decision = evaluate_decision(
+        DecisionInput(
+            project_id=project_id,
+            prediction_date=observation.report_date,
+            cost_probability=inference[
+                "cost_overrun_probability"
+            ],
+            schedule_probability=inference[
+                "schedule_overrun_probability"
+            ],
+        )
+    )
+
+    return PredictionResponse(
+        project_id=project_id,
+        observation_id=observation_id,
+        prediction_date=observation.report_date,
+        cost_overrun_probability=inference[
+            "cost_overrun_probability"
+        ],
+        schedule_overrun_probability=inference[
+            "schedule_overrun_probability"
+        ],
+        cost_risk=decision.cost_risk,
+        schedule_risk=decision.schedule_risk,
+        risk_level=decision.risk_level,
+        priority_score=decision.priority_score,
+        early_warning=decision.early_warning,
     )
