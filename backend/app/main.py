@@ -3,6 +3,7 @@ from sqlalchemy import text
 
 from db.database import engine
 from app.routes.decision import router as decision_router
+from app.routes.projects import router as projects_router
 
 
 app = FastAPI(
@@ -11,7 +12,15 @@ app = FastAPI(
 )
 
 
-app.include_router(decision_router)
+app.include_router(
+    decision_router,
+    prefix="/api/v1",
+)
+
+app.include_router(
+    projects_router,
+    prefix="/api/v1",
+)
 
 
 @app.get("/health")
