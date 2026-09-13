@@ -1,0 +1,6 @@
+:root { font-family: 'DM Sans', 'Avenir Next', sans-serif; color: #26343b; background: #edf1ef; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; --ink: #26343b; --muted: #708087; --line: #d8e0dc; --paper: #f8faf7; --teal: #188b83; --teal-dark: #10645f; --coral: #d45f4d; --amber: #c68a27; --navy: #193a43; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; background: #edf1ef; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
