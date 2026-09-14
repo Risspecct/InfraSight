@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from sqlalchemy import text
+from fastapi.middleware.cors import CORSMiddleware
 
 from db.database import engine
 from app.routes.decision import router as decision_router
@@ -12,6 +13,16 @@ from app.routes.intelligence import router as intelligence_router
 app = FastAPI(
     title="InfraSight API",
     version="0.5.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://infra-sight-seven.vercel.app",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(
