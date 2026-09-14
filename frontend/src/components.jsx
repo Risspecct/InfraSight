@@ -136,31 +136,48 @@ function OutcomeBadge({ label, value }) {
   );
 }
 
-function Sidebar() {
+function Shell({ children }) {
   const location = useLocation();
   const projectSelected = location.pathname.startsWith("/projects/");
-  return (
-    <aside className="sidebar">
-      <Link className="brand" to="/">
-        <span className="brand-mark">
-          <Activity size={19} />
-        </span>
-        <span>INFRA<span>SIGHT</span></span>
-      </Link>
-      <nav className="sidebar-nav" aria-label="Primary navigation">
-        <NavLink to="/" end><Activity size={15} /><span>Portfolio Intelligence</span></NavLink>
-        <NavLink to="/projects"><Landmark size={15} /><span>Project Ledger</span></NavLink>
-        {projectSelected && <NavLink to={location.pathname} className="docket-link"><CircleAlert size={15} /><span>Risk Docket</span></NavLink>}
-      </nav>
-    </aside>
-  );
-}
 
-function Shell({ children }) {
   return (
-    <div className="app-shell">
-      <Sidebar />
-      <div className="content-shell"><main>{children}</main>
+    <div className="top-app-shell min-h-screen bg-slate-50 flex flex-col">
+      <header className="top-navbar w-full h-16 bg-slate-900 text-white flex items-center justify-between px-6 shadow-sm shrink-0 z-10">
+        <Link className="top-brand text-xl font-bold tracking-wide flex items-center gap-2" to="/">
+          <span className="brand-mark">
+            <Activity size={19} />
+          </span>
+          <span>INFRA<span>SIGHT</span></span>
+        </Link>
+        <nav className="top-nav-links flex items-center gap-6" aria-label="Primary navigation">
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) => isActive ? "active" : "inactive"}
+          >
+            <Activity size={15} />
+            <span>Portfolio Intelligence</span>
+          </NavLink>
+          <NavLink
+            to="/projects"
+            className={({ isActive }) => isActive ? "active" : "inactive"}
+          >
+            <Landmark size={15} />
+            <span>Project Ledger</span>
+          </NavLink>
+          {projectSelected && (
+            <NavLink
+              to={location.pathname}
+              className={({ isActive }) => isActive ? "active docket" : "inactive docket"}
+            >
+              <CircleAlert size={15} />
+              <span>Risk Docket</span>
+            </NavLink>
+          )}
+        </nav>
+      </header>
+      <div className="top-main-wrapper flex-1 w-full max-w-[1400px] mx-auto p-4 sm:p-6 lg:p-8 overflow-x-hidden">
+        <main>{children}</main>
       <footer>
         <span>INFRA SIGHT / PREDICTIVE INFRASTRUCTURE MONITORING</span>
         <span>Decision support, grounded in historical evidence</span>
@@ -1348,8 +1365,14 @@ function ProjectsPage() {
                       }
                     >
                       <td className="px-4 py-3 align-top">
-                        <div className="font-medium text-slate-900 truncate max-w-md">{formatData(item.project_name)}</div>
-                        <div className="text-xs text-slate-500 mt-0.5">{formatData(item.project_code)} • {formatData(item.project_id)}</div>
+                        <div className="font-semibold text-slate-900 truncate max-w-[350px]" title={item.project_name}>
+                          {displayText(item.project_name, "Unnamed project")}
+                        </div>
+                        <div className="text-[11px] text-slate-500 mt-0.5 truncate max-w-[350px] font-mono">
+                          {[item.project_code, item.project_id]
+                            .filter((value) => value && value !== "NaN" && value !== "null" && value !== "—")
+                            .join(" • ")}
+                        </div>
                       </td>
                       <td className="px-4 py-3 align-top">{formatData(item.agency)}</td>
                       <td className="px-4 py-3 align-top">{formatData(item.state)}</td>
