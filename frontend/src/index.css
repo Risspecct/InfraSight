@@ -1,6 +1,6 @@
-:root { font-family: 'DM Sans', 'Avenir Next', sans-serif; color: #26343b; background: #edf1ef; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; --ink: #26343b; --muted: #708087; --line: #d8e0dc; --paper: #f8faf7; --teal: #188b83; --teal-dark: #10645f; --coral: #d45f4d; --amber: #c68a27; --navy: #193a43; }
+:root { font-family: 'Plus Jakarta Sans', sans-serif; color: #1e262f; background: #f7f4ee; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; background: #edf1ef; }
+body { margin: 0; min-width: 320px; background: #f7f4ee; }
 button, input, select { font: inherit; }
 button { cursor: pointer; }
 a { color: inherit; }

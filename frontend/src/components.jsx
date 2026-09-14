@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   Activity,
   AlertTriangle,
@@ -14,7 +14,6 @@ import {
   Landmark,
   LoaderCircle,
   MapPin,
-  Radio,
   RefreshCw,
   Search,
   ShieldCheck,
@@ -131,46 +130,6 @@ function EmptyState({ message }) {
   );
 }
 
-function SystemStatus() {
-  const [status, setStatus] = useState("checking");
-  const [database, setDatabase] = useState("checking");
-
-  useEffect(() => {
-    Promise.allSettled([api.getHealth(), api.getDatabaseHealth()]).then(
-      ([healthResult, databaseResult]) => {
-        setStatus(
-          healthResult.status === "fulfilled" &&
-            healthResult.value.status === "ok"
-            ? "operational"
-            : "unavailable",
-        );
-        setDatabase(
-          databaseResult.status === "fulfilled" &&
-            databaseResult.value.database === "ok"
-            ? "connected"
-            : "unavailable",
-        );
-      },
-    );
-  }, []);
-
-  const isOperational = status === "operational" && database === "connected";
-  return (
-    <div
-      className={`system-status ${isOperational ? "operational" : status === "checking" ? "checking" : "unavailable"}`}
-      title={`API: ${status} · Database: ${database}`}
-    >
-      <span className="status-dot" />
-      {status === "checking"
-        ? "Checking system"
-        : isOperational
-          ? "System operational"
-          : "Backend unavailable"}
-      {database === "connected" && <small> · Database connected</small>}
-    </div>
-  );
-}
-
 function Pagination({ page, totalPages, onChange }) {
   if (!totalPages || totalPages <= 1) return null;
   return (
@@ -198,27 +157,22 @@ function Pagination({ page, totalPages, onChange }) {
   );
 }
 
-function Header() {
+function Navbar() {
+  const location = useLocation();
+  const projectSelected = location.pathname.startsWith("/projects/");
   return (
     <header className="topbar">
       <Link className="brand" to="/">
         <span className="brand-mark">
           <Activity size={19} />
         </span>
-        <span>
-          INFRA<span>SIGHT</span>
-        </span>
+        <span>INFRA<span>SIGHT</span></span>
       </Link>
-      <nav>
-        <NavLink to="/" end>
-          Command center
-        </NavLink>
-        <NavLink to="/projects">Projects</NavLink>
+      <nav className="topnav" aria-label="Primary navigation">
+        <NavLink to="/" end><Activity size={15} /><span>Portfolio Intelligence</span></NavLink>
+        <NavLink to="/projects"><Landmark size={15} /><span>Project Ledger</span></NavLink>
+        {projectSelected && <NavLink to={location.pathname} className="docket-link"><CircleAlert size={15} /><span>Risk Docket</span></NavLink>}
       </nav>
-      <SystemStatus />
-      <div className="header-context">
-        <Radio size={14} /> Live portfolio intelligence
-      </div>
     </header>
   );
 }
@@ -226,12 +180,13 @@ function Header() {
 function Shell({ children }) {
   return (
     <div className="app-shell">
-      <Header />
-      <main>{children}</main>
+      <Navbar />
+      <div className="content-shell"><main>{children}</main>
       <footer>
         <span>INFRA SIGHT / PREDICTIVE INFRASTRUCTURE MONITORING</span>
         <span>Decision support, grounded in historical evidence</span>
       </footer>
+      </div>
     </div>
   );
 }
@@ -382,18 +337,25 @@ function PortfolioPage() {
     setError(null);
     api
       .getPortfolioRisk(page, 20)
-      .then(setData)
+      .then((response) => {
+        console.log("PORTFOLIO API RESPONSE:", response);
+        setData(response);
+      })
       .catch(setError)
       .finally(() => setLoading(false));
   };
   useEffect(() => {
     api
       .getPortfolioRisk(page, 20)
-      .then(setData)
+      .then((response) => {
+        console.log("PORTFOLIO API RESPONSE:", response);
+        setData(response);
+      })
       .catch(setError)
       .finally(() => setLoading(false));
   }, [page]);
-  const items = data?.items || [];
+  const hasItemsArray = Array.isArray(data?.items);
+  const items = hasItemsArray ? data.items : [];
   const visibleItems = items.filter(
     (item) =>
       (riskFilter === "ALL" || item.risk_level === riskFilter) &&
@@ -423,9 +385,13 @@ function PortfolioPage() {
         </div>
       </div>
       {loading ? (
-        <LoadingState label="Assessing portfolio risk" />
+        <div className="state-panel">Loading portfolio data...</div>
       ) : error ? (
         <ErrorState error={error} onRetry={load} />
+      ) : !hasItemsArray || items.length === 0 ? (
+        <div className="state-panel">
+          No projects found or data mapping failed. Check console.
+        </div>
       ) : (
         <>
           <section className="stat-grid">
