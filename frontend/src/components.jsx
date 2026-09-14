@@ -7,6 +7,7 @@ import {
   ArrowUpRight,
   BrainCircuit,
   CalendarDays,
+  ChevronDown,
   CircleAlert,
   Gauge,
   Landmark,
@@ -1297,42 +1298,48 @@ function ProjectsPage() {
           </div>
           {projects.length ? (
             <>
-              <div className="ledger-filter-bar">
+              <div className="ledger-filter-bar flex flex-col sm:flex-row gap-4 mb-6">
                 <label className="ledger-filter-label">
-                  <span>Sector</span>
-                  <select value={sectorFilter} onChange={(event) => setSectorFilter(event.target.value)}>
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 block">Sector</span>
+                  <span className="ledger-select-wrap">
+                    <select className="ledger-select" value={sectorFilter} onChange={(event) => setSectorFilter(event.target.value)}>
                     <option value="All">All</option>
                     {sectors.map((sector) => <option key={sector} value={sector}>{sector}</option>)}
-                  </select>
+                    </select>
+                    <ChevronDown size={16} aria-hidden="true" />
+                  </span>
                 </label>
                 <label className="ledger-filter-label">
-                  <span>Identity confidence</span>
-                  <select value={confidenceFilter} onChange={(event) => setConfidenceFilter(event.target.value)}>
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 block">Identity confidence</span>
+                  <span className="ledger-select-wrap">
+                    <select className="ledger-select" value={confidenceFilter} onChange={(event) => setConfidenceFilter(event.target.value)}>
                     <option value="All">All</option>
                     <option value="HIGH">HIGH</option>
                     <option value="PROVISIONAL">PROVISIONAL</option>
-                  </select>
+                    </select>
+                    <ChevronDown size={16} aria-hidden="true" />
+                  </span>
                 </label>
               </div>
               <div className="table-wrap w-full overflow-x-auto">
-              <table className="w-full table-fixed">
+              <table className="project-ledger-table w-full table-fixed text-left text-sm text-slate-600">
                 <thead>
                   <tr>
-                    <th className="ledger-code-column">Project code</th>
-                    <th className="ledger-name-column">Project name</th>
-                    <th>Agency</th>
-                    <th className="ledger-small-column">State</th>
-                    <th className="ledger-small-column">Sector</th>
-                    <th>First report</th>
-                    <th>Last report</th>
-                    <th>Observations</th>
-                    <th>Identity confidence</th>
-                    <th />
+                    <th className="project-column whitespace-nowrap px-4 py-3">Project</th>
+                    <th className="agency-column whitespace-nowrap px-4 py-3">Agency</th>
+                    <th className="state-column whitespace-nowrap px-4 py-3">State</th>
+                    <th className="sector-column whitespace-nowrap px-4 py-3">Sector</th>
+                    <th className="date-column whitespace-nowrap px-4 py-3">First report</th>
+                    <th className="date-column whitespace-nowrap px-4 py-3">Last report</th>
+                    <th className="observations-column whitespace-nowrap px-4 py-3">Observations</th>
+                    <th className="confidence-column whitespace-nowrap px-4 py-3">Identity confidence</th>
+                    <th className="action-column whitespace-nowrap px-4 py-3" />
                   </tr>
                 </thead>
                 <tbody>
                   {paginatedProjects.map((item) => (
                     <tr
+                      className="hover:bg-slate-50 border-b border-slate-100 transition-colors"
                       key={item.project_id}
                       onClick={() =>
                         navigate(
@@ -1340,24 +1347,23 @@ function ProjectsPage() {
                         )
                       }
                     >
-                      <td>
-                        <strong>{formatData(item.project_code)}</strong>
-                        <small>{formatData(item.project_id)}</small>
+                      <td className="px-4 py-3 align-top">
+                        <div className="font-medium text-slate-900 truncate max-w-md">{formatData(item.project_name)}</div>
+                        <div className="text-xs text-slate-500 mt-0.5">{formatData(item.project_code)} • {formatData(item.project_id)}</div>
                       </td>
-                      <td className="truncate">{formatData(item.project_name)}</td>
-                      <td>{formatData(item.agency)}</td>
-                      <td>{formatData(item.state)}</td>
-                      <td>{formatData(item.sector)}</td>
-                      <td>{formatDate(item.first_report_date)}</td>
-                      <td>{formatDate(item.last_report_date)}</td>
-                      <td>{formatNumber(item.observation_count, 0)}</td>
-                      <td>
-                        <span className="confidence-badge">
+                      <td className="px-4 py-3 align-top">{formatData(item.agency)}</td>
+                      <td className="px-4 py-3 align-top">{formatData(item.state)}</td>
+                      <td className="px-4 py-3 align-top">{formatData(item.sector)}</td>
+                      <td className="px-4 py-3 align-top whitespace-nowrap">{formatDate(item.first_report_date)}</td>
+                      <td className="px-4 py-3 align-top whitespace-nowrap">{formatDate(item.last_report_date)}</td>
+                      <td className="px-4 py-3 align-top">{formatNumber(item.observation_count, 0)}</td>
+                      <td className="px-4 py-3 align-top">
+                        <span className="confidence-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-emerald-200 whitespace-nowrap">
                           <ShieldCheck size={13} />
                           {displayText(item.identity_confidence)}
                         </span>
                       </td>
-                      <td>
+                      <td className="px-4 py-3 align-top">
                         <ArrowUpRight size={17} className="row-arrow" />
                       </td>
                     </tr>
