@@ -377,3 +377,434 @@ def build_features(
     )
 
     return features
+
+
+def build_portfolio_features(
+    db: Session,
+) -> pd.DataFrame:
+    """
+    Build the latest point-in-time feature row for every project
+    that has at least one observation.
+
+    This is specifically for portfolio inference.
+
+    The existing build_features() function remains unchanged and
+    continues to be used for individual project predictions.
+    """
+
+    observations = db.scalars(
+        select(ProjectObservation)
+        .order_by(
+            ProjectObservation.project_id,
+            ProjectObservation.report_date,
+            ProjectObservation.observation_id,
+        )
+    ).all()
+
+    if not observations:
+        return pd.DataFrame(columns=MODEL_FEATURES)
+
+    rows = [
+        {
+            "observation_id": o.observation_id,
+            "project_id": o.project_id,
+            "project_code": o.project_code,
+            "project_name": o.project_name,
+            "report_date": o.report_date,
+            "approval_date": o.approval_date,
+            "approval_date_revised": o.approval_date_revised,
+            "original_cost_crore": o.original_cost_crore,
+            "revised_cost_crore": o.revised_cost_crore,
+            "anticipated_cost_crore": o.anticipated_cost_crore,
+            "cumulative_expenditure_crore": (
+                o.cumulative_expenditure_crore
+            ),
+            "original_completion_date": (
+                o.original_completion_date
+            ),
+            "revised_completion_date": (
+                o.revised_completion_date
+            ),
+            "anticipated_completion_date": (
+                o.anticipated_completion_date
+            ),
+            "time_overrun_original_months": (
+                o.time_overrun_original_months
+            ),
+            "time_overrun_revised_months": (
+                o.time_overrun_revised_months
+            ),
+            "additional_delay_months": (
+                o.additional_delay_months
+            ),
+            "milestones_achieved": o.milestones_achieved,
+            "milestones_total": o.milestones_total,
+        }
+        for o in observations
+    ]
+
+    df = pd.DataFrame(rows)
+
+    # ---------------------------------------------------------
+    # Parse dates
+    # ---------------------------------------------------------
+
+    df["report_date"] = pd.to_datetime(
+        df["report_date"],
+        format="%Y-%m",
+        errors="coerce",
+    )
+
+    for column in [
+        "approval_date",
+        "approval_date_revised",
+        "original_completion_date",
+        "revised_completion_date",
+        "anticipated_completion_date",
+    ]:
+        df[f"{column}_parsed"] = pd.to_datetime(
+            df[column],
+            errors="coerce",
+        )
+
+    # ---------------------------------------------------------
+    # Sort strictly within each project
+    # ---------------------------------------------------------
+
+    df = df.sort_values(
+        [
+            "project_id",
+            "report_date",
+            "observation_id",
+        ]
+    ).reset_index(drop=True)
+
+    project_group = df.groupby(
+        "project_id",
+        sort=False,
+    )
+
+    # ---------------------------------------------------------
+    # Observation / project age features
+    # ---------------------------------------------------------
+
+    df["derived_observation_number"] = (
+        project_group.cumcount() + 1
+    )
+
+    first_report_date = project_group[
+        "report_date"
+    ].transform("min")
+
+    df["derived_months_since_first_report"] = (
+        months_between(
+            df["report_date"],
+            first_report_date,
+        )
+    )
+
+    df["derived_project_report_gap_months"] = (
+        project_group["report_date"]
+        .diff()
+        .dt.days
+        .div(30.4375)
+    )
+
+    df["derived_report_year"] = (
+        df["report_date"].dt.year
+    )
+
+    df["derived_report_month"] = (
+        df["report_date"].dt.month
+    )
+
+    df["derived_project_age_months"] = months_between(
+        df["report_date"],
+        df["approval_date_parsed"],
+    )
+
+    # ---------------------------------------------------------
+    # Schedule features
+    # ---------------------------------------------------------
+
+    df["derived_months_to_original_completion"] = (
+        months_between(
+            df["original_completion_date_parsed"],
+            df["report_date"],
+        )
+    )
+
+    df["derived_months_to_anticipated_completion"] = (
+        months_between(
+            df["anticipated_completion_date_parsed"],
+            df["report_date"],
+        )
+    )
+
+    # ---------------------------------------------------------
+    # Cost features
+    # ---------------------------------------------------------
+
+    def safe_ratio(
+        numerator: pd.Series,
+        denominator: pd.Series,
+    ) -> pd.Series:
+        return np.where(
+            denominator.notna()
+            & (denominator > 0)
+            & numerator.notna(),
+            numerator / denominator * 100,
+            np.nan,
+        )
+
+    df["derived_expenditure_to_original_cost_pct"] = (
+        safe_ratio(
+            df["cumulative_expenditure_crore"],
+            df["original_cost_crore"],
+        )
+    )
+
+    df["derived_anticipated_cost_increase_pct"] = (
+        safe_ratio(
+            df["anticipated_cost_crore"],
+            df["original_cost_crore"],
+        )
+    )
+
+    df["derived_expenditure_to_anticipated_cost_pct"] = (
+        safe_ratio(
+            df["cumulative_expenditure_crore"],
+            df["anticipated_cost_crore"],
+        )
+    )
+
+    df["derived_cost_increase_crore"] = np.where(
+        df["anticipated_cost_crore"].notna()
+        & df["original_cost_crore"].notna(),
+        (
+            df["anticipated_cost_crore"]
+            - df["original_cost_crore"]
+        ),
+        np.nan,
+    )
+
+    # ---------------------------------------------------------
+    # Milestone features
+    # ---------------------------------------------------------
+
+    df["derived_milestone_progress_pct"] = np.where(
+        df["milestones_total"] > 0,
+        (
+            df["milestones_achieved"]
+            / df["milestones_total"]
+            * 100
+        ),
+        np.nan,
+    )
+
+    df["derived_milestone_gap"] = (
+        df["milestones_total"]
+        - df["milestones_achieved"]
+    )
+
+    df["derived_milestone_inconsistency"] = (
+        df["milestones_achieved"]
+        > df["milestones_total"]
+    ).astype("int8")
+
+    # ---------------------------------------------------------
+    # Presence indicators
+    # ---------------------------------------------------------
+
+    for column in [
+        "cumulative_expenditure_crore",
+        "anticipated_cost_crore",
+        "original_completion_date",
+        "anticipated_completion_date",
+        "time_overrun_original_months",
+        "additional_delay_months",
+    ]:
+        df[f"derived_has_{column}"] = (
+            df[column].notna().astype("int8")
+        )
+
+    # ---------------------------------------------------------
+    # Strictly backward-looking deltas
+    # ---------------------------------------------------------
+
+    for column in [
+        "anticipated_cost_crore",
+        "cumulative_expenditure_crore",
+        "time_overrun_original_months",
+        "derived_milestone_progress_pct",
+        "derived_months_to_anticipated_completion",
+    ]:
+        df[f"derived_delta_{column}"] = (
+            project_group[column].diff()
+        )
+
+    previous_anticipated_cost = (
+        project_group["anticipated_cost_crore"].shift(1)
+    )
+
+    df["derived_anticipated_cost_change_pct"] = np.where(
+        (previous_anticipated_cost > 0)
+        & df["anticipated_cost_crore"].notna(),
+        (
+            df["anticipated_cost_crore"]
+            / previous_anticipated_cost
+            - 1
+        )
+        * 100,
+        np.nan,
+    )
+
+    previous_expenditure = (
+        project_group[
+            "cumulative_expenditure_crore"
+        ].shift(1)
+    )
+
+    df["derived_expenditure_change_pct"] = np.where(
+        (previous_expenditure > 0)
+        & df["cumulative_expenditure_crore"].notna(),
+        (
+            df["cumulative_expenditure_crore"]
+            / previous_expenditure
+            - 1
+        )
+        * 100,
+        np.nan,
+    )
+
+    # ---------------------------------------------------------
+    # 3-observation backward-looking rolling features
+    # ---------------------------------------------------------
+
+    df["derived_3obs_cost_change_mean"] = (
+        project_group[
+            "derived_anticipated_cost_change_pct"
+        ]
+        .transform(
+            lambda s: s.rolling(
+                3,
+                min_periods=2,
+            ).mean()
+        )
+    )
+
+    df["derived_3obs_expenditure_change_mean"] = (
+        project_group[
+            "derived_expenditure_change_pct"
+        ]
+        .transform(
+            lambda s: s.rolling(
+                3,
+                min_periods=2,
+            ).mean()
+        )
+    )
+
+    df["derived_3obs_time_overrun_delta_mean"] = (
+        project_group[
+            "derived_delta_time_overrun_original_months"
+        ]
+        .transform(
+            lambda s: s.rolling(
+                3,
+                min_periods=2,
+            ).mean()
+        )
+    )
+
+    df["derived_3obs_milestone_progress_delta_mean"] = (
+        project_group[
+            "derived_delta_derived_milestone_progress_pct"
+        ]
+        .transform(
+            lambda s: s.rolling(
+                3,
+                min_periods=2,
+            ).mean()
+        )
+    )
+
+    # ---------------------------------------------------------
+    # Current risk signals
+    # ---------------------------------------------------------
+
+    df["derived_reported_time_overrun_flag"] = (
+        (
+            df["time_overrun_original_months"]
+            .fillna(0)
+            > 0
+        )
+        | (
+            df["additional_delay_months"]
+            .fillna(0)
+            > 0
+        )
+    ).astype("int8")
+
+    df["derived_cost_escalation_flag_10pct"] = (
+        df["derived_anticipated_cost_increase_pct"] >= 10
+    ).astype("int8")
+
+    df["derived_low_milestone_progress_flag"] = (
+        (df["derived_project_age_months"] >= 12)
+        & df["derived_milestone_progress_pct"].notna()
+        & (df["derived_milestone_progress_pct"] < 50)
+    ).astype("int8")
+
+    # ---------------------------------------------------------
+    # Select latest observation for every project
+    # ---------------------------------------------------------
+
+    # ---------------------------------------------------------
+# Select latest observation for every project
+# ---------------------------------------------------------
+
+    latest = (
+        df.sort_values(
+            [
+                "project_id",
+                "report_date",
+                "observation_id",
+            ]
+        )
+        .groupby(
+            "project_id",
+            sort=False,
+        )
+        .tail(1)
+        .reset_index(drop=True)
+    )
+
+    # Preserve exact model column order.
+    features = latest[MODEL_FEATURES].copy()
+
+    features.insert(
+        0,
+        "observation_id",
+        latest["observation_id"].values,
+    )
+
+    features.insert(
+        1,
+        "project_id",
+        latest["project_id"].values,
+    )
+
+    features.insert(
+        2,
+        "project_name",
+        latest["project_name"].values,
+    )
+
+    features.insert(
+        3,
+        "report_date",
+        latest["report_date"].dt.strftime("%Y-%m").values,
+    )
+
+    return features

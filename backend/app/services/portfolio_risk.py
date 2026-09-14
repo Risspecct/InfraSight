@@ -3,25 +3,20 @@ from __future__ import annotations
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from db.models import Project, ProjectObservation
-from app.services.risk_assessment import assess_project
-
-
-def _get_latest_observation(
-    db: Session,
-    project_id: str,
-) -> ProjectObservation | None:
-    return db.scalars(
-        select(ProjectObservation)
-        .where(
-            ProjectObservation.project_id == project_id
-        )
-        .order_by(
-            ProjectObservation.report_date.desc(),
-            ProjectObservation.observation_id.desc(),
-        )
-        .limit(1)
-    ).first()
+from db.models import Project
+from app.decision.engine import (
+    calculate_priority_score,
+    determine_risk_level,
+)
+from app.decision.rules import (
+    is_cost_flagged,
+    is_schedule_flagged,
+)
+from app.services.feature_builder import build_portfolio_features
+from app.services.model_loader import (
+    load_cost_model,
+    load_schedule_model,
+)
 
 
 def get_portfolio_risk(
@@ -35,38 +30,99 @@ def get_portfolio_risk(
         )
     ).all()
 
+    project_names = {
+        project.project_id: project.canonical_project_name
+        for project in projects
+    }
+
+    features = build_portfolio_features(db)
+
+    if features.empty:
+        return {
+            "items": [],
+            "page": page,
+            "page_size": page_size,
+            "total": 0,
+            "total_pages": 0,
+        }
+
+    metadata = features[
+        [
+            "project_id",
+            "observation_id",
+            "project_name",
+            "report_date",
+        ]
+    ].copy()
+
+    model_features = features.drop(
+        columns=[
+            "project_id",
+            "observation_id",
+            "project_name",
+            "report_date",
+        ]
+    )
+
+    cost_model = load_cost_model()
+    schedule_bundle = load_schedule_model()
+    schedule_model = schedule_bundle["model"]
+
+    cost_probabilities = cost_model.predict(
+        model_features
+    )
+
+    schedule_probabilities = (
+        schedule_model.predict_proba(
+            model_features
+        )[:, 1]
+    )
+
     assessments = []
 
-    for project in projects:
-        observation = _get_latest_observation(
-            db,
-            project.project_id,
+    for index, row in metadata.iterrows():
+        cost_probability = float(
+            cost_probabilities[index]
         )
 
-        if observation is None:
-            continue
+        schedule_probability = float(
+            schedule_probabilities[index]
+        )
 
-        assessment = assess_project(
-            db,
-            project.project_id,
-            observation.observation_id,
+        cost_flagged = is_cost_flagged(
+            cost_probability
+        )
+
+        schedule_flagged = is_schedule_flagged(
+            schedule_probability
+        )
+
+        risk_level = determine_risk_level(
+            cost_flagged,
+            schedule_flagged,
+        )
+
+        priority_score = calculate_priority_score(
+            cost_probability,
+            schedule_probability,
         )
 
         assessments.append(
             {
-                "project_id": project.project_id,
-                "project_name": project.canonical_project_name,
-                "assessment_date": assessment["prediction_date"],
-                "observation_id": assessment["observation_id"],
-                "cost_probability": assessment[
-                    "cost_overrun_probability"
-                ],
-                "schedule_probability": assessment[
-                    "schedule_overrun_probability"
-                ],
-                "risk_level": assessment["risk_level"],
-                "priority_score": assessment["priority_score"],
-                "early_warning": assessment["early_warning"],
+                "project_id": row["project_id"],
+                "project_name": project_names.get(
+                    row["project_id"],
+                    row["project_name"],
+                ),
+                "assessment_date": row["report_date"],
+                "observation_id": row["observation_id"],
+                "cost_probability": cost_probability,
+                "schedule_probability": schedule_probability,
+                "risk_level": risk_level,
+                "priority_score": priority_score,
+                "early_warning": (
+                    risk_level in {"HIGH", "CRITICAL"}
+                ),
             }
         )
 
