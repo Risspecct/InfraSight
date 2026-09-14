@@ -33,31 +33,16 @@ import {
   YAxis,
 } from "recharts";
 import { api } from "./api/client";
+import { formatData, formatDate, formatNumber } from "./utils/format";
 
 const riskOrder = ["CRITICAL", "HIGH", "MEDIUM", "LOW"];
 
-function formatDate(value) {
-  if (!value) return "—";
-  const date = new Date(value);
-  return Number.isNaN(date.getTime())
-    ? "—"
-    : date.toLocaleDateString(undefined, {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      });
-}
-
 function displayText(value, fallback = "—") {
-  if (value === null || value === undefined || value === "") return fallback;
-  const text = String(value).trim();
-  return /^(nan|null|undefined)$/i.test(text) ? fallback : text;
+  return formatData(value, fallback);
 }
 
 function displayNumber(value, digits = 1, suffix = "") {
-  return typeof value === "number" && Number.isFinite(value)
-    ? `${value.toLocaleString(undefined, { maximumFractionDigits: digits })}${suffix}`
-    : "—";
+  return formatNumber(value, digits, suffix);
 }
 
 function probabilityWidth(value) {
@@ -80,6 +65,16 @@ function percent(value) {
 
 function riskClass(level = "") {
   return displayText(level, "unassessed").toLowerCase().replace(/\s+/g, "-");
+}
+
+function paginatedPayload(response) {
+  const payload = response?.data && typeof response.data === "object"
+    ? response.data
+    : response;
+  return {
+    ...payload,
+    items: Array.isArray(payload?.items) ? payload.items : [],
+  };
 }
 
 function RiskBadge({ level }) {
@@ -339,7 +334,7 @@ function PortfolioPage() {
       .getPortfolioRisk(page, 20)
       .then((response) => {
         console.log("PORTFOLIO API RESPONSE:", response);
-        setData(response);
+        setData(paginatedPayload(response));
       })
       .catch(setError)
       .finally(() => setLoading(false));
@@ -349,7 +344,7 @@ function PortfolioPage() {
       .getPortfolioRisk(page, 20)
       .then((response) => {
         console.log("PORTFOLIO API RESPONSE:", response);
-        setData(response);
+        setData(paginatedPayload(response));
       })
       .catch(setError)
       .finally(() => setLoading(false));
@@ -585,6 +580,19 @@ function Drivers({ title, drivers }) {
   );
 }
 
+function ObservationFacts({ observation }) {
+  if (!observation) return null;
+  const facts = [
+    ["Original cost", formatNumber(observation.original_cost_crore, 2, " cr")],
+    ["Anticipated cost", formatNumber(observation.anticipated_cost_crore, 2, " cr")],
+    ["Original completion", formatDate(observation.original_completion_date)],
+    ["Anticipated completion", formatDate(observation.anticipated_completion_date)],
+    ["Milestones", `${formatNumber(observation.milestones_achieved, 0)} / ${formatNumber(observation.milestones_total, 0)}`],
+    ["Cumulative expenditure", formatNumber(observation.cumulative_expenditure_crore, 2, " cr")],
+  ];
+  return <section className="panel observation-facts"><div className="panel-heading"><div><span className="eyebrow">AUDITED CHECKPOINT DATA</span><h2>Financial and schedule position</h2><p>Reported values at the selected historical observation.</p></div><CalendarDays size={19} /></div><div className="observation-fact-grid">{facts.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>{displayText(observation.delay_reason) !== "—" && <div className="observation-note"><span>Delay reason</span><strong>{formatData(observation.delay_reason)}</strong></div>}</section>;
+}
+
 function DecisionPanel({ prediction, decision, action, onEvaluate }) {
   return (
     <section className="panel decision-panel">
@@ -760,12 +768,12 @@ function DetailPage() {
           <div className="project-meta">
             <span>{project.project_code || project.project_id}</span>
             <span>
-              <Landmark size={14} /> {displayText(project.agency, "Unreported")}
+              <Landmark size={14} /> {formatData(project.agency)}
             </span>
             <span>
-              <MapPin size={14} /> {displayText(project.state, "Unreported")}
+              <MapPin size={14} /> {formatData(project.state)}
             </span>
-            <span>{displayText(project.sector, "Unreported")}</span>
+            <span>{formatData(project.sector)}</span>
           </div>
         </div>
         <div className="identity-box">
@@ -819,11 +827,11 @@ function DetailPage() {
                     <span className="checkpoint-date">
                       {formatDate(observation.report_date)}
                     </span>
-                    <span>{displayText(observation.status, "Unreported")}</span>
+                    <span>{formatData(observation.status)}</span>
                     <strong>
                       {observation.physical_progress_pct != null
                         ? `${observation.physical_progress_pct}% progress`
-                        : "Unreported"}
+                        : "—"}
                     </strong>
                     <small>{observation.observation_id}</small>
                   </button>
@@ -833,6 +841,7 @@ function DetailPage() {
               <EmptyState message="No observations available for this project." />
             )}
           </section>
+          <ObservationFacts observation={selected} />
           <section className="panel prediction-panel">
             <div className="panel-heading">
               <div>
@@ -1198,14 +1207,14 @@ function DetailPage() {
                 <div className="aside-facts">
                   <div>
                     <span>Status</span>
-                    <strong>{displayText(selected.status, "Unreported")}</strong>
+                    <strong>{formatData(selected.status)}</strong>
                   </div>
                   <div>
                     <span>Physical progress</span>
                     <strong>
                       {selected.physical_progress_pct != null
                         ? `${selected.physical_progress_pct}%`
-                        : "Unreported"}
+                        : "—"}
                     </strong>
                   </div>
                   <div>
@@ -1213,12 +1222,12 @@ function DetailPage() {
                     <strong>
                       {selected.revised_cost_crore != null
                         ? `${displayNumber(selected.revised_cost_crore)} cr`
-                        : "Unreported"}
+                        : "—"}
                     </strong>
                   </div>
                   <div>
                     <span>Delay reason</span>
-                    <strong>{displayText(selected.delay_reason, "Unreported")}</strong>
+                    <strong>{formatData(selected.delay_reason)}</strong>
                   </div>
                 </div>
                 <div className="aside-source">
@@ -1249,14 +1258,14 @@ function ProjectsPage() {
     setError(null);
     api
       .getProjects(page)
-      .then(setData)
+      .then((response) => setData(paginatedPayload(response)))
       .catch(setError)
       .finally(() => setLoading(false));
   };
   useEffect(() => {
     api
       .getProjects(page)
-      .then(setData)
+      .then((response) => setData(paginatedPayload(response)))
       .catch(setError)
       .finally(() => setLoading(false));
   }, [page]);
@@ -1290,7 +1299,8 @@ function ProjectsPage() {
               <table>
                 <thead>
                   <tr>
-                    <th>Project</th>
+                    <th>Project code</th>
+                    <th>Project name</th>
                     <th>Agency</th>
                     <th>State</th>
                     <th>Sector</th>
@@ -1310,17 +1320,18 @@ function ProjectsPage() {
                       }
                     >
                       <td>
-                        <strong>{item.project_name}</strong>
-                        <small>{item.project_code || item.project_id}</small>
+                        <strong>{formatData(item.project_code)}</strong>
+                        <small>{formatData(item.project_id)}</small>
                       </td>
-                      <td>{item.agency || "—"}</td>
-                      <td>{item.state || "—"}</td>
-                      <td>{item.sector || "—"}</td>
+                      <td>{formatData(item.project_name)}</td>
+                      <td>{formatData(item.agency)}</td>
+                      <td>{formatData(item.state)}</td>
+                      <td>{formatData(item.sector)}</td>
                       <td>
                         {formatDate(item.first_report_date)} –{" "}
                         {formatDate(item.last_report_date)}
                       </td>
-                      <td>{item.observation_count}</td>
+                      <td>{formatNumber(item.observation_count, 0)}</td>
                       <td>
                         <ArrowUpRight size={17} className="row-arrow" />
                       </td>
