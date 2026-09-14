@@ -7,20 +7,29 @@ const API_BASE_URL = configuredBaseUrl
   : "/api"
 
 export async function request(path, options = {}, baseUrl = API_BASE_URL) {
+  const { timeoutMs = 30000, ...fetchOptions } = options;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
   let response;
   try {
     response = await fetch(`${baseUrl}${path}`, {
       headers: {
         "Content-Type": "application/json",
-        ...options.headers,
+        ...fetchOptions.headers,
       },
-      ...options,
+      ...fetchOptions,
+      signal: fetchOptions.signal ?? controller.signal,
     });
   } catch {
+    clearTimeout(timeout);
+    if (controller.signal.aborted) {
+      throw new Error(`Backend request timed out after ${timeoutMs / 1000} seconds.`);
+    }
     throw new Error(
       "Backend unavailable. Check that the API server is running.",
     );
   }
+  clearTimeout(timeout);
 
   if (!response.ok) {
     let message = `Backend request failed (${response.status})`;
@@ -53,7 +62,7 @@ export const api = {
   getProjects: (page = 1, pageSize = 20) =>
     request(`/projects?page=${page}&page_size=${pageSize}`),
   getPortfolioRisk: (page = 1, pageSize = 20) =>
-    request(`/risk/portfolio?page=${page}&page_size=${pageSize}`),
+    request(`/risk/portfolio?page=${page}&page_size=${pageSize}`, { timeoutMs: 30000 }),
   getProject: (projectId) =>
     request(`/projects/${encodeURIComponent(projectId)}`),
   getObservations: (projectId, page = 1, pageSize = 100) =>

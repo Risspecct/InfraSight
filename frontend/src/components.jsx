@@ -27,6 +27,9 @@ import {
   CartesianGrid,
   Line,
   LineChart,
+  Cell,
+  Pie,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -68,14 +71,14 @@ function riskClass(level = "") {
 }
 
 function paginatedPayload(response) {
-  const payload = response?.data && typeof response.data === "object"
-    ? response.data
-    : response;
+  const payload = response?.data && typeof response.data === "object" ? response.data : response;
   return {
     ...payload,
     items: Array.isArray(payload?.items) ? payload.items : [],
   };
 }
+
+const riskColors = { LOW: "#10b981", MEDIUM: "#f59e0b", HIGH: "#f97316", CRITICAL: "#ef4444" };
 
 function RiskBadge({ level }) {
   return (
@@ -152,30 +155,30 @@ function Pagination({ page, totalPages, onChange }) {
   );
 }
 
-function Navbar() {
+function Sidebar() {
   const location = useLocation();
   const projectSelected = location.pathname.startsWith("/projects/");
   return (
-    <header className="topbar">
+    <aside className="sidebar">
       <Link className="brand" to="/">
         <span className="brand-mark">
           <Activity size={19} />
         </span>
         <span>INFRA<span>SIGHT</span></span>
       </Link>
-      <nav className="topnav" aria-label="Primary navigation">
+      <nav className="sidebar-nav" aria-label="Primary navigation">
         <NavLink to="/" end><Activity size={15} /><span>Portfolio Intelligence</span></NavLink>
         <NavLink to="/projects"><Landmark size={15} /><span>Project Ledger</span></NavLink>
         {projectSelected && <NavLink to={location.pathname} className="docket-link"><CircleAlert size={15} /><span>Risk Docket</span></NavLink>}
       </nav>
-    </header>
+    </aside>
   );
 }
 
 function Shell({ children }) {
   return (
     <div className="app-shell">
-      <Navbar />
+      <Sidebar />
       <div className="content-shell"><main>{children}</main>
       <footer>
         <span>INFRA SIGHT / PREDICTIVE INFRASTRUCTURE MONITORING</span>
@@ -196,48 +199,6 @@ function StatCard({ label, value, detail, icon: Icon, tone = "" }) {
       <strong>{value}</strong>
       <span>{detail}</span>
     </div>
-  );
-}
-
-function RiskDistribution({ items }) {
-  const counts = riskOrder.map((level) => ({
-    level,
-    count: items.filter((item) => item.risk_level === level).length,
-  }));
-  const total = items.length;
-  return (
-    <section className="panel distribution">
-      <div className="panel-heading">
-        <div>
-          <span className="eyebrow">CURRENT PAGE</span>
-          <h2>Risk distribution</h2>
-        </div>
-        <span className="muted">{total} assessed projects</span>
-      </div>
-      {total === 0 ? (
-        <EmptyState message="No risk assessments are available on this page." />
-      ) : (
-        <div className="distribution-grid">
-          {counts.map(({ level, count }) => (
-            <div className="distribution-item" key={level}>
-              <div className="distribution-top">
-                <RiskBadge level={level} />
-                <strong>{count}</strong>
-              </div>
-              <div className="distribution-track">
-                <span
-                  className={`fill ${riskClass(level)}`}
-                  style={{ width: `${total ? (count / total) * 100 : 0}%` }}
-                />
-              </div>
-              <small>
-                {total ? Math.round((count / total) * 100) : 0}% of current page
-              </small>
-            </div>
-          ))}
-        </div>
-      )}
-    </section>
   );
 }
 
@@ -320,47 +281,59 @@ function RiskTable({ items }) {
 }
 
 function PortfolioPage() {
-  const [data, setData] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [totalProjects, setTotalProjects] = useState(0);
+  const [rawResponse, setRawResponse] = useState(null);
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const [riskFilter, setRiskFilter] = useState("ALL");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const load = () => {
+  const load = async () => {
     setLoading(true);
     setError(null);
-    api
-      .getPortfolioRisk(page, 20)
-      .then((response) => {
-        console.log("PORTFOLIO API RESPONSE:", response);
-        setData(paginatedPayload(response));
-      })
-      .catch(setError)
-      .finally(() => setLoading(false));
+    try {
+      const response = await api.getPortfolioRisk(page, 20);
+      console.log("PORTFOLIO API RESPONSE:", response);
+      setRawResponse(response);
+      const payload = paginatedPayload(response);
+      if (!Array.isArray(payload?.items)) throw new Error("Items array missing from response");
+      setProjects(payload.items ?? []);
+      setTotalProjects(payload?.total ?? 0);
+    } catch (requestError) {
+      setError(requestError);
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => {
-    api
-      .getPortfolioRisk(page, 20)
-      .then((response) => {
-        console.log("PORTFOLIO API RESPONSE:", response);
-        setData(paginatedPayload(response));
-      })
-      .catch(setError)
-      .finally(() => setLoading(false));
+    let active = true;
+    api.getPortfolioRisk(page, 20).then((response) => {
+      if (!active) return;
+      console.log("PORTFOLIO API RESPONSE:", response);
+      setRawResponse(response);
+      const payload = paginatedPayload(response);
+      if (!Array.isArray(payload?.items)) throw new Error("Items array missing from response");
+      setProjects(payload.items ?? []);
+      setTotalProjects(payload?.total ?? 0);
+    }).catch((requestError) => {
+      if (active) setError(requestError);
+    }).finally(() => {
+      if (active) setLoading(false);
+    });
+    return () => { active = false; };
   }, [page]);
-  const hasItemsArray = Array.isArray(data?.items);
-  const items = hasItemsArray ? data.items : [];
-  const visibleItems = items.filter(
+  const visibleItems = projects.filter(
     (item) =>
-      (riskFilter === "ALL" || item.risk_level === riskFilter) &&
+      (riskFilter === "ALL" || item?.risk_level === riskFilter) &&
       displayText(item.project_name).toLowerCase().includes(query.toLowerCase()),
   );
-  const earlyWarnings = items.filter((item) => item.early_warning).length;
-  const critical = items.filter(
-    (item) => item.risk_level === "CRITICAL",
-  ).length;
-  const high = items.filter((item) => item.risk_level === "HIGH").length;
+  const earlyWarnings = projects.filter((item) => item?.early_warning === true).length;
+  const critical = projects.filter((item) => item?.risk_level === "CRITICAL").length;
+  const high = projects.filter((item) => item?.risk_level === "HIGH").length;
+  const riskDistribution = riskOrder.slice().reverse().map((level) => ({ level, count: projects.filter((item) => item?.risk_level === level).length }));
+  const topProjects = [...projects].sort((a, b) => (b?.priority_score ?? -Infinity) - (a?.priority_score ?? -Infinity)).slice(0, 5);
 
   return (
     <Shell>
@@ -379,20 +352,16 @@ function PortfolioPage() {
           <small>Page-level risk view</small>
         </div>
       </div>
-      {loading ? (
-        <div className="state-panel">Loading portfolio data...</div>
-      ) : error ? (
-        <ErrorState error={error} onRetry={load} />
-      ) : !hasItemsArray || items.length === 0 ? (
-        <div className="state-panel">
-          No projects found or data mapping failed. Check console.
-        </div>
+      {loading ? <LoadingState label="Loading portfolio data" /> : error ? (
+        <div className="state-panel error-state"><CircleAlert size={22} /><div><strong>{error.message}</strong><pre>{JSON.stringify(rawResponse ?? error.response ?? {}, null, 2)}</pre></div><button className="icon-button" onClick={load} title="Retry"><RefreshCw size={16} /></button></div>
+      ) : projects.length === 0 ? (
+        <div className="state-panel">No projects found or data mapping failed. Check console.<pre>{JSON.stringify(rawResponse ?? {}, null, 2)}</pre></div>
       ) : (
         <>
           <section className="stat-grid">
             <StatCard
               label="Total portfolio"
-              value={data?.total ?? "—"}
+              value={formatNumber(totalProjects, 0)}
               detail="Projects in backend index"
               icon={Landmark}
             />
@@ -419,7 +388,7 @@ function PortfolioPage() {
             />
           </section>
           <div className="dashboard-grid">
-            <RiskDistribution items={items} />
+            <section className="panel distribution-panel"><div className="panel-heading"><div><span className="eyebrow">CURRENT PAGE</span><h2>Portfolio risk overview</h2><p>Distribution across loaded assessments.</p></div><TrendingUp size={18} /></div><div className="donut-layout"><ResponsiveContainer width="52%" height={190}><PieChart><Pie data={riskDistribution} dataKey="count" nameKey="level" innerRadius={52} outerRadius={78} paddingAngle={3}>{riskDistribution.map((entry) => <Cell key={entry.level} fill={riskColors[entry.level] ?? "#94a3b8"} />)}</Pie></PieChart></ResponsiveContainer><div className="donut-legend">{riskDistribution.map((entry) => <div key={entry.level}><i style={{ background: riskColors[entry.level] ?? "#94a3b8" }} /><span>{entry.level}</span><strong>{entry.count}</strong></div>)}</div></div></section>
             <section className="panel priority-panel">
               <div className="panel-heading">
                 <div>
@@ -428,11 +397,11 @@ function PortfolioPage() {
                 </div>
                 <TrendingUp size={19} />
               </div>
-              {items.length === 0 ? (
+              {topProjects.length === 0 ? (
                 <EmptyState message="No portfolio risk records returned." />
               ) : (
                 <div className="priority-list">
-                  {items.slice(0, 4).map((item) => (
+                  {topProjects.map((item) => (
                     <Link
                       to={`/projects/${encodeURIComponent(item.project_id)}`}
                       className="priority-row"
@@ -441,7 +410,7 @@ function PortfolioPage() {
                       <span
                         className={`priority-index ${riskClass(item.risk_level)}`}
                       >
-                        {String(items.indexOf(item) + 1).padStart(2, "0")}
+                        {String(topProjects.indexOf(item) + 1).padStart(2, "0")}
                       </span>
                       <span className="priority-project">
                         <strong>{displayText(item.project_name)}</strong>
@@ -505,12 +474,11 @@ function PortfolioPage() {
             )}
             <div className="table-footer">
               <span>
-                Showing {visibleItems.length} of {items.length} loaded
-                assessments · {data?.total ?? 0} total projects
+                Showing {visibleItems.length} of {projects.length} loaded assessments · {formatNumber(totalProjects, 0)} total projects
               </span>
               <Pagination
-                page={data?.page || page}
-                totalPages={data?.total_pages}
+                page={page}
+                totalPages={Math.ceil(totalProjects / 20)}
                 onChange={setPage}
               />
             </div>
