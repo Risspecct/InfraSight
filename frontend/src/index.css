@@ -4,3 +4,8 @@ body { margin: 0; min-width: 320px; background: #f7f4ee; }
 button, input, select { font: inherit; }
 button { cursor: pointer; }
 a { color: inherit; }
+.client-pagination-footer { margin-top: 0; border-top: 1px solid #e2e8f0; background: #fff; }
+.client-pagination-controls { display: flex; align-items: center; gap: 12px; }
+.pagination-button { padding: 8px 16px; font-size: 14px; font-weight: 500; color: #334155; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; }
+.pagination-button:hover:not(:disabled) { background: #f8fafc; }
+.pagination-button:disabled { opacity: .5; cursor: not-allowed; }

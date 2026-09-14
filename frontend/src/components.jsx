@@ -155,6 +155,15 @@ function Pagination({ page, totalPages, onChange }) {
   );
 }
 
+function OutcomeBadge({ label, value }) {
+  const pending = value === null || value === undefined;
+  return (
+    <span className={`outcome-badge ${pending ? "pending" : value ? "overrun" : "held"}`}>
+      {label}: {pending ? "Outcome unavailable" : value ? "Overrun confirmed" : "No overrun observed"}
+    </span>
+  );
+}
+
 function Sidebar() {
   const location = useLocation();
   const projectSelected = location.pathname.startsWith("/projects/");
@@ -284,17 +293,18 @@ function PortfolioPage() {
   const [projects, setProjects] = useState([]);
   const [totalProjects, setTotalProjects] = useState(0);
   const [rawResponse, setRawResponse] = useState(null);
-  const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
-  const [riskFilter, setRiskFilter] = useState("ALL");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterLevel, setFilterLevel] = useState("All levels");
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const ITEMS_PER_PAGE = 10;
 
   const load = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.getPortfolioRisk(page, 20);
+      const response = await api.getPortfolioRisk(1, 100);
       console.log("PORTFOLIO API RESPONSE:", response);
       setRawResponse(response);
       const payload = paginatedPayload(response);
@@ -309,7 +319,7 @@ function PortfolioPage() {
   };
   useEffect(() => {
     let active = true;
-    api.getPortfolioRisk(page, 20).then((response) => {
+    api.getPortfolioRisk(1, 100).then((response) => {
       if (!active) return;
       console.log("PORTFOLIO API RESPONSE:", response);
       setRawResponse(response);
@@ -323,12 +333,23 @@ function PortfolioPage() {
       if (active) setLoading(false);
     });
     return () => { active = false; };
-  }, [page]);
-  const visibleItems = projects.filter(
-    (item) =>
-      (riskFilter === "ALL" || item?.risk_level === riskFilter) &&
-      displayText(item.project_name).toLowerCase().includes(query.toLowerCase()),
+  }, []);
+  useEffect(() => {
+    // Reset the client page whenever filtering changes.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCurrentPage(1);
+  }, [searchQuery, filterLevel]);
+  const filteredProjects = projects.filter((project) =>
+    (filterLevel === "All levels" || project?.risk_level === filterLevel) &&
+    [project?.project_name, project?.project_code, project?.project_id].some((value) =>
+      displayText(value, "").toLowerCase().includes(searchQuery.toLowerCase()),
+    ),
   );
+  const paginatedProjects = filteredProjects.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
   const earlyWarnings = projects.filter((item) => item?.early_warning === true).length;
   const critical = projects.filter((item) => item?.risk_level === "CRITICAL").length;
   const high = projects.filter((item) => item?.risk_level === "HIGH").length;
@@ -444,8 +465,8 @@ function PortfolioPage() {
                 <label className="search-field">
                   <Search size={16} />
                   <input
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
+                    value={searchQuery}
+                    onChange={(event) => setSearchQuery(event.target.value)}
                     placeholder="Search current page"
                     aria-label="Search current page"
                   />
@@ -453,11 +474,11 @@ function PortfolioPage() {
                 <label className="select-field">
                   <SlidersHorizontal size={15} />
                   <select
-                    value={riskFilter}
-                    onChange={(event) => setRiskFilter(event.target.value)}
+                    value={filterLevel}
+                    onChange={(event) => setFilterLevel(event.target.value)}
                     aria-label="Filter by risk level"
                   >
-                    <option value="ALL">All levels</option>
+                    <option value="All levels">All levels</option>
                     {riskOrder.map((level) => (
                       <option key={level} value={level}>
                         {level}
@@ -467,20 +488,32 @@ function PortfolioPage() {
                 </label>
               </div>
             </div>
-            {visibleItems.length === 0 ? (
+            {filteredProjects.length === 0 ? (
               <EmptyState message="No projects match the current page filters." />
             ) : (
-              <RiskTable items={visibleItems} />
+              <RiskTable items={paginatedProjects} />
             )}
-            <div className="table-footer">
+            <div className="table-footer client-pagination-footer">
               <span>
-                Showing {visibleItems.length} of {projects.length} loaded assessments · {formatNumber(totalProjects, 0)} total projects
+                Showing {paginatedProjects.length} of {filteredProjects.length} loaded assessments · {formatNumber(totalProjects, 0)} total projects
               </span>
-              <Pagination
-                page={page}
-                totalPages={Math.ceil(totalProjects / 20)}
-                onChange={setPage}
-              />
+              <div className="client-pagination-controls">
+                <button
+                  className="pagination-button"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((page) => page - 1)}
+                >
+                  Previous
+                </button>
+                <span>Page {currentPage} of {totalPages || 1}</span>
+                <button
+                  className="pagination-button"
+                  disabled={currentPage === totalPages || totalPages === 0}
+                  onClick={() => setCurrentPage((page) => page + 1)}
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </section>
         </>
@@ -509,6 +542,11 @@ function MetricCard({ label, value, threshold, flagged, tone }) {
 }
 
 function Drivers({ title, drivers }) {
+  const maxShap = Math.max(
+    ...(drivers ?? []).map((driver) => magnitude(driver.shap_value)),
+    0,
+  );
+
   return (
     <div className="driver-column">
       <div className="subheading">
@@ -522,25 +560,25 @@ function Drivers({ title, drivers }) {
           <div
             className="driver"
             key={`${driver.feature}-${driver.shap_value}`}
+            title={displayText(driver.feature)}
           >
             <div className="driver-heading">
-              <strong>{driver.label}</strong>
-              <span className={driver.direction}>
-                {driver.direction === "positive" ? "+" : "−"}{" "}
-                {displayNumber(magnitude(driver.shap_value), 3)}
+              <strong className="driver-label">{displayText(driver.label)}</strong>
+              <span className="driver-direction">
+                {driver.direction === "positive" || driver.direction === "increases_risk"
+                  ? "Increases risk"
+                  : "Decreases risk"}
               </span>
             </div>
-            <div className="driver-track">
+            <div className="driver-track" aria-label={`${displayText(driver.label)} impact`}>
               <span
-                className={driver.direction}
+                className={driver.direction === "positive" || driver.direction === "increases_risk" ? "positive" : "negative"}
                 style={{
-                  width: `${Math.min(magnitude(driver.shap_value) * 55, 100)}%`,
+                  width: maxShap ? `${(magnitude(driver.shap_value) / maxShap) * 100}%` : "0%",
                 }}
               />
             </div>
-            <small>
-              {displayNumber(driver.value, 3)} · {displayText(driver.feature)}
-            </small>
+            <small className="driver-value">Actual value: {displayNumber(driver.value, 3)}</small>
           </div>
         ))
       )}
@@ -746,7 +784,10 @@ function DetailPage() {
         </div>
         <div className="identity-box">
           <span>Identity confidence</span>
-          <strong>{displayText(project.identity_confidence)}</strong>
+          <strong className="confidence-badge">
+            <ShieldCheck size={14} />
+            {displayText(project.identity_confidence)} confidence
+          </strong>
           <small>{displayNumber(project.observation_count, 0)} historical checkpoints</small>
         </div>
       </section>
@@ -1023,38 +1064,31 @@ function DetailPage() {
               <Target size={20} />
             </div>
             {backtest ? (
-              <div className="backtest-grid">
-                <div className="backtest-step">
-                  <span>Prediction at checkpoint</span>
-                  <strong>{formatDate(backtest.prediction_date)}</strong>
-                  <p>
-                    Cost {percent(backtest.predicted.cost_probability)} ·
-                    Schedule {percent(backtest.predicted.schedule_probability)}
-                  </p>
+              <div className="backtest-content">
+                <div className="backtest-comparison">
+                  <div className="backtest-card">
+                    <span>What the model said</span>
+                    <strong>{formatDate(backtest.prediction_date)}</strong>
+                    <div className="backtest-probability">
+                      <div><span>Cost overrun</span><b>{percent(backtest.predicted?.cost_probability)}</b></div>
+                      <div className="backtest-progress"><span style={{ width: probabilityWidth(backtest.predicted?.cost_probability) }} /></div>
+                    </div>
+                    <div className="backtest-probability">
+                      <div><span>Schedule overrun</span><b>{percent(backtest.predicted?.schedule_probability)}</b></div>
+                      <div className="backtest-progress"><span style={{ width: probabilityWidth(backtest.predicted?.schedule_probability) }} /></div>
+                    </div>
+                  </div>
+                  <div className="backtest-card backtest-outcomes">
+                    <span>What actually happened</span>
+                    <strong>Observed future outcome</strong>
+                    <OutcomeBadge label="Cost" value={backtest.actual?.cost_deterioration} />
+                    <OutcomeBadge label="Schedule" value={backtest.actual?.schedule_deterioration} />
+                  </div>
                 </div>
-                <div className="backtest-arrow">→</div>
-                <div className="backtest-step">
-                  <span>Future reporting horizon</span>
-                  <strong>{backtest.horizon_observations} observations</strong>
-                  <p>
-                    {backtest.horizon_complete
-                      ? "Complete horizon"
-                      : "Horizon incomplete"}
-                  </p>
-                </div>
-                <div className="backtest-arrow">→</div>
-                <div className="backtest-step outcome">
-                  <span>Observed outcome</span>
-                  <strong>
-                    {backtest.actual.cost_deterioration == null
-                      ? "Not available"
-                      : `Cost ${backtest.actual.cost_deterioration ? "deteriorated" : "held"}`}
-                  </strong>
-                  <p>
-                    {backtest.actual.schedule_deterioration == null
-                      ? "Schedule outcome not available"
-                      : `Schedule ${backtest.actual.schedule_deterioration ? "deteriorated" : "held"}`}
-                  </p>
+                <div className="backtest-horizon">
+                  <span>Horizon context</span>
+                  <strong>Evaluated across the next {backtest.horizon_observations ?? 0} reports</strong>
+                  {backtest.horizon_complete ? <span className="complete-badge">Complete future horizon</span> : <span className="pending-badge">Incomplete Future Horizon - Outcome Pending</span>}
                 </div>
               </div>
             ) : (
@@ -1272,8 +1306,10 @@ function ProjectsPage() {
                     <th>Agency</th>
                     <th>State</th>
                     <th>Sector</th>
-                    <th>Reporting window</th>
+                    <th>First report</th>
+                    <th>Last report</th>
                     <th>Observations</th>
+                    <th>Identity confidence</th>
                     <th />
                   </tr>
                 </thead>
@@ -1295,11 +1331,15 @@ function ProjectsPage() {
                       <td>{formatData(item.agency)}</td>
                       <td>{formatData(item.state)}</td>
                       <td>{formatData(item.sector)}</td>
-                      <td>
-                        {formatDate(item.first_report_date)} –{" "}
-                        {formatDate(item.last_report_date)}
-                      </td>
+                      <td>{formatDate(item.first_report_date)}</td>
+                      <td>{formatDate(item.last_report_date)}</td>
                       <td>{formatNumber(item.observation_count, 0)}</td>
+                      <td>
+                        <span className="confidence-badge">
+                          <ShieldCheck size={13} />
+                          {displayText(item.identity_confidence)}
+                        </span>
+                      </td>
                       <td>
                         <ArrowUpRight size={17} className="row-arrow" />
                       </td>
