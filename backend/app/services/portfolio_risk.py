@@ -1,9 +1,7 @@
 from __future__ import annotations
-
-from sqlalchemy import select
+import time
 from sqlalchemy.orm import Session
 
-from db.models import Project
 from app.decision.engine import (
     calculate_priority_score,
     determine_risk_level,
@@ -24,18 +22,16 @@ def get_portfolio_risk(
     page: int = 1,
     page_size: int = 20,
 ) -> dict:
-    projects = db.scalars(
-        select(Project).order_by(
-            Project.canonical_project_name
-        )
-    ).all()
+    overall_start = time.perf_counter()
 
-    project_names = {
-        project.project_id: project.canonical_project_name
-        for project in projects
-    }
+    start = time.perf_counter()
 
     features = build_portfolio_features(db)
+
+    print(
+        f"[PORTFOLIO] Build features: "
+        f"{time.perf_counter() - start:.3f}s"
+    )
 
     if features.empty:
         return {
@@ -68,6 +64,8 @@ def get_portfolio_risk(
     schedule_bundle = load_schedule_model()
     schedule_model = schedule_bundle["model"]
 
+    start = time.perf_counter()
+
     cost_probabilities = cost_model.predict(
         model_features
     )
@@ -77,6 +75,13 @@ def get_portfolio_risk(
             model_features
         )[:, 1]
     )
+
+    print(
+        f"[PORTFOLIO] Model inference: "
+        f"{time.perf_counter() - start:.3f}s"
+    )
+
+    start = time.perf_counter()
 
     assessments = []
 
@@ -110,10 +115,7 @@ def get_portfolio_risk(
         assessments.append(
             {
                 "project_id": row["project_id"],
-                "project_name": project_names.get(
-                    row["project_id"],
-                    row["project_name"],
-                ),
+                "project_name": row["project_name"],
                 "assessment_date": row["report_date"],
                 "observation_id": row["observation_id"],
                 "cost_probability": cost_probability,
@@ -126,13 +128,21 @@ def get_portfolio_risk(
             }
         )
 
-        assessments.sort(
-            key=lambda item: item["priority_score"],
-            reverse=True,
-        )
-    
-        total = len(assessments)
-    
+    assessments.sort(
+        key=lambda item: item["priority_score"],
+        reverse=True,
+    )
+    print(
+        f"[PORTFOLIO] Assessment + sort: "
+        f"{time.perf_counter() - start:.3f}s"
+    )
+
+    total = len(assessments)
+
+    print(
+        f"[PORTFOLIO] Total before response: "
+        f"{time.perf_counter() - overall_start:.3f}s"
+    )
     return {
         "items": assessments,
         "page": 1,

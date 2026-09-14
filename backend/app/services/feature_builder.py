@@ -392,58 +392,38 @@ def build_portfolio_features(
     continues to be used for individual project predictions.
     """
 
-    observations = db.scalars(
-        select(ProjectObservation)
+    observations = db.execute(
+        select(
+            ProjectObservation.observation_id,
+            ProjectObservation.project_id,
+            ProjectObservation.project_name,
+            ProjectObservation.report_date,
+            ProjectObservation.approval_date,
+            ProjectObservation.approval_date_revised,
+            ProjectObservation.original_cost_crore,
+            ProjectObservation.revised_cost_crore,
+            ProjectObservation.anticipated_cost_crore,
+            ProjectObservation.cumulative_expenditure_crore,
+            ProjectObservation.original_completion_date,
+            ProjectObservation.revised_completion_date,
+            ProjectObservation.anticipated_completion_date,
+            ProjectObservation.time_overrun_original_months,
+            ProjectObservation.time_overrun_revised_months,
+            ProjectObservation.additional_delay_months,
+            ProjectObservation.milestones_achieved,
+            ProjectObservation.milestones_total,
+        )
         .order_by(
             ProjectObservation.project_id,
             ProjectObservation.report_date,
             ProjectObservation.observation_id,
         )
-    ).all()
+    ).mappings().all()
 
     if not observations:
         return pd.DataFrame(columns=MODEL_FEATURES)
 
-    rows = [
-        {
-            "observation_id": o.observation_id,
-            "project_id": o.project_id,
-            "project_code": o.project_code,
-            "project_name": o.project_name,
-            "report_date": o.report_date,
-            "approval_date": o.approval_date,
-            "approval_date_revised": o.approval_date_revised,
-            "original_cost_crore": o.original_cost_crore,
-            "revised_cost_crore": o.revised_cost_crore,
-            "anticipated_cost_crore": o.anticipated_cost_crore,
-            "cumulative_expenditure_crore": (
-                o.cumulative_expenditure_crore
-            ),
-            "original_completion_date": (
-                o.original_completion_date
-            ),
-            "revised_completion_date": (
-                o.revised_completion_date
-            ),
-            "anticipated_completion_date": (
-                o.anticipated_completion_date
-            ),
-            "time_overrun_original_months": (
-                o.time_overrun_original_months
-            ),
-            "time_overrun_revised_months": (
-                o.time_overrun_revised_months
-            ),
-            "additional_delay_months": (
-                o.additional_delay_months
-            ),
-            "milestones_achieved": o.milestones_achieved,
-            "milestones_total": o.milestones_total,
-        }
-        for o in observations
-    ]
-
-    df = pd.DataFrame(rows)
+    df = pd.DataFrame(observations)
 
     # ---------------------------------------------------------
     # Parse dates
