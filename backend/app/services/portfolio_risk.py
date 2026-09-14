@@ -126,22 +126,17 @@ def get_portfolio_risk(
             }
         )
 
-    assessments.sort(
-        key=lambda item: item["priority_score"],
-        reverse=True,
-    )
-
-    total = len(assessments)
-
-    start = (page - 1) * page_size
-    end = start + page_size
-
+        assessments.sort(
+            key=lambda item: item["priority_score"],
+            reverse=True,
+        )
+    
+        total = len(assessments)
+    
     return {
-        "items": assessments[start:end],
-        "page": page,
-        "page_size": page_size,
+        "items": assessments,
+        "page": 1,
+        "page_size": total,
         "total": total,
-        "total_pages": (
-            total + page_size - 1
-        ) // page_size,
+        "total_pages": 1,
     }
