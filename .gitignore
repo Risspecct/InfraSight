@@ -20,3 +20,13 @@ Thumbs.db
 
 # Raw source PDFs
 backend/data/raw/*.pdf
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
