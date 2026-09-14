@@ -7,8 +7,6 @@ import {
   ArrowUpRight,
   BrainCircuit,
   CalendarDays,
-  ChevronLeft,
-  ChevronRight,
   CircleAlert,
   Gauge,
   Landmark,
@@ -128,33 +126,6 @@ function EmptyState({ message }) {
   );
 }
 
-function Pagination({ page, totalPages, onChange }) {
-  if (!totalPages || totalPages <= 1) return null;
-  return (
-    <div className="pagination">
-      <button
-        className="icon-button"
-        disabled={page <= 1}
-        onClick={() => onChange(page - 1)}
-        title="Previous page"
-      >
-        <ChevronLeft size={17} />
-      </button>
-      <span>
-        Page <strong>{page}</strong> of {totalPages}
-      </span>
-      <button
-        className="icon-button"
-        disabled={page >= totalPages}
-        onClick={() => onChange(page + 1)}
-        title="Next page"
-      >
-        <ChevronRight size={17} />
-      </button>
-    </div>
-  );
-}
-
 function OutcomeBadge({ label, value }) {
   const pending = value === null || value === undefined;
   return (
@@ -200,7 +171,7 @@ function Shell({ children }) {
 
 function StatCard({ label, value, detail, icon: Icon, tone = "" }) {
   return (
-    <div className={`stat-card ${tone}`}>
+    <div className={`stat-card flex flex-col justify-between ${tone}`}>
       <div className="stat-label">
         <Icon size={16} />
         {label}
@@ -1251,26 +1222,54 @@ function DetailPage() {
 
 function ProjectsPage() {
   const navigate = useNavigate();
-  const [data, setData] = useState(null);
-  const [page, setPage] = useState(1);
+  const [projects, setProjects] = useState([]);
+  const [totalProjects, setTotalProjects] = useState(0);
+  const [sectorFilter, setSectorFilter] = useState("All");
+  const [confidenceFilter, setConfidenceFilter] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const ITEMS_PER_PAGE = 10;
   const load = () => {
     setLoading(true);
     setError(null);
     api
-      .getProjects(page)
-      .then((response) => setData(paginatedPayload(response)))
+      .getProjects(1, 100)
+      .then((response) => {
+        const payload = paginatedPayload(response);
+        setProjects(payload.items);
+        setTotalProjects(payload.total ?? payload.items.length);
+      })
       .catch(setError)
       .finally(() => setLoading(false));
   };
   useEffect(() => {
     api
-      .getProjects(page)
-      .then((response) => setData(paginatedPayload(response)))
+      .getProjects(1, 100)
+      .then((response) => {
+        const payload = paginatedPayload(response);
+        setProjects(payload.items);
+        setTotalProjects(payload.total ?? payload.items.length);
+      })
       .catch(setError)
       .finally(() => setLoading(false));
-  }, [page]);
+  }, []);
+  useEffect(() => {
+    // Reset pagination whenever a ledger filter changes.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCurrentPage(1);
+  }, [sectorFilter, confidenceFilter]);
+  const sectors = [...new Set(projects.map((project) => project.sector).filter(Boolean))].sort();
+  const filteredProjects = projects.filter((project) => {
+    const matchSector = sectorFilter === "All" || project.sector === sectorFilter;
+    const matchConfidence = confidenceFilter === "All" || project.identity_confidence === confidenceFilter;
+    return matchSector && matchConfidence;
+  });
+  const paginatedProjects = filteredProjects.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
   return (
     <Shell>
       <div className="page-heading compact">
@@ -1292,20 +1291,38 @@ function ProjectsPage() {
           <div className="panel-heading">
             <div>
               <span className="eyebrow">CANONICAL PROJECTS</span>
-              <h2>{data?.total ?? 0} projects</h2>
+              <h2>{totalProjects} projects</h2>
               <p>Identity and reporting coverage from the backend index.</p>
             </div>
           </div>
-          {data?.items?.length ? (
-            <div className="table-wrap">
-              <table>
+          {projects.length ? (
+            <>
+              <div className="ledger-filter-bar">
+                <label className="ledger-filter-label">
+                  <span>Sector</span>
+                  <select value={sectorFilter} onChange={(event) => setSectorFilter(event.target.value)}>
+                    <option value="All">All</option>
+                    {sectors.map((sector) => <option key={sector} value={sector}>{sector}</option>)}
+                  </select>
+                </label>
+                <label className="ledger-filter-label">
+                  <span>Identity confidence</span>
+                  <select value={confidenceFilter} onChange={(event) => setConfidenceFilter(event.target.value)}>
+                    <option value="All">All</option>
+                    <option value="HIGH">HIGH</option>
+                    <option value="PROVISIONAL">PROVISIONAL</option>
+                  </select>
+                </label>
+              </div>
+              <div className="table-wrap w-full overflow-x-auto">
+              <table className="w-full table-fixed">
                 <thead>
                   <tr>
-                    <th>Project code</th>
-                    <th>Project name</th>
+                    <th className="ledger-code-column">Project code</th>
+                    <th className="ledger-name-column">Project name</th>
                     <th>Agency</th>
-                    <th>State</th>
-                    <th>Sector</th>
+                    <th className="ledger-small-column">State</th>
+                    <th className="ledger-small-column">Sector</th>
                     <th>First report</th>
                     <th>Last report</th>
                     <th>Observations</th>
@@ -1314,7 +1331,7 @@ function ProjectsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.items.map((item) => (
+                  {paginatedProjects.map((item) => (
                     <tr
                       key={item.project_id}
                       onClick={() =>
@@ -1327,7 +1344,7 @@ function ProjectsPage() {
                         <strong>{formatData(item.project_code)}</strong>
                         <small>{formatData(item.project_id)}</small>
                       </td>
-                      <td>{formatData(item.project_name)}</td>
+                      <td className="truncate">{formatData(item.project_name)}</td>
                       <td>{formatData(item.agency)}</td>
                       <td>{formatData(item.state)}</td>
                       <td>{formatData(item.sector)}</td>
@@ -1348,16 +1365,17 @@ function ProjectsPage() {
                 </tbody>
               </table>
             </div>
+            </>
           ) : (
             <EmptyState message="No projects returned by the backend." />
           )}
           <div className="table-footer">
-            <span>{data?.total ?? 0} projects indexed</span>
-            <Pagination
-              page={data?.page || page}
-              totalPages={data?.total_pages}
-              onChange={setPage}
-            />
+            <span>Showing {paginatedProjects.length} of {filteredProjects.length} filtered projects · {totalProjects} indexed</span>
+            <div className="client-pagination-controls">
+              <button className="pagination-button" disabled={currentPage === 1} onClick={() => setCurrentPage((page) => page - 1)}>Previous</button>
+              <span>Page {currentPage} of {totalPages || 1}</span>
+              <button className="pagination-button" disabled={currentPage === totalPages || totalPages === 0} onClick={() => setCurrentPage((page) => page + 1)}>Next</button>
+            </div>
           </div>
         </section>
       )}
